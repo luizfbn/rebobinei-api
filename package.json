@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"main": "index.js",
 	"scripts": {
-		"dev": "tsx watch --env-file .env src/server.ts"
+		"dev": "tsx watch --env-file .env src/infra/http/server.ts"
 	},
 	"author": "",
 	"license": "ISC",
@@ -14,6 +14,7 @@
 		"typescript": "^5.8.3"
 	},
 	"dependencies": {
+		"axios": "^1.10.0",
 		"fastify": "^5.4.0"
 	}
 }
