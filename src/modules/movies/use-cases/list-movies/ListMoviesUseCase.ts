@@ -1,12 +1,12 @@
 import { Movie } from '../../movie.entity';
-import { IMoviesProvider } from '../../providers/IMoviesProvider';
-import { ListMoviesDTO } from './ListMoviesDTO';
-import { MovieListItemDTO } from './MovieListItemDTO';
+import { IMoviesProvider } from '../../providers/movies.provider.interface';
+import { ListMoviesInputDTO } from './list-movies.dto';
+import { MovieMapper } from '../../movie.mapper';
 
 export class ListMoviesUseCase {
 	constructor(private moviesProvider: IMoviesProvider) {}
 
-	async execute(dto: ListMoviesDTO) {
+	async execute(dto: ListMoviesInputDTO) {
 		let movies: Movie[] = [];
 		const params = { page: dto.page, language: dto.language };
 
@@ -28,16 +28,8 @@ export class ListMoviesUseCase {
 			return [];
 		}
 
-		const moviesDto: MovieListItemDTO[] = movies.map((movie) => {
-			return {
-				tmdbId: movie.tmdbId,
-				title: movie.title,
-				originalTitle: movie.originalTitle,
-				overview: movie.overview,
-				releaseDate: movie.releaseDate,
-				posterUrl: movie.posterUrl,
-				backdropUrl: movie.backdropUrl,
-			};
+		const moviesDto = movies.map((movie) => {
+			return MovieMapper.toListItemDTO(movie);
 		});
 
 		return moviesDto;

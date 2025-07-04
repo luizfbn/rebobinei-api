@@ -1,4 +1,4 @@
-export interface MovieListItemDTO {
+export interface MovieListItemOutputDTO {
 	tmdbId: number;
 	title: string;
 	originalTitle: string;
