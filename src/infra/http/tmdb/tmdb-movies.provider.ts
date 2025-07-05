@@ -3,6 +3,7 @@ import { MovieMapper } from '../../../modules/movies/movie.mapper';
 import { tmdbApiClient } from './tmdb-api-client';
 import {
 	TmdbListResponseDTO,
+	TmdbMovieCreditsDTO,
 	TmdbMovieDetailsDTO,
 	TmdbMovieDTO,
 	TmdbMovieReleaseDatesDTO,
@@ -30,25 +31,33 @@ export class TmdbMoviesProvider implements IMoviesProvider {
 		const { id, language } = params;
 		const regionCode = language.split('-')[1].toUpperCase();
 		try {
-			const [detailsResponse, releaseDatesResponse] = await Promise.all([
-				tmdbApiClient.get<TmdbMovieDetailsDTO>(`/movie/${id}`, {
-					params: { language },
-				}),
-				tmdbApiClient.get<TmdbMovieReleaseDatesDTO>(
-					`/movie/${id}/release_dates`
-				),
-			]);
+			const [detailsResponse, releaseDatesResponse, creditsResponse] =
+				await Promise.all([
+					tmdbApiClient.get<TmdbMovieDetailsDTO>(`/movie/${id}`, {
+						params: { language },
+					}),
+					tmdbApiClient.get<TmdbMovieReleaseDatesDTO>(
+						`/movie/${id}/release_dates`
+					),
+					tmdbApiClient.get<TmdbMovieCreditsDTO>(`/movie/${id}/credits`),
+				]);
 			const apiMovieDetails = detailsResponse.data;
 			const apiReleaseDates = releaseDatesResponse.data;
+			const apiMovieCredits = creditsResponse.data;
 
 			const certification = this.findCertificationForRegion(
 				apiReleaseDates,
 				regionCode
 			);
 
+			const directors = this.findDirectors(apiMovieCredits.crew);
+			const cast = this.mapTopCast(apiMovieCredits.cast);
+
 			const movie = MovieMapper.fromApiDetailsToEntity(
 				apiMovieDetails,
-				certification
+				certification,
+				directors,
+				cast
 			);
 			return movie;
 		} catch (error) {
@@ -97,5 +106,30 @@ export class TmdbMoviesProvider implements IMoviesProvider {
 		);
 
 		return releaseWithCertification?.certification;
+	}
+
+	private findDirectors(crew: TmdbMovieCreditsDTO['crew']) {
+		return crew
+			.filter((member) => member.job === 'Director')
+			.map((director) => ({
+				tmdbId: director.id,
+				name: director.name,
+				department: director.department,
+				job: director.job,
+				profileUrl: director.profile_path
+					? `https://image.tmdb.org/t/p/w500${director.profile_path}`
+					: null,
+			}));
+	}
+
+	private mapTopCast(cast: TmdbMovieCreditsDTO['cast']) {
+		return cast.slice(0, 10).map((member) => ({
+			tmdbId: member.id,
+			name: member.name,
+			character: member.character,
+			profileUrl: member.profile_path
+				? `https://image.tmdb.org/t/p/w500${member.profile_path}`
+				: null,
+		}));
 	}
 }

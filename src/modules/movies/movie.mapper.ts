@@ -1,10 +1,12 @@
-import { Movie } from './movie.entity';
+import { Movie } from './entities/movie.entity';
 import { MovieListItemOutputDTO } from './dtos/movie-list-item.output.dto';
 import { MovieDetailsOutputDTO } from './dtos/movie-details.output.dto';
 import {
 	TmdbMovieDetailsDTO,
 	TmdbMovieDTO,
 } from '../../infra/http/tmdb/tmdb-api.types';
+import { CastMember } from './entities/cast-member.type';
+import { CrewMember } from './entities/crew-member.type';
 
 export class MovieMapper {
 	public static toListItemDTO(movie: Movie): MovieListItemOutputDTO {
@@ -28,10 +30,15 @@ export class MovieMapper {
 			releaseDate: movie.releaseDate,
 			posterUrl: movie.posterUrl,
 			backdropUrl: movie.backdropUrl,
-			genres: movie.genres!.map((genre) => genre.name),
-			budget: movie.budget!,
-			revenue: movie.revenue!,
-			certification: movie.certification!,
+			genres: movie.genres ? movie.genres.map((genre) => genre.name) : [],
+			runtime: movie.runtime ?? 0,
+			budget: movie.budget ?? 0,
+			revenue: movie.revenue ?? 0,
+			certification: movie.certification ?? null,
+			directors: movie.directors
+				? movie.directors.map((director) => director.name)
+				: [],
+			cast: movie.cast ?? [],
 		};
 	}
 
@@ -42,8 +49,12 @@ export class MovieMapper {
 			originalTitle: apiMovie.original_title,
 			overview: apiMovie.overview,
 			releaseDate: apiMovie.release_date,
-			posterUrl: `https://image.tmdb.org/t/p/w500${apiMovie.poster_path}`,
-			backdropUrl: `https://image.tmdb.org/t/p/original${apiMovie.backdrop_path}`,
+			posterUrl: apiMovie.poster_path
+				? `https://image.tmdb.org/t/p/w500${apiMovie.poster_path}`
+				: null,
+			backdropUrl: apiMovie.backdrop_path
+				? `https://image.tmdb.org/t/p/original${apiMovie.backdrop_path}`
+				: null,
 		};
 
 		return Movie.create(movieProps);
@@ -51,7 +62,9 @@ export class MovieMapper {
 
 	public static fromApiDetailsToEntity(
 		apiMovie: TmdbMovieDetailsDTO,
-		certification?: string
+		certification: string | undefined,
+		directors: CrewMember[],
+		cast: CastMember[]
 	) {
 		const movieProps = {
 			tmdbId: apiMovie.id,
@@ -59,12 +72,19 @@ export class MovieMapper {
 			originalTitle: apiMovie.original_title,
 			overview: apiMovie.overview,
 			releaseDate: apiMovie.release_date,
-			posterUrl: `https://image.tmdb.org/t/p/w500${apiMovie.poster_path}`,
-			backdropUrl: `https://image.tmdb.org/t/p/original${apiMovie.backdrop_path}`,
+			posterUrl: apiMovie.poster_path
+				? `https://image.tmdb.org/t/p/w500${apiMovie.poster_path}`
+				: null,
+			backdropUrl: apiMovie.backdrop_path
+				? `https://image.tmdb.org/t/p/original${apiMovie.backdrop_path}`
+				: null,
 			genres: apiMovie.genres,
+			runtime: apiMovie.runtime,
 			budget: apiMovie.budget,
 			revenue: apiMovie.revenue,
 			certification,
+			directors,
+			cast,
 		};
 
 		return Movie.create(movieProps);

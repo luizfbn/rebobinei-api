@@ -1,34 +1,24 @@
-export interface TmdbMovieDTO {
+interface TmdbMovieBase {
 	id: number;
 	title: string;
 	original_title: string;
 	overview: string;
 	release_date: string;
-	poster_path: string;
-	backdrop_path: string;
+	poster_path: string | null;
+	backdrop_path: string | null;
 	vote_average: number;
 	vote_count: number;
-	genre_ids: number[];
 	original_language: string;
 	popularity: number;
 	adult: boolean;
 	video: boolean;
 }
 
-export interface TmdbMovieDetailsDTO {
-	id: number;
-	title: string;
-	original_title: string;
-	overview: string;
-	release_date: string;
-	poster_path: string;
-	backdrop_path: string;
-	vote_average: number;
-	vote_count: number;
-	original_language: string;
-	popularity: number;
-	adult: boolean;
-	video: boolean;
+export interface TmdbMovieDTO extends TmdbMovieBase {
+	genre_ids: number[];
+}
+
+export interface TmdbMovieDetailsDTO extends TmdbMovieBase {
 	belongs_to_collection: string;
 	budget: number;
 	genres: { id: number; name: string }[];
@@ -36,7 +26,7 @@ export interface TmdbMovieDetailsDTO {
 	imdb_id: string;
 	production_companies: {
 		id: number;
-		logo_path: string;
+		logo_path: string | null;
 		name: string;
 		origin_country: string;
 	}[];
@@ -70,9 +60,38 @@ export interface TmdbMovieReleaseDatesDTO {
 	}[];
 }
 
+export interface TmdbMovieCreditsDTO {
+	id: number;
+	cast: TmdbCastMemberDTO[];
+	crew: TmdbCrewMemberDTO[];
+}
+
 export interface TmdbListResponseDTO<T> {
 	page: number;
 	results: T[];
 	total_pages: number;
 	total_results: number;
+}
+
+interface TmdbCreditsMemberBase {
+	adult: boolean;
+	gender: number;
+	id: number;
+	known_for_department: string;
+	name: string;
+	original_name: string;
+	popularity: string;
+	profile_path: string | null;
+	credit_id: string;
+}
+
+interface TmdbCastMemberDTO extends TmdbCreditsMemberBase {
+	cast_id: number;
+	character: string;
+	order: number;
+}
+
+interface TmdbCrewMemberDTO extends TmdbCreditsMemberBase {
+	department: string;
+	job: string;
 }

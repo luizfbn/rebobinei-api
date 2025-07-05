@@ -1,4 +1,4 @@
-import { Movie } from '../../movie.entity';
+import { Movie } from '../../entities/movie.entity';
 import { IMoviesProvider } from '../../providers/movies.provider.interface';
 import { ListMoviesInputDTO } from './list-movies.dto';
 import { MovieMapper } from '../../movie.mapper';
