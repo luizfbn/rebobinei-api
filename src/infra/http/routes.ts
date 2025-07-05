@@ -5,9 +5,7 @@ import { detailsMovieController } from '../../modules/movies/use-cases/details-m
 export async function routes(app: FastifyInstance) {
 	app.get('/', () => 'Hello world');
 	app.get('/movies', (req, reply) => listMoviesController.handle(req, reply));
-	app.get(
-		'/movies/:id',
-		(req: FastifyRequest<{ Params: { id: number } }>, reply) =>
-			detailsMovieController.handle(req, reply)
+	app.get('/movies/:id', (req, reply) =>
+		detailsMovieController.handle(req, reply)
 	);
 }

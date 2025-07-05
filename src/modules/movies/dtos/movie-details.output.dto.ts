@@ -6,8 +6,8 @@ export interface MovieDetailsOutputDTO {
 	releaseDate: string;
 	posterUrl: string;
 	backdropUrl: string;
-	genres: { id: number; name: string }[];
+	genres: string[];
 	budget: number;
 	revenue: number;
-	certification: string;
+	certification?: string;
 }

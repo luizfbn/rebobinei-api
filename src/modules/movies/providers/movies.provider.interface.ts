@@ -1,15 +1,13 @@
 import { Movie } from '../movie.entity';
 
-interface BaseParams {
+export interface ListParams {
+	page: number;
 	language?: string;
 }
 
-export interface ListParams extends BaseParams {
-	page: number;
-}
-
-export interface DetailsParams extends BaseParams {
+export interface DetailsParams {
 	id: number;
+	language: string;
 }
 
 export interface IMoviesProvider {

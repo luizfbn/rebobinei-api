@@ -28,14 +28,14 @@ export class MovieMapper {
 			releaseDate: movie.releaseDate,
 			posterUrl: movie.posterUrl,
 			backdropUrl: movie.backdropUrl,
-			genres: movie.genres!,
+			genres: movie.genres!.map((genre) => genre.name),
 			budget: movie.budget!,
 			revenue: movie.revenue!,
 			certification: movie.certification!,
 		};
 	}
 
-	public static fromApiListItemToEntity(apiMovie: TmdbMovieDTO): Movie {
+	public static fromApiListItemToEntity(apiMovie: TmdbMovieDTO) {
 		const movieProps = {
 			tmdbId: apiMovie.id,
 			title: apiMovie.title,
@@ -49,7 +49,10 @@ export class MovieMapper {
 		return Movie.create(movieProps);
 	}
 
-	public static fromApiDetailsToEntity(apiMovie: TmdbMovieDetailsDTO): Movie {
+	public static fromApiDetailsToEntity(
+		apiMovie: TmdbMovieDetailsDTO,
+		certification?: string
+	) {
 		const movieProps = {
 			tmdbId: apiMovie.id,
 			title: apiMovie.title,
@@ -61,6 +64,7 @@ export class MovieMapper {
 			genres: apiMovie.genres,
 			budget: apiMovie.budget,
 			revenue: apiMovie.revenue,
+			certification,
 		};
 
 		return Movie.create(movieProps);

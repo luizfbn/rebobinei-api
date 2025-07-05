@@ -5,6 +5,7 @@ import {
 	TmdbListResponseDTO,
 	TmdbMovieDetailsDTO,
 	TmdbMovieDTO,
+	TmdbMovieReleaseDatesDTO,
 } from './tmdb-api.types';
 import {
 	IMoviesProvider,
@@ -27,18 +28,28 @@ export class TmdbMoviesProvider implements IMoviesProvider {
 
 	public async getDetailsById(params: DetailsParams) {
 		const { id, language } = params;
-		const requestConfig = {
-			params: {
-				...(language && { language }),
-			},
-		};
+		const regionCode = language.split('-')[1].toUpperCase();
 		try {
-			const response = await tmdbApiClient.get<TmdbMovieDetailsDTO>(
-				`/movie/${id}`,
-				requestConfig
+			const [detailsResponse, releaseDatesResponse] = await Promise.all([
+				tmdbApiClient.get<TmdbMovieDetailsDTO>(`/movie/${id}`, {
+					params: { language },
+				}),
+				tmdbApiClient.get<TmdbMovieReleaseDatesDTO>(
+					`/movie/${id}/release_dates`
+				),
+			]);
+			const apiMovieDetails = detailsResponse.data;
+			const apiReleaseDates = releaseDatesResponse.data;
+
+			const certification = this.findCertificationForRegion(
+				apiReleaseDates,
+				regionCode
 			);
-			const apiMovie = response.data;
-			const movie = MovieMapper.fromApiDetailsToEntity(apiMovie);
+
+			const movie = MovieMapper.fromApiDetailsToEntity(
+				apiMovieDetails,
+				certification
+			);
 			return movie;
 		} catch (error) {
 			if (isAxiosError(error) && error.response?.status === 404) {
@@ -64,5 +75,27 @@ export class TmdbMoviesProvider implements IMoviesProvider {
 			console.error(`Error fetching data from endpoint ${endpoint}:`, error);
 			throw error;
 		}
+	}
+
+	private findCertificationForRegion(
+		apiReleaseDates: TmdbMovieReleaseDatesDTO,
+		regionCode: string
+	) {
+		const regionReleaseInfo = apiReleaseDates.results.find(
+			(country) => country.iso_3166_1 === regionCode
+		);
+
+		if (!regionReleaseInfo || regionReleaseInfo.release_dates.length === 0) {
+			return;
+		}
+
+		const releaseWithCertification = regionReleaseInfo.release_dates.find(
+			(release) =>
+				release.type === 3 &&
+				release.certification &&
+				release.certification !== ''
+		);
+
+		return releaseWithCertification?.certification;
 	}
 }
