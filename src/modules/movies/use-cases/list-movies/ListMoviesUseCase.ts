@@ -1,37 +1,44 @@
-import { Movie } from '../../entities/movie.entity';
-import { IMoviesProvider } from '../../providers/movies.provider.interface';
+import {
+	IMoviesProvider,
+	PaginatedMovies,
+} from '../../providers/movies.provider.interface';
 import { ListMoviesInputDTO } from './list-movies.dto';
+import { PaginatedOutputDTO } from '../../../../core/dtos/paginated.output.dto';
+import { MovieListItemOutputDTO } from '../../dtos/movie-list-item.output.dto';
 import { MovieMapper } from '../../movie.mapper';
 
 export class ListMoviesUseCase {
 	constructor(private moviesProvider: IMoviesProvider) {}
 
-	async execute(dto: ListMoviesInputDTO) {
-		let movies: Movie[] = [];
+	async execute(
+		dto: ListMoviesInputDTO
+	): Promise<PaginatedOutputDTO<MovieListItemOutputDTO>> {
+		let paginatedMovies: PaginatedMovies;
 		const params = { page: dto.page, language: dto.language };
 
 		switch (dto.category) {
 			case 'popular':
-				movies = await this.moviesProvider.getPopular(params);
+				paginatedMovies = await this.moviesProvider.getPopular(params);
 				break;
 			case 'trending':
-				movies = await this.moviesProvider.getTrending(params);
+				paginatedMovies = await this.moviesProvider.getTrending(params);
 				break;
 			case 'upcoming':
-				movies = await this.moviesProvider.getUpcoming(params);
+				paginatedMovies = await this.moviesProvider.getUpcoming(params);
 				break;
 			default:
 				throw new Error(`Category '${dto.category}' is not valid.`);
 		}
 
-		if (!movies || movies.length === 0) {
-			return [];
-		}
-
-		const moviesDto = movies.map((movie) => {
+		const moviesDto = paginatedMovies.movies.map((movie) => {
 			return MovieMapper.toListItemDTO(movie);
 		});
 
-		return moviesDto;
+		return {
+			page: paginatedMovies.page,
+			totalPages: paginatedMovies.totalPages,
+			totalResults: paginatedMovies.totalResults,
+			data: moviesDto,
+		};
 	}
 }

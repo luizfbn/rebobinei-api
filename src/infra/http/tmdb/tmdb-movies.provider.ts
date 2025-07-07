@@ -80,11 +80,16 @@ export class TmdbMoviesProvider implements IMoviesProvider {
 				TmdbListResponseDTO<TmdbMovieDTO>
 			>(endpoint, { params });
 
-			const apiMovies = response.data.results;
-			const movies = apiMovies.map((apiMovie) => {
+			const apiResponseData = response.data;
+			const movies = apiResponseData.results.map((apiMovie) => {
 				return MovieMapper.fromApiListItemToEntity(apiMovie);
 			});
-			return movies;
+			return {
+				page: apiResponseData.page,
+				totalPages: apiResponseData.total_pages,
+				totalResults: apiResponseData.total_results,
+				movies,
+			};
 		} catch (error) {
 			console.error(`Error fetching data from endpoint ${endpoint}:`, error);
 			throw error;

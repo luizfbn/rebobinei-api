@@ -14,10 +14,17 @@ export interface SearchParams extends ListParams {
 	query: string;
 }
 
+export interface PaginatedMovies {
+	page: number;
+	totalPages: number;
+	totalResults: number;
+	movies: Movie[];
+}
+
 export interface IMoviesProvider {
-	getPopular(params: ListParams): Promise<Movie[]>;
-	getTrending(params: ListParams): Promise<Movie[]>;
-	getUpcoming(params: ListParams): Promise<Movie[]>;
+	getPopular(params: ListParams): Promise<PaginatedMovies>;
+	getTrending(params: ListParams): Promise<PaginatedMovies>;
+	getUpcoming(params: ListParams): Promise<PaginatedMovies>;
 	getDetailsById(params: DetailsParams): Promise<Movie | null>;
-	searchByTitle(params: SearchParams): Promise<Movie[]>;
+	searchByTitle(params: SearchParams): Promise<PaginatedMovies>;
 }
