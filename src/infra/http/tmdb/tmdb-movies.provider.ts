@@ -12,6 +12,7 @@ import {
 	IMoviesProvider,
 	ListParams,
 	DetailsParams,
+	SearchParams,
 } from '../../../modules/movies/providers/movies.provider.interface';
 
 export class TmdbMoviesProvider implements IMoviesProvider {
@@ -67,6 +68,10 @@ export class TmdbMoviesProvider implements IMoviesProvider {
 			console.error(`Error fetching data from endpoint /movie/${id}`, error);
 			throw error;
 		}
+	}
+
+	public async searchByTitle(params: SearchParams) {
+		return this.fetchMovieList('/search/movie', params);
 	}
 
 	private async fetchMovieList(endpoint: string, params: ListParams) {
