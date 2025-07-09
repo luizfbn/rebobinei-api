@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite" // "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+  @@map("roles")
+}
+
+model User {
+    id        String   @id @default(uuid())
+    email     String   @unique
+    username  String   @unique
+    name      String
+    password  String
+    role      Role     @default(USER)
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+    reviews   Review[]
+    @@map("users")
+}
+
+model Movie {
+  id            String   @id @default(uuid())
+  tmdbId        Int      @unique @map("tmdb_id")
+  title         String
+  originalTitle String   @map("original_title")
+  overview      String
+  posterPath    String   @map("poster_path")
+  backdropPath  String?  @map("backdrop_path")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+  reviews       Review[]
+  @@map("movies")
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id])
+  movieId   String   @map("movie_id")
+  movie     Movie    @relation(fields: [movieId], references: [id])
+  @@map("reviews")
+}
