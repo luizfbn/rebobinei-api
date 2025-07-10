@@ -1,7 +1,12 @@
 import fastify from 'fastify';
+import fastifyJwt from '@fastify/jwt';
 import { routes } from './routes';
 
 const app = fastify();
+
+app.register(fastifyJwt, {
+	secret: process.env.JWT_SECRET as string,
+});
 
 app.register(routes);
 

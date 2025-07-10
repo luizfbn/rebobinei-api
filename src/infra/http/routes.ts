@@ -2,6 +2,8 @@ import { FastifyInstance } from 'fastify';
 import { listMoviesController } from '../../modules/movies/use-cases/list-movies/list-movies.factory';
 import { detailsMovieController } from '../../modules/movies/use-cases/details-movie/details-movie.factory';
 import { searchMoviesController } from '../../modules/movies/use-cases/search-movies/search-movies.factory';
+import { authenticateUserController } from '../../modules/users/use-cases/authenticate-user/authenticate-user.factory';
+import { authenticateBodySchema } from '../../modules/users/use-cases/authenticate-user/authenticate-user.dto';
 
 export async function routes(app: FastifyInstance) {
 	app.get('/', () => 'Hello world');
@@ -11,5 +13,14 @@ export async function routes(app: FastifyInstance) {
 	);
 	app.get('/movies/search', (req, reply) =>
 		searchMoviesController.handle(req, reply)
+	);
+	app.post(
+		'/login',
+		{
+			schema: {
+				body: authenticateBodySchema,
+			},
+		},
+		(req, reply) => authenticateUserController.handle(req, reply)
 	);
 }
