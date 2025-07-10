@@ -50,10 +50,12 @@ export class MovieMapper {
 			overview: apiMovie.overview,
 			releaseDate: apiMovie.release_date,
 			posterUrl: apiMovie.poster_path
-				? `https://image.tmdb.org/t/p/w500${apiMovie.poster_path}`
+				? `${process.env.TMDB_IMAGE_BASE_URL ?? ''}/w500${apiMovie.poster_path}`
 				: null,
 			backdropUrl: apiMovie.backdrop_path
-				? `https://image.tmdb.org/t/p/original${apiMovie.backdrop_path}`
+				? `${process.env.TMDB_IMAGE_BASE_URL ?? ''}/original${
+						apiMovie.backdrop_path
+				  }`
 				: null,
 		};
 
@@ -73,10 +75,12 @@ export class MovieMapper {
 			overview: apiMovie.overview,
 			releaseDate: apiMovie.release_date,
 			posterUrl: apiMovie.poster_path
-				? `https://image.tmdb.org/t/p/w500${apiMovie.poster_path}`
+				? `${process.env.TMDB_IMAGE_BASE_URL ?? ''}/w500${apiMovie.poster_path}`
 				: null,
 			backdropUrl: apiMovie.backdrop_path
-				? `https://image.tmdb.org/t/p/original${apiMovie.backdrop_path}`
+				? `${process.env.TMDB_IMAGE_BASE_URL ?? ''}/original${
+						apiMovie.backdrop_path
+				  }`
 				: null,
 			genres: apiMovie.genres,
 			runtime: apiMovie.runtime,

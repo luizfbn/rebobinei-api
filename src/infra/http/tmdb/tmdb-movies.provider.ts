@@ -127,7 +127,9 @@ export class TmdbMoviesProvider implements IMoviesProvider {
 				department: director.department,
 				job: director.job,
 				profileUrl: director.profile_path
-					? `https://image.tmdb.org/t/p/w500${director.profile_path}`
+					? `${process.env.TMDB_IMAGE_BASE_URL ?? ''}/w500${
+							director.profile_path
+					  }`
 					: null,
 			}));
 	}
@@ -138,7 +140,7 @@ export class TmdbMoviesProvider implements IMoviesProvider {
 			name: member.name,
 			character: member.character,
 			profileUrl: member.profile_path
-				? `https://image.tmdb.org/t/p/w500${member.profile_path}`
+				? `${process.env.TMDB_IMAGE_BASE_URL ?? ''}/w500${member.profile_path}`
 				: null,
 		}));
 	}
