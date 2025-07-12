@@ -6,6 +6,7 @@ import { authenticateUserController } from '../../modules/users/use-cases/authen
 import { authenticateBodySchema } from '../../modules/users/use-cases/authenticate-user/authenticate-user.dto';
 import { createUserController } from '../../modules/users/use-cases/create-user/create-user.factory';
 import { createUserBodySchema } from '../../modules/users/use-cases/create-user/create-user.dto';
+import { detailsUserController } from '../../modules/users/use-cases/details-user/details-user.factory';
 
 export async function routes(app: FastifyInstance) {
 	app.get('/', () => 'Hello world');
@@ -15,6 +16,9 @@ export async function routes(app: FastifyInstance) {
 	);
 	app.get('/movies/search', (req, reply) =>
 		searchMoviesController.handle(req, reply)
+	);
+	app.get('/users/:id', (req, reply) =>
+		detailsUserController.handle(req, reply)
 	);
 	app.post(
 		'/users',
