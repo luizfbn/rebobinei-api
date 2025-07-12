@@ -1,5 +1,5 @@
-export interface ListMoviesInputDTO {
+export interface MovieListInputDTO {
 	category: 'popular' | 'trending' | 'upcoming';
-	language?: string;
+	language: string;
 	page: number;
 }

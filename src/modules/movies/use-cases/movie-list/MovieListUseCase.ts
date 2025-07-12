@@ -2,16 +2,16 @@ import {
 	IMoviesProvider,
 	PaginatedMovies,
 } from '../../providers/movies.provider.interface';
-import { ListMoviesInputDTO } from './list-movies.dto';
+import { MovieListInputDTO } from './movie-list.dto';
 import { PaginatedOutputDTO } from '../../../../core/dtos/paginated.output.dto';
 import { MovieListItemOutputDTO } from '../../dtos/movie-list-item.output.dto';
 import { MovieMapper } from '../../movie.mapper';
 
-export class ListMoviesUseCase {
+export class MovieListUseCase {
 	constructor(private moviesProvider: IMoviesProvider) {}
 
 	async execute(
-		dto: ListMoviesInputDTO
+		dto: MovieListInputDTO
 	): Promise<PaginatedOutputDTO<MovieListItemOutputDTO>> {
 		let paginatedMovies: PaginatedMovies;
 		const params = { page: dto.page, language: dto.language };

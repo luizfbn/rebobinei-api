@@ -2,7 +2,7 @@ import { Movie } from '../entities/movie.entity';
 
 export interface ListParams {
 	page: number;
-	language?: string;
+	language: string;
 }
 
 export interface DetailsParams {

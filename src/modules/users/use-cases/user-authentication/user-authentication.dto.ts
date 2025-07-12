@@ -1,4 +1,4 @@
-export const authenticateBodySchema = {
+export const userAuthenticationBodySchema = {
 	type: 'object',
 	properties: {
 		email: { type: 'string', format: 'email' },
@@ -7,7 +7,7 @@ export const authenticateBodySchema = {
 	required: ['email', 'password'],
 } as const;
 
-export interface AuthenticateInputDTO {
+export interface UserAuthenticationInputDTO {
 	email: string;
 	password: string;
 }

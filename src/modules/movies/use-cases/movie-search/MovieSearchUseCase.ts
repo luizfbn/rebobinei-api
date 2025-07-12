@@ -1,16 +1,22 @@
 import { IMoviesProvider } from '../../providers/movies.provider.interface';
 import { PaginatedOutputDTO } from '../../../../core/dtos/paginated.output.dto';
 import { MovieListItemOutputDTO } from '../../dtos/movie-list-item.output.dto';
-import { SearchMoviesInputDTO } from './search-movies.dto';
+import { MovieSearchInputDTO } from './movie-search.dto';
 import { MovieMapper } from '../../movie.mapper';
 
-export class SearchMoviesUseCase {
+export class MovieSearchUseCase {
 	constructor(private moviesProvider: IMoviesProvider) {}
 
-	async execute(
-		dto: SearchMoviesInputDTO
-	): Promise<PaginatedOutputDTO<MovieListItemOutputDTO>> {
-		const paginatedMovies = await this.moviesProvider.searchByTitle(dto);
+	async execute({
+		query,
+		language,
+		page,
+	}: MovieSearchInputDTO): Promise<PaginatedOutputDTO<MovieListItemOutputDTO>> {
+		const paginatedMovies = await this.moviesProvider.searchByTitle({
+			query,
+			language,
+			page,
+		});
 
 		const moviesDto = paginatedMovies.movies.map((movie) => {
 			return MovieMapper.toListItemDTO(movie);

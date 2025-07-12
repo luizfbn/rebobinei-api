@@ -1,11 +1,11 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { DetailsMovieUseCase } from './DetailsMovieUseCase';
-import { DetailsMovieInputDTO } from './details-movie.dto';
+import { MovieDetailsUseCase } from './MovieDetailsUseCase';
+import { MovieDetailsInputDTO } from './movie-details.dto';
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
 import { validateAndFormatLanguage } from '../../../../infra/http/validators/language-validator';
 
-export class DetailsMovieController {
-	constructor(private detailsMovieUseCase: DetailsMovieUseCase) {}
+export class MovieDetailsController {
+	constructor(private movieDetailsUseCase: MovieDetailsUseCase) {}
 
 	async handle(request: FastifyRequest, reply: FastifyReply) {
 		try {
@@ -14,12 +14,12 @@ export class DetailsMovieController {
 
 			const validatedLanguage = validateAndFormatLanguage(language);
 
-			const detailsMovieDTO: DetailsMovieInputDTO = {
+			const detailsMovieDTO: MovieDetailsInputDTO = {
 				id: parseInt(id, 10),
 				language: validatedLanguage,
 			};
 
-			const result = await this.detailsMovieUseCase.execute(detailsMovieDTO);
+			const result = await this.movieDetailsUseCase.execute(detailsMovieDTO);
 
 			return reply.code(200).send(result);
 		} catch (error) {

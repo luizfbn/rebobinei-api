@@ -1,41 +1,41 @@
 import { FastifyInstance } from 'fastify';
-import { listMoviesController } from '../../modules/movies/use-cases/list-movies/list-movies.factory';
-import { detailsMovieController } from '../../modules/movies/use-cases/details-movie/details-movie.factory';
-import { searchMoviesController } from '../../modules/movies/use-cases/search-movies/search-movies.factory';
-import { authenticateUserController } from '../../modules/users/use-cases/authenticate-user/authenticate-user.factory';
-import { authenticateBodySchema } from '../../modules/users/use-cases/authenticate-user/authenticate-user.dto';
-import { createUserController } from '../../modules/users/use-cases/create-user/create-user.factory';
-import { createUserBodySchema } from '../../modules/users/use-cases/create-user/create-user.dto';
-import { detailsUserController } from '../../modules/users/use-cases/details-user/details-user.factory';
+import { movieListController } from '../../modules/movies/use-cases/movie-list/movie-list.factory';
+import { movieDetailsController } from '../../modules/movies/use-cases/movie-details/movie-details.factory';
+import { movieSearchController } from '../../modules/movies/use-cases/movie-search/movie-search.factory';
+import { userAuthenticationController } from '../../modules/users/use-cases/user-authentication/user-authentication.factory';
+import { userAuthenticationBodySchema } from '../../modules/users/use-cases/user-authentication/user-authentication.dto';
+import { userCreationController } from '../../modules/users/use-cases/user-creation/user-creation.factory';
+import { userCreationBodySchema } from '../../modules/users/use-cases/user-creation/user-creation.dto';
+import { userDetailsController } from '../../modules/users/use-cases/user-details/user-details.factory';
 
 export async function routes(app: FastifyInstance) {
 	app.get('/', () => 'Hello world');
-	app.get('/movies', (req, reply) => listMoviesController.handle(req, reply));
+	app.get('/movies', (req, reply) => movieListController.handle(req, reply));
 	app.get('/movies/:id', (req, reply) =>
-		detailsMovieController.handle(req, reply)
+		movieDetailsController.handle(req, reply)
 	);
 	app.get('/movies/search', (req, reply) =>
-		searchMoviesController.handle(req, reply)
+		movieSearchController.handle(req, reply)
 	);
 	app.get('/users/:id', (req, reply) =>
-		detailsUserController.handle(req, reply)
+		userDetailsController.handle(req, reply)
 	);
 	app.post(
 		'/users',
 		{
 			schema: {
-				body: createUserBodySchema,
+				body: userCreationBodySchema,
 			},
 		},
-		(request, reply) => createUserController.handle(request, reply)
+		(request, reply) => userCreationController.handle(request, reply)
 	);
 	app.post(
 		'/login',
 		{
 			schema: {
-				body: authenticateBodySchema,
+				body: userAuthenticationBodySchema,
 			},
 		},
-		(req, reply) => authenticateUserController.handle(req, reply)
+		(req, reply) => userAuthenticationController.handle(req, reply)
 	);
 }

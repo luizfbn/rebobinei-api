@@ -1,4 +1,4 @@
-export const createUserBodySchema = {
+export const userCreationBodySchema = {
 	type: 'object',
 	properties: {
 		name: { type: 'string' },
@@ -9,7 +9,7 @@ export const createUserBodySchema = {
 	required: ['name', 'username', 'email', 'password'],
 } as const;
 
-export interface CreateUserInputDTO {
+export interface UserCreationInputDTO {
 	name: string;
 	username: string;
 	email: string;

@@ -1,13 +1,16 @@
 import bcrypt from 'bcryptjs';
 import { IUsersRepository } from '../../repositories/IUsersRepository';
-import { AuthenticateInputDTO } from './authenticate-user.dto';
+import { UserAuthenticationInputDTO } from './user-authentication.dto';
 import { User } from '../../entities/user.entity';
 import { InvalidCredentialsError } from '../../../../core/errors/invalid-credentials-error';
 
-export class AuthenticateUserUseCase {
+export class UserAuthenticationUseCase {
 	constructor(private usersRepository: IUsersRepository) {}
 
-	async execute({ email, password }: AuthenticateInputDTO): Promise<User> {
+	async execute({
+		email,
+		password,
+	}: UserAuthenticationInputDTO): Promise<User> {
 		const user = await this.usersRepository.findByEmail(email);
 
 		if (!user) {

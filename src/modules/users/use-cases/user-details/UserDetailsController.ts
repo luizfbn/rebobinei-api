@@ -1,15 +1,15 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { DetailsUserUseCase } from './DetailsUserUseCase';
+import { UserDetailsUseCase } from './UserDetailsUseCase';
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
 
-export class DetailsUserController {
-	constructor(private detailsUserUseCase: DetailsUserUseCase) {}
+export class UserDetailsController {
+	constructor(private userDetailsUseCase: UserDetailsUseCase) {}
 
 	async handle(request: FastifyRequest, reply: FastifyReply) {
 		try {
 			const { id } = request.params as { id: string };
 
-			const result = await this.detailsUserUseCase.execute({ id });
+			const result = await this.userDetailsUseCase.execute({ id });
 
 			return reply.code(200).send(result);
 		} catch (error) {
