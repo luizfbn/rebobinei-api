@@ -7,6 +7,9 @@ import { userAuthenticationBodySchema } from '../../modules/users/use-cases/user
 import { userCreationController } from '../../modules/users/use-cases/user-creation/user-creation.factory';
 import { userCreationBodySchema } from '../../modules/users/use-cases/user-creation/user-creation.dto';
 import { userDetailsController } from '../../modules/users/use-cases/user-details/user-details.factory';
+import { userPasswordChangeBodySchema } from '../../modules/users/use-cases/user-password-change/user-password-change.dto';
+import { userPasswordChangeController } from '../../modules/users/use-cases/user-password-change/user-password-change.factory';
+import { ensureAuthenticated } from './middlewares/ensure-authenticated';
 
 export async function routes(app: FastifyInstance) {
 	app.get('/', () => 'Hello world');
@@ -28,6 +31,16 @@ export async function routes(app: FastifyInstance) {
 			},
 		},
 		(request, reply) => userCreationController.handle(request, reply)
+	);
+	app.patch(
+		'/users/me/password',
+		{
+			onRequest: [ensureAuthenticated],
+			schema: {
+				body: userPasswordChangeBodySchema,
+			},
+		},
+		(request, reply) => userPasswordChangeController.handle(request, reply)
 	);
 	app.post(
 		'/login',

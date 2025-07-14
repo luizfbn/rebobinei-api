@@ -18,6 +18,8 @@ export class UserAuthenticationController {
 			const token = await reply.jwtSign(
 				{
 					role: user.role,
+					name: user.name,
+					username: user.username,
 				},
 				{
 					sign: {
