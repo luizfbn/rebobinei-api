@@ -1,10 +1,12 @@
+import { Role } from '../../../core/types/roles.type';
+
 interface IUser {
 	id: string;
 	email: string;
 	username: string;
 	name: string;
 	password: string;
-	role: string;
+	role: Role;
 	createdAt: Date;
 	updatedAt: Date;
 }
@@ -15,7 +17,7 @@ export class User {
 	public username: string;
 	public name: string;
 	public password: string;
-	public role: string;
+	public role: Role;
 	public createdAt: Date;
 	public updatedAt: Date;
 
