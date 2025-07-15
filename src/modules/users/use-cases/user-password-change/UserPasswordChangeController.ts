@@ -2,6 +2,7 @@ import { FastifyRequest, FastifyReply } from 'fastify';
 import { UserPasswordChangeUseCase } from './UserPasswordChangeUseCase';
 import { UserPasswordChangeInputDTO } from './user-password-change.dto';
 import { InvalidCredentialsError } from '../../../../core/errors/invalid-credentials-error';
+import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
 
 export class UserPasswordChangeController {
 	constructor(private userPasswordChangeUseCase: UserPasswordChangeUseCase) {}
@@ -29,6 +30,9 @@ export class UserPasswordChangeController {
 
 			return reply.status(204).send();
 		} catch (error) {
+			if (error instanceof ResourceNotFoundError) {
+				return reply.code(404).send({ error: error.message });
+			}
 			if (error instanceof InvalidCredentialsError) {
 				return reply.status(401).send({ error: error.message });
 			}

@@ -1,7 +1,7 @@
 export const userPasswordChangeBodySchema = {
 	type: 'object',
 	properties: {
-		currentPassword: { type: 'string' },
+		currentPassword: { type: 'string', minLength: 6 },
 		newPassword: { type: 'string', minLength: 6 },
 		passwordConfirmation: { type: 'string', minLength: 6 },
 	},

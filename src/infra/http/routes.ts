@@ -1,4 +1,5 @@
 import { FastifyInstance } from 'fastify';
+import { ensureAuthenticated } from './middlewares/ensure-authenticated';
 import { movieListController } from '../../modules/movies/use-cases/movie-list/movie-list.factory';
 import { movieDetailsController } from '../../modules/movies/use-cases/movie-details/movie-details.factory';
 import { movieSearchController } from '../../modules/movies/use-cases/movie-search/movie-search.factory';
@@ -9,7 +10,8 @@ import { userCreationBodySchema } from '../../modules/users/use-cases/user-creat
 import { userDetailsController } from '../../modules/users/use-cases/user-details/user-details.factory';
 import { userPasswordChangeBodySchema } from '../../modules/users/use-cases/user-password-change/user-password-change.dto';
 import { userPasswordChangeController } from '../../modules/users/use-cases/user-password-change/user-password-change.factory';
-import { ensureAuthenticated } from './middlewares/ensure-authenticated';
+import { userEmailChangeController } from '../../modules/users/use-cases/user-email-change/user-email-change.factory';
+import { userEmailChangeBodySchema } from '../../modules/users/use-cases/user-email-change/user-email-change.dto';
 
 export async function routes(app: FastifyInstance) {
 	app.get('/', () => 'Hello world');
@@ -31,6 +33,16 @@ export async function routes(app: FastifyInstance) {
 			},
 		},
 		(request, reply) => userCreationController.handle(request, reply)
+	);
+	app.patch(
+		'/users/me/email',
+		{
+			onRequest: [ensureAuthenticated],
+			schema: {
+				body: userEmailChangeBodySchema,
+			},
+		},
+		(request, reply) => userEmailChangeController.handle(request, reply)
 	);
 	app.patch(
 		'/users/me/password',
