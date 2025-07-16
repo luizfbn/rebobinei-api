@@ -23,7 +23,8 @@ export class UserCreationController {
 				return reply.status(409).send({ error: error.message });
 			}
 
-			throw error;
+			console.error(error);
+			return reply.code(500).send({ error: 'An internal error occurred.' });
 		}
 	}
 }

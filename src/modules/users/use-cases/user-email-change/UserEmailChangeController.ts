@@ -1,6 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { UserEmailChangeUseCase } from './UserEmailChangeUseCase';
-import { UserEmailChangeInputDTO } from './user-email-change.dto';
 import { InvalidCredentialsError } from '../../../../core/errors/invalid-credentials-error';
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
 
@@ -9,7 +8,10 @@ export class UserEmailChangeController {
 
 	async handle(request: FastifyRequest, reply: FastifyReply) {
 		try {
-			const { password, newEmail } = request.body as UserEmailChangeInputDTO;
+			const { password, newEmail } = request.body as {
+				password: string;
+				newEmail: string;
+			};
 
 			const userId = request.user.sub;
 
@@ -24,7 +26,8 @@ export class UserEmailChangeController {
 				return reply.status(401).send({ error: error.message });
 			}
 
-			throw error;
+			console.error(error);
+			return reply.code(500).send({ error: 'An internal error occurred.' });
 		}
 	}
 }

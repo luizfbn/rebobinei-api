@@ -34,7 +34,9 @@ export class UserAuthenticationController {
 			if (error instanceof InvalidCredentialsError) {
 				return reply.status(401).send({ error: error.message });
 			}
-			throw error;
+
+			console.error(error);
+			return reply.code(500).send({ error: 'An internal error occurred.' });
 		}
 	}
 }

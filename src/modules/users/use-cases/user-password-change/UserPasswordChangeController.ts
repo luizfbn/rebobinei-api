@@ -1,6 +1,5 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { UserPasswordChangeUseCase } from './UserPasswordChangeUseCase';
-import { UserPasswordChangeInputDTO } from './user-password-change.dto';
 import { InvalidCredentialsError } from '../../../../core/errors/invalid-credentials-error';
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
 
@@ -10,7 +9,9 @@ export class UserPasswordChangeController {
 	async handle(request: FastifyRequest, reply: FastifyReply) {
 		try {
 			const { currentPassword, newPassword, passwordConfirmation } =
-				request.body as UserPasswordChangeInputDTO & {
+				request.body as {
+					currentPassword: string;
+					newPassword: string;
 					passwordConfirmation: string;
 				};
 
@@ -37,7 +38,8 @@ export class UserPasswordChangeController {
 				return reply.status(401).send({ error: error.message });
 			}
 
-			throw error;
+			console.error(error);
+			return reply.code(500).send({ error: 'An internal error occurred.' });
 		}
 	}
 }
