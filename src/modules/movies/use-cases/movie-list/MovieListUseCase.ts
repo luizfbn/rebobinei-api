@@ -10,13 +10,15 @@ import { MovieMapper } from '../../movie.mapper';
 export class MovieListUseCase {
 	constructor(private moviesProvider: IMoviesProvider) {}
 
-	async execute(
-		dto: MovieListInputDTO
-	): Promise<PaginatedOutputDTO<MovieListItemOutputDTO>> {
+	async execute({
+		category,
+		language,
+		page,
+	}: MovieListInputDTO): Promise<PaginatedOutputDTO<MovieListItemOutputDTO>> {
 		let paginatedMovies: PaginatedMovies;
-		const params = { page: dto.page, language: dto.language };
+		const params = { page, language };
 
-		switch (dto.category) {
+		switch (category) {
 			case 'popular':
 				paginatedMovies = await this.moviesProvider.getPopular(params);
 				break;
@@ -27,7 +29,7 @@ export class MovieListUseCase {
 				paginatedMovies = await this.moviesProvider.getUpcoming(params);
 				break;
 			default:
-				throw new Error(`Category '${dto.category}' is not valid.`);
+				throw new Error(`Category '${category}' is not valid.`);
 		}
 
 		const moviesDto = paginatedMovies.movies.map((movie) => {

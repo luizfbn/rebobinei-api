@@ -1,6 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { MovieDetailsUseCase } from './MovieDetailsUseCase';
-import { MovieDetailsInputDTO } from './movie-details.dto';
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
 import { validateAndFormatLanguage } from '../../../../infra/http/validators/language-validator';
 
@@ -14,7 +13,7 @@ export class MovieDetailsController {
 
 			const validatedLanguage = validateAndFormatLanguage(language);
 
-			const detailsMovieDTO: MovieDetailsInputDTO = {
+			const detailsMovieDTO = {
 				id: parseInt(id, 10),
 				language: validatedLanguage,
 			};

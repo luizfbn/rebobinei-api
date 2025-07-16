@@ -1,6 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { MovieListUseCase } from './MovieListUseCase';
-import { MovieListInputDTO } from './movie-list.dto';
 import { validateAndFormatLanguage } from '../../../../infra/http/validators/language-validator';
 
 export class MovieListController {
@@ -8,13 +7,15 @@ export class MovieListController {
 
 	async handle(request: FastifyRequest, reply: FastifyReply) {
 		try {
-			const { category } = request.query as { category: any };
-			const { language } = request.query as { language?: string };
-			const { page } = request.query as { page?: string };
+			const { category, language, page } = request.query as {
+				category: 'popular' | 'trending' | 'upcoming';
+				language?: string;
+				page?: string;
+			};
 
 			const validatedLanguage = validateAndFormatLanguage(language);
 
-			const movieListDTO: MovieListInputDTO = {
+			const movieListDTO = {
 				category: category || 'popular',
 				language: validatedLanguage,
 				page: parseInt(page ?? '1', 10) || 1,
