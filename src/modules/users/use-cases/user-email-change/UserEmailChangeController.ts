@@ -2,6 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { UserEmailChangeUseCase } from './UserEmailChangeUseCase';
 import { InvalidCredentialsError } from '../../../../core/errors/invalid-credentials-error';
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
+import { UserAlreadyExistsError } from '../../../../core/errors/user-already-exists-error';
 
 export class UserEmailChangeController {
 	constructor(private userEmailChangeUseCase: UserEmailChangeUseCase) {}
@@ -24,6 +25,9 @@ export class UserEmailChangeController {
 			}
 			if (error instanceof InvalidCredentialsError) {
 				return reply.status(401).send({ error: error.message });
+			}
+			if (error instanceof UserAlreadyExistsError) {
+				return reply.status(409).send({ error: error.message });
 			}
 
 			console.error(error);
