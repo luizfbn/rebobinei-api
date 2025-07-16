@@ -1,8 +1,13 @@
 export const userCreationBodySchema = {
 	type: 'object',
 	properties: {
-		name: { type: 'string' },
-		username: { type: 'string', minLength: 2 },
+		name: { type: 'string', minLength: 1, maxLength: 50, pattern: '.*\\S.*' },
+		username: {
+			type: 'string',
+			minLength: 3,
+			maxLength: 15,
+			pattern: '^[a-zA-Z0-9_]+$',
+		},
 		email: { type: 'string', format: 'email' },
 		password: { type: 'string', minLength: 6 },
 	},

@@ -12,6 +12,8 @@ import { userPasswordChangeBodySchema } from '../../modules/users/use-cases/user
 import { userPasswordChangeController } from '../../modules/users/use-cases/user-password-change/user-password-change.factory';
 import { userEmailChangeController } from '../../modules/users/use-cases/user-email-change/user-email-change.factory';
 import { userEmailChangeBodySchema } from '../../modules/users/use-cases/user-email-change/user-email-change.dto';
+import { userProfileUpdateController } from '../../modules/users/use-cases/user-profile-update/user-profile-update.factory';
+import { userProfileUpdateBodySchema } from '../../modules/users/use-cases/user-profile-update/user-profile-update.dto';
 
 export async function routes(app: FastifyInstance) {
 	app.get('/', () => 'Hello world');
@@ -33,6 +35,16 @@ export async function routes(app: FastifyInstance) {
 			},
 		},
 		(request, reply) => userCreationController.handle(request, reply)
+	);
+	app.patch(
+		'/users/me',
+		{
+			onRequest: [ensureAuthenticated],
+			schema: {
+				body: userProfileUpdateBodySchema,
+			},
+		},
+		(request, reply) => userProfileUpdateController.handle(request, reply)
 	);
 	app.patch(
 		'/users/me/email',

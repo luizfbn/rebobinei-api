@@ -8,16 +8,15 @@ export class UserCreationUseCase {
 
 	async execute({ name, username, email, password }: UserCreationInputDTO) {
 		const userWithSameEmail = await this.usersRepository.findByEmail(email);
-		const userWithSameUsername = await this.usersRepository.findByUsername(
-			username
-		);
-
 		if (userWithSameEmail) {
 			throw new UserAlreadyExistsError(
 				'An user with this email already exists.'
 			);
 		}
 
+		const userWithSameUsername = await this.usersRepository.findByUsername(
+			username.toLocaleLowerCase()
+		);
 		if (userWithSameUsername) {
 			throw new UserAlreadyExistsError(
 				'An user with this username already exists.'
