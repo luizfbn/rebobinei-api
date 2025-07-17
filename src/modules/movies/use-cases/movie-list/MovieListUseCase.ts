@@ -1,5 +1,5 @@
 import {
-	IMoviesProvider,
+	MoviesProvider,
 	PaginatedMovies,
 } from '../../providers/movies.provider.interface';
 import { MovieListInputDTO } from './movie-list.schema';
@@ -8,7 +8,7 @@ import { MovieListItemOutputDTO } from '../../dtos/movie-list-item.output.dto';
 import { MovieMapper } from '../../movie.mapper';
 
 export class MovieListUseCase {
-	constructor(private moviesProvider: IMoviesProvider) {}
+	constructor(private moviesProvider: MoviesProvider) {}
 
 	async execute({
 		category,

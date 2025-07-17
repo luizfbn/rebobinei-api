@@ -1,12 +1,12 @@
 import { prisma } from '../prisma.service';
-import { IUsersRepository } from '../../../../modules/users/repositories/IUsersRepository';
+import { UsersRepository } from '../../../../modules/users/repositories/users.repository.interface';
 import { User as DomainUser } from '../../../../modules/users/entities/user.entity';
 import { User as PrismaUser } from '@prisma/client';
 import { UserMapper } from '../../../../modules/users/user.mapper';
 import { UserCreateInputDTO } from '../../../../modules/users/dtos/user-create.input.dto';
 import { UserUpdateInputDTO } from '../../../../modules/users/dtos/user-update.input.dto';
 
-export class PrismaUsersRepository implements IUsersRepository {
+export class PrismaUsersRepository implements UsersRepository {
 	async create({ name, username, email, password }: UserCreateInputDTO) {
 		await prisma.user.create({
 			data: {

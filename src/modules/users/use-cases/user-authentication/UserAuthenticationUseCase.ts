@@ -1,11 +1,11 @@
 import bcrypt from 'bcryptjs';
-import { IUsersRepository } from '../../repositories/IUsersRepository';
+import { UsersRepository } from '../../repositories/users.repository.interface';
 import { UserAuthenticationInputDTO } from './user-authentication.schema';
 import { User } from '../../entities/user.entity';
 import { InvalidCredentialsError } from '../../../../core/errors/invalid-credentials-error';
 
 export class UserAuthenticationUseCase {
-	constructor(private usersRepository: IUsersRepository) {}
+	constructor(private usersRepository: UsersRepository) {}
 
 	async execute({
 		email,

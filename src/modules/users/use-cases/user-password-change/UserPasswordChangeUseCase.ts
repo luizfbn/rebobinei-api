@@ -1,11 +1,11 @@
 import bcrypt from 'bcryptjs';
 import { InvalidCredentialsError } from '../../../../core/errors/invalid-credentials-error';
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
-import { IUsersRepository } from '../../repositories/IUsersRepository';
+import { UsersRepository } from '../../repositories/users.repository.interface';
 import { UserPasswordChangeInputDTO } from './user-password-change.schema';
 
 export class UserPasswordChangeUseCase {
-	constructor(private usersRepository: IUsersRepository) {}
+	constructor(private usersRepository: UsersRepository) {}
 
 	async execute({
 		userId,

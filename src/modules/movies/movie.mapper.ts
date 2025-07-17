@@ -4,7 +4,7 @@ import { MovieDetailsOutputDTO } from './dtos/movie-details.output.dto';
 import {
 	TmdbMovieDetailsDTO,
 	TmdbMovieDTO,
-} from '../../infra/http/tmdb/tmdb-api.types';
+} from '../../infra/http/tmdb/tmdb-api.interfaces';
 import { CastMember } from './entities/cast-member.interface';
 import { CrewMember } from './entities/crew-member.interface';
 

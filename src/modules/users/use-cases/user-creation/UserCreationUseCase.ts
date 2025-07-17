@@ -1,10 +1,10 @@
 import bcrypt from 'bcryptjs';
-import { IUsersRepository } from '../../repositories/IUsersRepository';
+import { UsersRepository } from '../../repositories/users.repository.interface';
 import { UserCreationInputDTO } from './user-creation.schema';
 import { UserAlreadyExistsError } from '../../../../core/errors/user-already-exists-error';
 
 export class UserCreationUseCase {
-	constructor(private usersRepository: IUsersRepository) {}
+	constructor(private usersRepository: UsersRepository) {}
 
 	async execute({ name, username, email, password }: UserCreationInputDTO) {
 		const userWithSameEmail = await this.usersRepository.findByEmail(email);

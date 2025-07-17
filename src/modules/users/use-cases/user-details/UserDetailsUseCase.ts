@@ -1,10 +1,10 @@
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
-import { IUsersRepository } from '../../repositories/IUsersRepository';
+import { UsersRepository } from '../../repositories/users.repository.interface';
 import { UserMapper } from '../../user.mapper';
 import { UserDetailsInputDTO } from './user-details.schema';
 
 export class UserDetailsUseCase {
-	constructor(private usersRepository: IUsersRepository) {}
+	constructor(private usersRepository: UsersRepository) {}
 
 	async execute({ id }: UserDetailsInputDTO) {
 		const user = await this.usersRepository.findById(id);

@@ -7,15 +7,15 @@ import {
 	TmdbMovieDetailsDTO,
 	TmdbMovieDTO,
 	TmdbMovieReleaseDatesDTO,
-} from './tmdb-api.types';
+} from './tmdb-api.interfaces';
 import {
-	IMoviesProvider,
+	MoviesProvider,
 	ListParams,
 	DetailsParams,
 	SearchParams,
 } from '../../../modules/movies/providers/movies.provider.interface';
 
-export class TmdbMoviesProvider implements IMoviesProvider {
+export class TmdbMoviesProvider implements MoviesProvider {
 	public async getPopular(params: ListParams) {
 		return this.fetchMovieList('/movie/popular', params);
 	}

@@ -1,12 +1,12 @@
 import bcrypt from 'bcryptjs';
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
 import { InvalidCredentialsError } from '../../../../core/errors/invalid-credentials-error';
-import { IUsersRepository } from '../../repositories/IUsersRepository';
+import { UsersRepository } from '../../repositories/users.repository.interface';
 import { UserEmailChangeInputDTO } from './user-email-change.schema';
 import { UserAlreadyExistsError } from '../../../../core/errors/user-already-exists-error';
 
 export class UserEmailChangeUseCase {
-	constructor(private usersRepository: IUsersRepository) {}
+	constructor(private usersRepository: UsersRepository) {}
 
 	async execute({ userId, password, newEmail }: UserEmailChangeInputDTO) {
 		const user = await this.usersRepository.findById(userId);

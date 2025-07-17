@@ -21,7 +21,7 @@ export interface PaginatedMovies {
 	movies: Movie[];
 }
 
-export interface IMoviesProvider {
+export interface MoviesProvider {
 	getPopular(params: ListParams): Promise<PaginatedMovies>;
 	getTrending(params: ListParams): Promise<PaginatedMovies>;
 	getUpcoming(params: ListParams): Promise<PaginatedMovies>;

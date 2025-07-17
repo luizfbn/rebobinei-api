@@ -1,10 +1,10 @@
 import { MovieMapper } from '../../movie.mapper';
-import { IMoviesProvider } from '../../providers/movies.provider.interface';
+import { MoviesProvider } from '../../providers/movies.provider.interface';
 import { MovieDetailsInputDTO } from './movie-details.schema';
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
 
 export class MovieDetailsUseCase {
-	constructor(private moviesProvider: IMoviesProvider) {}
+	constructor(private moviesProvider: MoviesProvider) {}
 
 	async execute({ id, language }: MovieDetailsInputDTO) {
 		const movie = await this.moviesProvider.getDetailsById({ id, language });

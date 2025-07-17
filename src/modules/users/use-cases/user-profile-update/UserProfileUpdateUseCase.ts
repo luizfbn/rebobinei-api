@@ -1,11 +1,11 @@
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
 import { UserAlreadyExistsError } from '../../../../core/errors/user-already-exists-error';
-import { IUsersRepository } from '../../repositories/IUsersRepository';
+import { UsersRepository } from '../../repositories/users.repository.interface';
 import { UserMapper } from '../../user.mapper';
 import { UserProfileUpdateInputDTO } from './user-profile-update.schema';
 
 export class UserProfileUpdateUseCase {
-	constructor(private usersRepository: IUsersRepository) {}
+	constructor(private usersRepository: UsersRepository) {}
 
 	async execute({ userId, name, username }: UserProfileUpdateInputDTO) {
 		const user = await this.usersRepository.findById(userId);
