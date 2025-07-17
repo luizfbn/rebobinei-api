@@ -1,15 +1,17 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { UserCreationUseCase } from './UserCreationUseCase';
-import { UserCreationInputDTO } from './user-creation.dto';
+import { UserCreationRoute } from './user-creation.schema';
 import { UserAlreadyExistsError } from '../../../../core/errors/user-already-exists-error';
 
 export class UserCreationController {
 	constructor(private userCreationUseCase: UserCreationUseCase) {}
 
-	async handle(request: FastifyRequest, reply: FastifyReply) {
+	async handle(
+		request: FastifyRequest<UserCreationRoute>,
+		reply: FastifyReply
+	) {
 		try {
-			const { name, username, email, password } =
-				request.body as UserCreationInputDTO;
+			const { name, username, email, password } = request.body;
 			await this.userCreationUseCase.execute({
 				name,
 				username,

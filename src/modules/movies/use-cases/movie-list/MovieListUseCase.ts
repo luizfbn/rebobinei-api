@@ -2,7 +2,7 @@ import {
 	IMoviesProvider,
 	PaginatedMovies,
 } from '../../providers/movies.provider.interface';
-import { MovieListInputDTO } from './movie-list.dto';
+import { MovieListInputDTO } from './movie-list.schema';
 import { PaginatedOutputDTO } from '../../../../core/dtos/paginated.output.dto';
 import { MovieListItemOutputDTO } from '../../dtos/movie-list-item.output.dto';
 import { MovieMapper } from '../../movie.mapper';

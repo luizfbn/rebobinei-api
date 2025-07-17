@@ -2,7 +2,7 @@ import { ResourceNotFoundError } from '../../../../core/errors/resource-not-foun
 import { UserAlreadyExistsError } from '../../../../core/errors/user-already-exists-error';
 import { IUsersRepository } from '../../repositories/IUsersRepository';
 import { UserMapper } from '../../user.mapper';
-import { UserProfileUpdateInputDTO } from './user-profile-update.dto';
+import { UserProfileUpdateInputDTO } from './user-profile-update.schema';
 
 export class UserProfileUpdateUseCase {
 	constructor(private usersRepository: IUsersRepository) {}

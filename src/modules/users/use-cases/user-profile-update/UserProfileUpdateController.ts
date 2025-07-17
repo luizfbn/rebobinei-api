@@ -2,16 +2,17 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
 import { UserAlreadyExistsError } from '../../../../core/errors/user-already-exists-error';
 import { UserProfileUpdateUseCase } from './UserProfileUpdateUseCase';
+import { UserProfileUpdateRoute } from './user-profile-update.schema';
 
 export class UserProfileUpdateController {
 	constructor(private userProfileUpdateUseCase: UserProfileUpdateUseCase) {}
 
-	async handle(request: FastifyRequest, reply: FastifyReply) {
+	async handle(
+		request: FastifyRequest<UserProfileUpdateRoute>,
+		reply: FastifyReply
+	) {
 		try {
-			const { name, username } = request.body as {
-				name?: string;
-				username?: string;
-			};
+			const { name, username } = request.body;
 
 			const userId = request.user.sub;
 

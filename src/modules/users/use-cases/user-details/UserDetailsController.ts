@@ -1,13 +1,14 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { UserDetailsUseCase } from './UserDetailsUseCase';
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
+import { UserDetailsRoute } from './user-details.schema';
 
 export class UserDetailsController {
 	constructor(private userDetailsUseCase: UserDetailsUseCase) {}
 
-	async handle(request: FastifyRequest, reply: FastifyReply) {
+	async handle(request: FastifyRequest<UserDetailsRoute>, reply: FastifyReply) {
 		try {
-			const { id } = request.params as { id: string };
+			const { id } = request.params;
 
 			const result = await this.userDetailsUseCase.execute({ id });
 

@@ -1,7 +1,7 @@
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
 import { IUsersRepository } from '../../repositories/IUsersRepository';
 import { UserMapper } from '../../user.mapper';
-import { UserDetailsInputDTO } from './user-details.dto';
+import { UserDetailsInputDTO } from './user-details.schema';
 
 export class UserDetailsUseCase {
 	constructor(private usersRepository: IUsersRepository) {}

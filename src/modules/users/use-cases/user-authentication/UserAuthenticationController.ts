@@ -1,14 +1,17 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { UserAuthenticationUseCase } from './UserAuthenticationUseCase';
-import { UserAuthenticationInputDTO } from './user-authentication.dto';
+import { UserAuthenticationRoute } from './user-authentication.schema';
 import { InvalidCredentialsError } from '../../../../core/errors/invalid-credentials-error';
 
 export class UserAuthenticationController {
 	constructor(private userAuthenticationUseCase: UserAuthenticationUseCase) {}
 
-	async handle(request: FastifyRequest, reply: FastifyReply) {
+	async handle(
+		request: FastifyRequest<UserAuthenticationRoute>,
+		reply: FastifyReply
+	) {
 		try {
-			const { email, password } = request.body as UserAuthenticationInputDTO;
+			const { email, password } = request.body;
 
 			const user = await this.userAuthenticationUseCase.execute({
 				email,

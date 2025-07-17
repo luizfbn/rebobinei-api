@@ -1,7 +1,7 @@
 import { IMoviesProvider } from '../../providers/movies.provider.interface';
 import { PaginatedOutputDTO } from '../../../../core/dtos/paginated.output.dto';
 import { MovieListItemOutputDTO } from '../../dtos/movie-list-item.output.dto';
-import { MovieSearchInputDTO } from './movie-search.dto';
+import { MovieSearchInputDTO } from './movie-search.schema';
 import { MovieMapper } from '../../movie.mapper';
 
 export class MovieSearchUseCase {

@@ -3,16 +3,17 @@ import { UserEmailChangeUseCase } from './UserEmailChangeUseCase';
 import { InvalidCredentialsError } from '../../../../core/errors/invalid-credentials-error';
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
 import { UserAlreadyExistsError } from '../../../../core/errors/user-already-exists-error';
+import { UserEmailChangeRoute } from './user-email-change.schema';
 
 export class UserEmailChangeController {
 	constructor(private userEmailChangeUseCase: UserEmailChangeUseCase) {}
 
-	async handle(request: FastifyRequest, reply: FastifyReply) {
+	async handle(
+		request: FastifyRequest<UserEmailChangeRoute>,
+		reply: FastifyReply
+	) {
 		try {
-			const { password, newEmail } = request.body as {
-				password: string;
-				newEmail: string;
-			};
+			const { password, newEmail } = request.body;
 
 			const userId = request.user.sub;
 

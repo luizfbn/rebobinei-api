@@ -1,31 +1,19 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { MovieSearchUseCase } from './MovieSearchUseCase';
-import { validateAndFormatLanguage } from '../../../../infra/http/validators/language-validator';
+import { MovieSearchRoute } from './movie-search.schema';
 
 export class MovieSearchController {
 	constructor(private movieSearchUseCase: MovieSearchUseCase) {}
 
-	async handle(request: FastifyRequest, reply: FastifyReply) {
+	async handle(request: FastifyRequest<MovieSearchRoute>, reply: FastifyReply) {
 		try {
-			const { query, language, page } = request.query as {
-				query: string;
-				language?: string;
-				page?: string;
-			};
+			const { query, language, page } = request.query;
 
-			const validatedLanguage = validateAndFormatLanguage(language);
-
-			const movieSearchDTO = {
+			const result = await this.movieSearchUseCase.execute({
 				query,
-				language: validatedLanguage,
-				page: parseInt(page ?? '1', 10) || 1,
-			};
-
-			if (!movieSearchDTO.query) {
-				return reply.code(400).send({ error: 'Invalid query parameter.' });
-			}
-
-			const result = await this.movieSearchUseCase.execute(movieSearchDTO);
+				language,
+				page,
+			});
 
 			return reply.code(200).send(result);
 		} catch (error) {

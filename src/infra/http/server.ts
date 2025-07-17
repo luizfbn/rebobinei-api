@@ -1,8 +1,16 @@
 import fastify from 'fastify';
 import fastifyJwt from '@fastify/jwt';
 import { routes } from './routes';
+import {
+	serializerCompiler,
+	validatorCompiler,
+	ZodTypeProvider,
+} from 'fastify-type-provider-zod';
 
-const app = fastify();
+const app = fastify().withTypeProvider<ZodTypeProvider>();
+
+app.setValidatorCompiler(validatorCompiler);
+app.setSerializerCompiler(serializerCompiler);
 
 app.register(fastifyJwt, {
 	secret: process.env.JWT_SECRET as string,

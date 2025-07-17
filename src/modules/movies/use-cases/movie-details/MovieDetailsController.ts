@@ -1,24 +1,23 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { MovieDetailsUseCase } from './MovieDetailsUseCase';
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
-import { validateAndFormatLanguage } from '../../../../infra/http/validators/language-validator';
+import { MovieDetailsRoute } from './movie-details.schema';
 
 export class MovieDetailsController {
 	constructor(private movieDetailsUseCase: MovieDetailsUseCase) {}
 
-	async handle(request: FastifyRequest, reply: FastifyReply) {
+	async handle(
+		request: FastifyRequest<MovieDetailsRoute>,
+		reply: FastifyReply
+	) {
 		try {
-			const { id } = request.params as { id: string };
-			const { language } = request.query as { language?: string };
+			const { id } = request.params;
+			const { language } = request.query;
 
-			const validatedLanguage = validateAndFormatLanguage(language);
-
-			const detailsMovieDTO = {
-				id: parseInt(id, 10),
-				language: validatedLanguage,
-			};
-
-			const result = await this.movieDetailsUseCase.execute(detailsMovieDTO);
+			const result = await this.movieDetailsUseCase.execute({
+				id,
+				language,
+			});
 
 			return reply.code(200).send(result);
 		} catch (error) {

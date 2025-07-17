@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import { IUsersRepository } from '../../repositories/IUsersRepository';
-import { UserCreationInputDTO } from './user-creation.dto';
+import { UserCreationInputDTO } from './user-creation.schema';
 import { UserAlreadyExistsError } from '../../../../core/errors/user-already-exists-error';
 
 export class UserCreationUseCase {

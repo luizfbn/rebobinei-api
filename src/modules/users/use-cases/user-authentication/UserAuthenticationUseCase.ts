@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import { IUsersRepository } from '../../repositories/IUsersRepository';
-import { UserAuthenticationInputDTO } from './user-authentication.dto';
+import { UserAuthenticationInputDTO } from './user-authentication.schema';
 import { User } from '../../entities/user.entity';
 import { InvalidCredentialsError } from '../../../../core/errors/invalid-credentials-error';
 

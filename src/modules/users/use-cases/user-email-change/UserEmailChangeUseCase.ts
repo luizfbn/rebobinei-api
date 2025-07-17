@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
 import { InvalidCredentialsError } from '../../../../core/errors/invalid-credentials-error';
 import { IUsersRepository } from '../../repositories/IUsersRepository';
-import { UserEmailChangeInputDTO } from './user-email-change.dto';
+import { UserEmailChangeInputDTO } from './user-email-change.schema';
 import { UserAlreadyExistsError } from '../../../../core/errors/user-already-exists-error';
 
 export class UserEmailChangeUseCase {

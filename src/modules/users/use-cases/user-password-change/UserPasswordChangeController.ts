@@ -2,18 +2,18 @@ import { FastifyRequest, FastifyReply } from 'fastify';
 import { UserPasswordChangeUseCase } from './UserPasswordChangeUseCase';
 import { InvalidCredentialsError } from '../../../../core/errors/invalid-credentials-error';
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
+import { UserPasswordChangeRoute } from './user-password-change.schema';
 
 export class UserPasswordChangeController {
 	constructor(private userPasswordChangeUseCase: UserPasswordChangeUseCase) {}
 
-	async handle(request: FastifyRequest, reply: FastifyReply) {
+	async handle(
+		request: FastifyRequest<UserPasswordChangeRoute>,
+		reply: FastifyReply
+	) {
 		try {
 			const { currentPassword, newPassword, passwordConfirmation } =
-				request.body as {
-					currentPassword: string;
-					newPassword: string;
-					passwordConfirmation: string;
-				};
+				request.body;
 
 			if (newPassword !== passwordConfirmation) {
 				return reply.status(400).send({
