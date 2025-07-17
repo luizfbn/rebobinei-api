@@ -5,8 +5,8 @@ import {
 	TmdbMovieDetailsDTO,
 	TmdbMovieDTO,
 } from '../../infra/http/tmdb/tmdb-api.types';
-import { CastMember } from './entities/cast-member.type';
-import { CrewMember } from './entities/crew-member.type';
+import { CastMember } from './entities/cast-member.interface';
+import { CrewMember } from './entities/crew-member.interface';
 
 export class MovieMapper {
 	public static toListItemDTO(movie: Movie): MovieListItemOutputDTO {

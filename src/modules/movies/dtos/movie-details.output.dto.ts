@@ -1,4 +1,4 @@
-import { CastMember } from '../entities/cast-member.type';
+import { CastMember } from '../entities/cast-member.interface';
 
 export interface MovieDetailsOutputDTO {
 	tmdbId: number;

@@ -1,5 +1,5 @@
-import { CastMember } from './cast-member.type';
-import { CrewMember } from './crew-member.type';
+import { CastMember } from './cast-member.interface';
+import { CrewMember } from './crew-member.interface';
 
 interface IMovie {
 	tmdbId: number;
