@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite" // "postgresql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -27,15 +27,23 @@ model User {
 }
 
 model Movie {
-  id            String   @id @default(uuid())
-  tmdbId        Int      @unique @map("tmdb_id")
+  id            String    @id @default(uuid())
+  tmdbId        Int       @unique @map("tmdb_id")
   title         String
-  originalTitle String   @map("original_title")
+  originalTitle String    @map("original_title")
   overview      String
-  posterPath    String   @map("poster_path")
-  backdropPath  String?  @map("backdrop_path")
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
+  releaseDate   DateTime? @map("release_date")
+  posterPath    String?   @map("poster_path")
+  backdropPath  String?   @map("backdrop_path")
+  runtime       Int       @default(0)
+  budget        Int       @default(0)
+  revenue       Int       @default(0)
+  certification String?
+  genres        Json?
+  directors     Json?
+  cast          Json?
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
   reviews       Review[]
   @@map("movies")
 }
