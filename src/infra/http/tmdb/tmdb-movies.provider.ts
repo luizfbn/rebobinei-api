@@ -54,7 +54,7 @@ export class TmdbMoviesProvider implements MoviesProvider {
 			const directors = this.findDirectors(apiMovieCredits.crew);
 			const cast = this.mapTopCast(apiMovieCredits.cast);
 
-			const movie = MovieMapper.fromApiDetailsToEntity(
+			const movie = MovieMapper.toEntityfromApiDetails(
 				apiMovieDetails,
 				certification,
 				directors,
@@ -82,7 +82,7 @@ export class TmdbMoviesProvider implements MoviesProvider {
 
 			const apiResponseData = response.data;
 			const movies = apiResponseData.results.map((apiMovie) => {
-				return MovieMapper.fromApiListItemToEntity(apiMovie);
+				return MovieMapper.toEntityFromApiListItem(apiMovie);
 			});
 			return {
 				page: apiResponseData.page,

@@ -3,7 +3,7 @@ export interface MovieListItemOutputDTO {
 	title: string;
 	originalTitle: string;
 	overview: string;
-	releaseDate: string;
+	releaseDate: Date | null;
 	posterUrl: string | null;
 	backdropUrl: string | null;
 }
