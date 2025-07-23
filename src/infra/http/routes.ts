@@ -3,6 +3,7 @@ import { ensureAuthenticated } from './middlewares/ensure-authenticated';
 import { movieListController } from '../../modules/movies/use-cases/movie-list/movie-list.factory';
 import { movieDetailsController } from '../../modules/movies/use-cases/movie-details/movie-details.factory';
 import { movieSearchController } from '../../modules/movies/use-cases/movie-search/movie-search.factory';
+import { reviewCreationController } from '../../modules/reviews/use-cases/review-creation/review-creation.factory';
 import { userAuthenticationController } from '../../modules/users/use-cases/user-authentication/user-authentication.factory';
 import { userCreationController } from '../../modules/users/use-cases/user-creation/user-creation.factory';
 import { userDetailsController } from '../../modules/users/use-cases/user-details/user-details.factory';
@@ -21,6 +22,10 @@ import {
 	MovieSearchRoute,
 	movieSearchRouteSchema,
 } from '../../modules/movies/use-cases/movie-search/movie-search.schema';
+import {
+	ReviewCreationRoute,
+	reviewCreationRouteSchema,
+} from '../../modules/reviews/use-cases/review-creation/review-creation.schema';
 import {
 	UserAuthenticationRoute,
 	userAuthenticationRouteSchema,
@@ -68,6 +73,14 @@ export async function routes(app: FastifyInstance) {
 			schema: movieSearchRouteSchema,
 		},
 		(request, reply) => movieSearchController.handle(request, reply)
+	);
+	app.post<ReviewCreationRoute>(
+		'/movies/:tmdbMovieId/reviews',
+		{
+			onRequest: [ensureAuthenticated],
+			schema: reviewCreationRouteSchema,
+		},
+		(request, reply) => reviewCreationController.handle(request, reply)
 	);
 	app.get<UserDetailsRoute>(
 		'/users/:id',
