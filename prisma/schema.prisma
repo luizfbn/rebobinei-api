@@ -1,16 +1,16 @@
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 enum Role {
-  USER
-  ADMIN
-  @@map("roles")
+    USER
+    ADMIN
+    @@map("roles")
 }
 
 model User {
@@ -27,36 +27,37 @@ model User {
 }
 
 model Movie {
-  id            String    @id @default(uuid())
-  tmdbId        Int       @unique @map("tmdb_id")
-  title         String
-  originalTitle String    @map("original_title")
-  overview      String
-  releaseDate   DateTime? @map("release_date")
-  posterPath    String?   @map("poster_path")
-  backdropPath  String?   @map("backdrop_path")
-  runtime       Int       @default(0)
-  budget        Int       @default(0)
-  revenue       Int       @default(0)
-  certification String?
-  genres        Json?
-  directors     Json?
-  cast          Json?
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime  @updatedAt @map("updated_at")
-  reviews       Review[]
-  @@map("movies")
+    id            String    @id @default(uuid())
+    tmdbId        Int       @unique @map("tmdb_id")
+    title         String
+    originalTitle String    @map("original_title")
+    overview      String
+    releaseDate   DateTime? @map("release_date")
+    posterPath    String?   @map("poster_path")
+    backdropPath  String?   @map("backdrop_path")
+    runtime       Int       @default(0)
+    budget        Int       @default(0)
+    revenue       Int       @default(0)
+    certification String?
+    genres        Json?
+    directors     Json?
+    cast          Json?
+    createdAt     DateTime  @default(now()) @map("created_at")
+    updatedAt     DateTime  @updatedAt @map("updated_at")
+    reviews       Review[]
+    @@map("movies")
 }
 
 model Review {
-  id        String   @id @default(uuid())
-  rating    Int
-  comment   String?
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  userId    String   @map("user_id")
-  user      User     @relation(fields: [userId], references: [id])
-  movieId   String   @map("movie_id")
-  movie     Movie    @relation(fields: [movieId], references: [id])
-  @@map("reviews")
+    id        String   @id @default(uuid())
+    rating    Int
+    comment   String?
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+    userId    String   @map("user_id")
+    user      User     @relation(fields: [userId], references: [id])
+    movieId   String   @map("movie_id")
+    movie     Movie    @relation(fields: [movieId], references: [id])
+    @@unique([userId, movieId], map: "user_movie_unique_review")
+    @@map("reviews")
 }

@@ -1,4 +1,5 @@
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
+import { UserAlreadyReviewedError } from '../../../../core/errors/user-already-reviewed-error';
 import { MoviesProvider } from '../../../movies/providers/movies.provider.interface';
 import { MoviesRepository } from '../../../movies/repositories/movies.repository.interface';
 import { ReviewsRepository } from '../../repositories/reviews.repository.interface';
@@ -17,19 +18,13 @@ export class ReviewCreationUseCase {
 		rating,
 		comment,
 	}: ReviewCreationInputDTO) {
-		let movie = await this.moviesRepository.findByTmdbId(tmdbMovieId);
+		const movie = await this.findOrCreateMovie(tmdbMovieId);
 
-		if (!movie) {
-			const movieFromApi = await this.moviesProvider.getDetailsById({
-				id: tmdbMovieId,
-				language: 'en-US',
-			});
+		const reviewAlreadyExists =
+			await this.reviewsRepository.findByUserAndMovieId(userId, movie.id);
 
-			if (!movieFromApi) {
-				throw new ResourceNotFoundError('Movie not found on TMDB.');
-			}
-
-			movie = await this.moviesRepository.create(movieFromApi);
+		if (reviewAlreadyExists) {
+			throw new UserAlreadyReviewedError();
 		}
 
 		await this.reviewsRepository.create({
@@ -38,5 +33,23 @@ export class ReviewCreationUseCase {
 			userId,
 			movieId: movie.id,
 		});
+	}
+
+	private async findOrCreateMovie(id: number) {
+		let movie = await this.moviesRepository.findByTmdbId(id);
+
+		if (!movie) {
+			const movieFromApi = await this.moviesProvider.getDetailsById({
+				id,
+				language: 'en-US',
+			});
+
+			if (!movieFromApi) {
+				throw new ResourceNotFoundError('Movie not found.');
+			}
+
+			movie = await this.moviesRepository.create(movieFromApi);
+		}
+		return movie;
 	}
 }

@@ -2,6 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { ReviewCreationUseCase } from './ReviewCreationUseCase';
 import { ReviewCreationRoute } from './review-creation.schema';
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
+import { UserAlreadyReviewedError } from '../../../../core/errors/user-already-reviewed-error';
 
 export class ReviewCreationController {
 	constructor(private reviewCreationUseCase: ReviewCreationUseCase) {}
@@ -26,6 +27,9 @@ export class ReviewCreationController {
 		} catch (error) {
 			if (error instanceof ResourceNotFoundError) {
 				return reply.code(404).send({ error: error.message });
+			}
+			if (error instanceof UserAlreadyReviewedError) {
+				return reply.status(409).send({ error: error.message });
 			}
 
 			console.error(error);
