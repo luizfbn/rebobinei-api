@@ -4,6 +4,7 @@ import { movieListController } from '../../modules/movies/use-cases/movie-list/m
 import { movieDetailsController } from '../../modules/movies/use-cases/movie-details/movie-details.factory';
 import { movieSearchController } from '../../modules/movies/use-cases/movie-search/movie-search.factory';
 import { reviewCreationController } from '../../modules/reviews/use-cases/review-creation/review-creation.factory';
+import { reviewDetailsController } from '../../modules/reviews/use-cases/review-details/review-details.factory';
 import { userAuthenticationController } from '../../modules/users/use-cases/user-authentication/user-authentication.factory';
 import { userCreationController } from '../../modules/users/use-cases/user-creation/user-creation.factory';
 import { userDetailsController } from '../../modules/users/use-cases/user-details/user-details.factory';
@@ -26,6 +27,10 @@ import {
 	ReviewCreationRoute,
 	reviewCreationRouteSchema,
 } from '../../modules/reviews/use-cases/review-creation/review-creation.schema';
+import {
+	ReviewDetailsRoute,
+	reviewDetailsRouteSchema,
+} from '../../modules/reviews/use-cases/review-details/review-details.schema';
 import {
 	UserAuthenticationRoute,
 	userAuthenticationRouteSchema,
@@ -119,6 +124,11 @@ export async function routes(app: FastifyInstance) {
 			schema: userPasswordChangeRouteSchema,
 		},
 		(request, reply) => userPasswordChangeController.handle(request, reply)
+	);
+	app.get<ReviewDetailsRoute>(
+		'/reviews/:id',
+		{ schema: reviewDetailsRouteSchema },
+		(request, reply) => reviewDetailsController.handle(request, reply)
 	);
 	app.post<UserAuthenticationRoute>(
 		'/login',
