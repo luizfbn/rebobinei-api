@@ -1,5 +1,7 @@
-import { UserCreateInputDTO } from '../dtos/user-create.input.dto';
-import { UserUpdateInputDTO } from '../dtos/user-update.input.dto';
+import {
+	UserCreateInputDTO,
+	UserUpdateInputDTO,
+} from './users.repository.types';
 import { User } from '../entities/user.entity';
 
 export interface UsersRepository {

@@ -1,5 +1,7 @@
-import { MovieCreateInputDTO } from '../dtos/movie-create.input.dto';
-import { MovieUpdateInputDTO } from '../dtos/movie-update.input.dto';
+import {
+	MovieCreateInputDTO,
+	MovieUpdateInputDTO,
+} from './movies.repository.types';
 import { Movie } from '../entities/movie.entity';
 
 export interface MoviesRepository {

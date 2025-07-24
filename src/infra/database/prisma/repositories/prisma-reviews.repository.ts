@@ -1,6 +1,6 @@
 import { prisma } from '../prisma.service';
 import { ReviewsRepository } from '../../../../modules/reviews/repositories/reviews.repository.interface';
-import { ReviewCreateInputDTO } from '../../../../modules/reviews/dtos/review-create.input.dto';
+import { ReviewCreateInputDTO } from '../../../../modules/reviews/repositories/reviews.repository.types';
 import { ReviewMapper } from '../../../../modules/reviews/review.mapper';
 
 export class PrismaReviewsRepository implements ReviewsRepository {

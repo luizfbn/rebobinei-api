@@ -1,9 +1,10 @@
 import { prisma } from '../prisma.service';
 import { MoviesRepository } from '../../../../modules/movies/repositories/movies.repository.interface';
-import { Movie } from '../../../../modules/movies/entities/movie.entity';
 import { MovieMapper } from '../../../../modules/movies/movie.mapper';
-import { MovieCreateInputDTO } from '../../../../modules/movies/dtos/movie-create.input.dto';
-import { MovieUpdateInputDTO } from '../../../../modules/movies/dtos/movie-update.input.dto';
+import {
+	MovieCreateInputDTO,
+	MovieUpdateInputDTO,
+} from '../../../../modules/movies/repositories/movies.repository.types';
 
 export class PrismaMoviesRepository implements MoviesRepository {
 	async create(data: MovieCreateInputDTO) {
@@ -25,10 +26,11 @@ export class PrismaMoviesRepository implements MoviesRepository {
 				cast: JSON.stringify(data.cast),
 			},
 		});
+
 		return MovieMapper.toEntity(createdMovie);
 	}
 
-	async update(id: string, data: MovieUpdateInputDTO): Promise<Movie> {
+	async update(id: string, data: MovieUpdateInputDTO) {
 		const updatedMovie = await prisma.movie.update({
 			where: {
 				id,
@@ -52,7 +54,7 @@ export class PrismaMoviesRepository implements MoviesRepository {
 		return MovieMapper.toEntity(updatedMovie);
 	}
 
-	async findByTmdbId(id: number): Promise<Movie | null> {
+	async findByTmdbId(id: number) {
 		const movie = await prisma.movie.findUnique({ where: { tmdbId: id } });
 
 		if (!movie) {

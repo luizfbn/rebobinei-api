@@ -1,10 +1,11 @@
 import { prisma } from '../prisma.service';
 import { UsersRepository } from '../../../../modules/users/repositories/users.repository.interface';
-import { User as DomainUser } from '../../../../modules/users/entities/user.entity';
 import { User as PrismaUser } from '@prisma/client';
 import { UserMapper } from '../../../../modules/users/user.mapper';
-import { UserCreateInputDTO } from '../../../../modules/users/dtos/user-create.input.dto';
-import { UserUpdateInputDTO } from '../../../../modules/users/dtos/user-update.input.dto';
+import {
+	UserCreateInputDTO,
+	UserUpdateInputDTO,
+} from '../../../../modules/users/repositories/users.repository.types';
 
 export class PrismaUsersRepository implements UsersRepository {
 	async create({ name, username, email, password }: UserCreateInputDTO) {
@@ -18,7 +19,7 @@ export class PrismaUsersRepository implements UsersRepository {
 		});
 	}
 
-	async update(id: string, data: UserUpdateInputDTO): Promise<DomainUser> {
+	async update(id: string, data: UserUpdateInputDTO) {
 		const updatedUser = await prisma.user.update({
 			where: {
 				id,
@@ -29,17 +30,17 @@ export class PrismaUsersRepository implements UsersRepository {
 		return UserMapper.toEntity(updatedUser);
 	}
 
-	async findById(id: string): Promise<DomainUser | null> {
+	async findById(id: string) {
 		const user = await prisma.user.findUnique({ where: { id } });
 		return this.mapToDomain(user);
 	}
 
-	async findByEmail(email: string): Promise<DomainUser | null> {
+	async findByEmail(email: string) {
 		const user = await prisma.user.findUnique({ where: { email } });
 		return this.mapToDomain(user);
 	}
 
-	async findByUsername(username: string): Promise<DomainUser | null> {
+	async findByUsername(username: string) {
 		const user = await prisma.user.findUnique({ where: { username } });
 		return this.mapToDomain(user);
 	}

@@ -1,5 +1,5 @@
-import { ReviewCreateInputDTO } from '../dtos/review-create.input.dto';
 import { Review } from '../entities/review.entity';
+import { ReviewCreateInputDTO } from './reviews.repository.types';
 
 export interface ReviewsRepository {
 	create(review: ReviewCreateInputDTO): Promise<void>;
