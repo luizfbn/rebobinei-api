@@ -11,13 +11,13 @@ export class ReviewCreationController {
 		request: FastifyRequest<ReviewCreationRoute>,
 		reply: FastifyReply
 	) {
-		const { tmdbMovieId } = request.params;
-		const { rating, comment } = request.body;
-		const userId = request.user.sub;
-
 		try {
+			const { id } = request.params;
+			const { rating, comment } = request.body;
+			const userId = request.user.sub;
+
 			await this.reviewCreationUseCase.execute({
-				tmdbMovieId,
+				tmdbId: id,
 				rating,
 				comment,
 				userId,

@@ -12,13 +12,8 @@ export class ReviewCreationUseCase {
 		private moviesProvider: MoviesProvider
 	) {}
 
-	async execute({
-		tmdbMovieId,
-		userId,
-		rating,
-		comment,
-	}: ReviewCreationInputDTO) {
-		const movie = await this.findOrCreateMovie(tmdbMovieId);
+	async execute({ tmdbId, userId, rating, comment }: ReviewCreationInputDTO) {
+		const movie = await this.findOrCreateMovie(tmdbId);
 
 		const reviewAlreadyExists =
 			await this.reviewsRepository.findByUserAndMovieId(userId, movie.id);

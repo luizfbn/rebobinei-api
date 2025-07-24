@@ -2,7 +2,10 @@ import { z } from 'zod';
 import { RatingSchema } from '../../schemas/rating.schema';
 
 const paramsSchema = z.object({
-	tmdbMovieId: z.coerce.number().int().positive(),
+	id: z.coerce
+		.number()
+		.int()
+		.positive({ error: 'Movie ID must be a positive number.' }),
 });
 
 const bodySchema = z.object({
@@ -20,7 +23,7 @@ export interface ReviewCreationRoute {
 	Body: z.infer<typeof bodySchema>;
 }
 
-export type ReviewCreationInputDTO = z.infer<typeof bodySchema> &
-	z.infer<typeof paramsSchema> & {
-		userId: string;
-	};
+export type ReviewCreationInputDTO = z.infer<typeof bodySchema> & {
+	tmdbId: number;
+	userId: string;
+};

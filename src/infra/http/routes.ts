@@ -80,7 +80,7 @@ export async function routes(app: FastifyInstance) {
 		(request, reply) => movieSearchController.handle(request, reply)
 	);
 	app.post<ReviewCreationRoute>(
-		'/movies/:tmdbMovieId/reviews',
+		'/movies/:id/reviews',
 		{
 			onRequest: [ensureAuthenticated],
 			schema: reviewCreationRouteSchema,
