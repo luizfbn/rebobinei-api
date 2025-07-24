@@ -1,10 +1,14 @@
 import { prisma } from '../prisma.service';
+import { Prisma, Movie as PrismaMovie } from '@prisma/client';
 import { MoviesRepository } from '../../../../modules/movies/repositories/movies.repository.interface';
-import { MovieMapper } from '../../../../modules/movies/movie.mapper';
 import {
 	MovieCreateInputDTO,
 	MovieUpdateInputDTO,
 } from '../../../../modules/movies/repositories/movies.repository.types';
+import { Genre } from '../../../../modules/movies/entities/genre.interface';
+import { CrewMember } from '../../../../modules/movies/entities/crew-member.interface';
+import { CastMember } from '../../../../modules/movies/entities/cast-member.interface';
+import { Movie } from '../../../../modules/movies/entities/movie.entity';
 
 export class PrismaMoviesRepository implements MoviesRepository {
 	async create(data: MovieCreateInputDTO) {
@@ -27,7 +31,7 @@ export class PrismaMoviesRepository implements MoviesRepository {
 			},
 		});
 
-		return MovieMapper.toEntity(createdMovie);
+		return this.toEntity(createdMovie);
 	}
 
 	async update(id: string, data: MovieUpdateInputDTO) {
@@ -51,7 +55,7 @@ export class PrismaMoviesRepository implements MoviesRepository {
 			},
 		});
 
-		return MovieMapper.toEntity(updatedMovie);
+		return this.toEntity(updatedMovie);
 	}
 
 	async findByTmdbId(id: number) {
@@ -61,6 +65,45 @@ export class PrismaMoviesRepository implements MoviesRepository {
 			return null;
 		}
 
-		return MovieMapper.toEntity(movie);
+		return this.toEntity(movie);
+	}
+
+	private toEntity(prismaMovie: PrismaMovie) {
+		const movieProps = {
+			tmdbId: prismaMovie.tmdbId,
+			title: prismaMovie.title,
+			originalTitle: prismaMovie.originalTitle,
+			overview: prismaMovie.overview,
+			releaseDate: prismaMovie.releaseDate,
+			posterPath: prismaMovie.posterPath,
+			backdropPath: prismaMovie.backdropPath,
+			runtime: prismaMovie.runtime,
+			budget: prismaMovie.budget,
+			revenue: prismaMovie.revenue,
+			certification: prismaMovie.certification,
+			genres: this.parseJsonField<Genre>(prismaMovie.genres),
+			directors: this.parseJsonField<CrewMember>(prismaMovie.directors),
+			cast: this.parseJsonField<CastMember>(prismaMovie.cast),
+			createdAt: prismaMovie.createdAt,
+			updatedAt: prismaMovie.updatedAt,
+		};
+
+		return Movie.create(movieProps, prismaMovie.id);
+	}
+
+	private parseJsonField<T>(field: Prisma.JsonValue | null): T[] {
+		if (!field) {
+			return [];
+		}
+		try {
+			const data = typeof field === 'string' ? JSON.parse(field) : field;
+			if (Array.isArray(data)) {
+				return data as T[];
+			}
+			return [];
+		} catch (e) {
+			console.error('Failed to parse JSON field:', e);
+			return [];
+		}
 	}
 }

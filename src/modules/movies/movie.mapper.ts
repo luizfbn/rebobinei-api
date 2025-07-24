@@ -1,5 +1,4 @@
 import { Movie } from './entities/movie.entity';
-import { Prisma, Movie as PrismaMovie } from '@prisma/client';
 import { MovieListItemOutputDTO } from './dtos/movie-list-item.output.dto';
 import { MovieDetailsOutputDTO } from './dtos/movie-details.output.dto';
 import {
@@ -8,7 +7,6 @@ import {
 } from '../../infra/http/tmdb/tmdb-api.interfaces';
 import { CastMember } from './entities/cast-member.interface';
 import { CrewMember } from './entities/crew-member.interface';
-import { Genre } from './entities/genre.interface';
 
 export class MovieMapper {
 	public static toListItemDTO(movie: Movie): MovieListItemOutputDTO {
@@ -54,30 +52,6 @@ export class MovieMapper {
 				: [],
 			cast: movie.cast ?? [],
 		};
-	}
-
-	public static toEntity(prismaMovie: PrismaMovie) {
-		const movieProps = {
-			tmdbId: prismaMovie.tmdbId,
-			title: prismaMovie.title,
-			originalTitle: prismaMovie.originalTitle,
-			overview: prismaMovie.overview,
-			releaseDate: prismaMovie.releaseDate,
-			posterPath: prismaMovie.posterPath,
-			backdropPath: prismaMovie.backdropPath,
-			runtime: prismaMovie.runtime,
-			budget: prismaMovie.budget,
-			revenue: prismaMovie.revenue,
-			certification: prismaMovie.certification ?? null,
-			genres: this.parseJsonField<Genre>(prismaMovie.genres as string | null),
-			directors: this.parseJsonField<CrewMember>(
-				prismaMovie.directors as string | null
-			),
-			cast: this.parseJsonField<CastMember>(prismaMovie.cast as string | null),
-			createdAt: prismaMovie.createdAt,
-			updatedAt: prismaMovie.updatedAt,
-		};
-		return Movie.create(movieProps, prismaMovie.id);
 	}
 
 	public static toEntityFromApiListItem(apiMovie: TmdbMovieDTO) {
@@ -129,21 +103,5 @@ export class MovieMapper {
 		};
 
 		return Movie.create(movieProps);
-	}
-
-	private static parseJsonField<T>(field: Prisma.JsonValue | null): T[] {
-		if (!field) {
-			return [];
-		}
-		try {
-			const data = typeof field === 'string' ? JSON.parse(field) : field;
-			if (Array.isArray(data)) {
-				return data as T[];
-			}
-			return [];
-		} catch (e) {
-			console.error('Failed to parse JSON field:', e);
-			return [];
-		}
 	}
 }

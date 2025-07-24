@@ -1,8 +1,12 @@
 import { prisma } from '../prisma.service';
+import { Review as PrismaReview } from '@prisma/client';
 import { ReviewsRepository } from '../../../../modules/reviews/repositories/reviews.repository.interface';
 import { ReviewCreateInputDTO } from '../../../../modules/reviews/repositories/reviews.repository.types';
-import { ReviewMapper } from '../../../../modules/reviews/review.mapper';
-import { Rating } from '../../../../modules/reviews/types/rating.type';
+import {
+	isRating,
+	Rating,
+} from '../../../../modules/reviews/types/rating.type';
+import { Review } from '../../../../modules/reviews/entities/review.entity';
 
 export class PrismaReviewsRepository implements ReviewsRepository {
 	async create({ userId, movieId, rating, comment }: ReviewCreateInputDTO) {
@@ -71,6 +75,29 @@ export class PrismaReviewsRepository implements ReviewsRepository {
 			return null;
 		}
 
-		return ReviewMapper.toEntity(review);
+		return this.toEntity(review);
+	}
+
+	private toEntity(review: PrismaReview) {
+		const { rating } = review;
+
+		if (!isRating(rating)) {
+			console.error(
+				`Invalid rating found in the database: ${rating} for review ID ${review.id}`
+			);
+			throw new Error('Invalid rating data in persistence.');
+		}
+
+		const reviewProps = {
+			id: review.id,
+			userId: review.userId,
+			movieId: review.movieId,
+			rating,
+			comment: review.comment,
+			createdAt: review.createdAt,
+			updatedAt: review.updatedAt,
+		};
+
+		return Review.create(reviewProps);
 	}
 }
