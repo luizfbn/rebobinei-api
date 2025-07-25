@@ -7,8 +7,6 @@ export async function ensureAuthenticated(
 	try {
 		await request.jwtVerify();
 	} catch (err) {
-		reply
-			.status(401)
-			.send({ message: 'Invalid or missing authentication token.' });
+		reply.code(401).send({ error: 'Invalid or missing authentication token.' });
 	}
 }

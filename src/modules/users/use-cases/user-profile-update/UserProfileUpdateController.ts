@@ -22,13 +22,13 @@ export class UserProfileUpdateController {
 				username,
 			});
 
-			return reply.status(200).send(updatedUser);
+			return reply.code(200).send(updatedUser);
 		} catch (error) {
 			if (error instanceof ResourceNotFoundError) {
 				return reply.code(404).send({ error: error.message });
 			}
 			if (error instanceof UserAlreadyExistsError) {
-				return reply.status(409).send({ error: error.message });
+				return reply.code(409).send({ error: error.message });
 			}
 
 			console.error(error);

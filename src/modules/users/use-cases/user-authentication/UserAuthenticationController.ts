@@ -32,10 +32,10 @@ export class UserAuthenticationController {
 				}
 			);
 
-			return reply.status(200).send({ token });
+			return reply.code(200).send({ token });
 		} catch (error) {
 			if (error instanceof InvalidCredentialsError) {
-				return reply.status(401).send({ error: error.message });
+				return reply.code(401).send({ error: error.message });
 			}
 
 			console.error(error);

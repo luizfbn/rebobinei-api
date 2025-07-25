@@ -19,16 +19,16 @@ export class UserEmailChangeController {
 
 			await this.userEmailChangeUseCase.execute({ userId, password, newEmail });
 
-			return reply.status(204).send();
+			return reply.code(204).send();
 		} catch (error) {
 			if (error instanceof ResourceNotFoundError) {
 				return reply.code(404).send({ error: error.message });
 			}
 			if (error instanceof InvalidCredentialsError) {
-				return reply.status(401).send({ error: error.message });
+				return reply.code(401).send({ error: error.message });
 			}
 			if (error instanceof UserAlreadyExistsError) {
-				return reply.status(409).send({ error: error.message });
+				return reply.code(409).send({ error: error.message });
 			}
 
 			console.error(error);

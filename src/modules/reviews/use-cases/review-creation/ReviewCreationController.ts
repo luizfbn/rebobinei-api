@@ -23,13 +23,13 @@ export class ReviewCreationController {
 				userId,
 			});
 
-			return reply.status(201).send();
+			return reply.code(201).send();
 		} catch (error) {
 			if (error instanceof ResourceNotFoundError) {
 				return reply.code(404).send({ error: error.message });
 			}
 			if (error instanceof UserAlreadyReviewedError) {
-				return reply.status(409).send({ error: error.message });
+				return reply.code(409).send({ error: error.message });
 			}
 
 			console.error(error);

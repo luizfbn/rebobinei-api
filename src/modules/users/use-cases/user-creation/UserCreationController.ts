@@ -19,10 +19,10 @@ export class UserCreationController {
 				password,
 			});
 
-			return reply.status(201).send();
+			return reply.code(201).send();
 		} catch (error) {
 			if (error instanceof UserAlreadyExistsError) {
-				return reply.status(409).send({ error: error.message });
+				return reply.code(409).send({ error: error.message });
 			}
 
 			console.error(error);

@@ -16,7 +16,7 @@ export class UserPasswordChangeController {
 				request.body;
 
 			if (newPassword !== passwordConfirmation) {
-				return reply.status(400).send({
+				return reply.code(400).send({
 					error: 'The new password and confirmation do not match.',
 				});
 			}
@@ -29,13 +29,13 @@ export class UserPasswordChangeController {
 				newPassword,
 			});
 
-			return reply.status(204).send();
+			return reply.code(204).send();
 		} catch (error) {
 			if (error instanceof ResourceNotFoundError) {
 				return reply.code(404).send({ error: error.message });
 			}
 			if (error instanceof InvalidCredentialsError) {
-				return reply.status(401).send({ error: error.message });
+				return reply.code(401).send({ error: error.message });
 			}
 
 			console.error(error);
