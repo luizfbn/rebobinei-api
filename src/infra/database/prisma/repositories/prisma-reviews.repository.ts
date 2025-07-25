@@ -20,7 +20,21 @@ export class PrismaReviewsRepository implements ReviewsRepository {
 		});
 	}
 
+	async delete(id: string) {
+		await prisma.review.delete({ where: { id } });
+	}
+
 	async findById(id: string) {
+		const review = await prisma.review.findUnique({ where: { id } });
+
+		if (!review) {
+			return null;
+		}
+
+		return this.toEntity(review);
+	}
+
+	async findDetailsById(id: string) {
 		const review = await prisma.review.findUnique({
 			where: {
 				id,

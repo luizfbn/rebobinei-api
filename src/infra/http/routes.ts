@@ -4,6 +4,7 @@ import { movieListController } from '../../modules/movies/use-cases/movie-list/m
 import { movieDetailsController } from '../../modules/movies/use-cases/movie-details/movie-details.factory';
 import { movieSearchController } from '../../modules/movies/use-cases/movie-search/movie-search.factory';
 import { reviewCreationController } from '../../modules/reviews/use-cases/review-creation/review-creation.factory';
+import { reviewDeletionController } from '../../modules/reviews/use-cases/review-deletion/review-deletion.factory';
 import { reviewDetailsController } from '../../modules/reviews/use-cases/review-details/review-details.factory';
 import { userAuthenticationController } from '../../modules/users/use-cases/user-authentication/user-authentication.factory';
 import { userCreationController } from '../../modules/users/use-cases/user-creation/user-creation.factory';
@@ -27,6 +28,10 @@ import {
 	ReviewCreationRoute,
 	reviewCreationRouteSchema,
 } from '../../modules/reviews/use-cases/review-creation/review-creation.schema';
+import {
+	ReviewDeletionRoute,
+	reviewDeletionRouteSchema,
+} from '../../modules/reviews/use-cases/review-deletion/review-deletion.schema';
 import {
 	ReviewDetailsRoute,
 	reviewDetailsRouteSchema,
@@ -129,6 +134,11 @@ export async function routes(app: FastifyInstance) {
 		'/reviews/:id',
 		{ schema: reviewDetailsRouteSchema },
 		(request, reply) => reviewDetailsController.handle(request, reply)
+	);
+	app.delete<ReviewDeletionRoute>(
+		'/reviews/:id',
+		{ onRequest: [ensureAuthenticated], schema: reviewDeletionRouteSchema },
+		(request, reply) => reviewDeletionController.handle(request, reply)
 	);
 	app.post<UserAuthenticationRoute>(
 		'/login',

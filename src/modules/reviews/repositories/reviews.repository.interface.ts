@@ -6,6 +6,8 @@ import {
 
 export interface ReviewsRepository {
 	create(review: ReviewCreateInputDTO): Promise<void>;
-	findById(id: string): Promise<ReviewWithDetails | null>;
+	delete(id: string): Promise<void>;
+	findById(id: string): Promise<Review | null>;
+	findDetailsById(id: string): Promise<ReviewWithDetails | null>;
 	findByUserAndMovieId(userId: string, movieId: string): Promise<Review | null>;
 }

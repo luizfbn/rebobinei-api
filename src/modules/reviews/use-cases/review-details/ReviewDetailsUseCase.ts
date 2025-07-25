@@ -7,7 +7,7 @@ export class ReviewDetailsUseCase {
 	constructor(private reviewsRepository: ReviewsRepository) {}
 
 	async execute({ id }: ReviewDetailsInputDTO) {
-		const review = await this.reviewsRepository.findById(id);
+		const review = await this.reviewsRepository.findDetailsById(id);
 
 		if (!review) {
 			throw new ResourceNotFoundError('Review not found.');
