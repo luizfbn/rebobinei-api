@@ -3,14 +3,12 @@ import { UsersRepository } from '../../repositories/users.repository.interface';
 import { UserAuthenticationInputDTO } from './user-authentication.schema';
 import { User } from '../../entities/user.entity';
 import { InvalidCredentialsError } from '../../../../core/errors/invalid-credentials-error';
+import { UserMapper } from '../../user.mapper';
 
 export class UserAuthenticationUseCase {
 	constructor(private usersRepository: UsersRepository) {}
 
-	async execute({
-		email,
-		password,
-	}: UserAuthenticationInputDTO): Promise<User> {
+	async execute({ email, password }: UserAuthenticationInputDTO) {
 		const user = await this.usersRepository.findByEmail(email);
 
 		if (!user) {
@@ -23,6 +21,6 @@ export class UserAuthenticationUseCase {
 			throw new InvalidCredentialsError();
 		}
 
-		return user;
+		return UserMapper.toDetailsDTO(user);
 	}
 }
