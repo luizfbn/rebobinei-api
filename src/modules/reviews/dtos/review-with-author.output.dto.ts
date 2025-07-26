@@ -1,6 +1,6 @@
 import { Rating } from '../types/rating.type';
 
-export interface ReviewListItemOutputDTO {
+export interface ReviewWithAuthorOutputDTO {
 	id: string;
 	rating: Rating;
 	comment: string | null;

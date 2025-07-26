@@ -1,7 +1,7 @@
 import { PaginatedOutputDTO } from '../../../../core/dtos/paginated.output.dto';
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
 import { MoviesRepository } from '../../../movies/repositories/movies.repository.interface';
-import { ReviewListItemOutputDTO } from '../../dtos/review-list-item.output.dto';
+import { ReviewWithAuthorOutputDTO } from '../../dtos/review-with-author.output.dto';
 import { ReviewsRepository } from '../../repositories/reviews.repository.interface';
 import { ReviewMapper } from '../../review.mapper';
 import { ReviewListByMovieInputDTO } from './review-list-movie.schema';
@@ -17,7 +17,7 @@ export class ReviewListByMovieUseCase {
 		page,
 		limit,
 	}: ReviewListByMovieInputDTO): Promise<
-		PaginatedOutputDTO<ReviewListItemOutputDTO>
+		PaginatedOutputDTO<ReviewWithAuthorOutputDTO>
 	> {
 		const movie = await this.moviesRepository.findByTmdbId(tmdbId);
 
@@ -30,7 +30,7 @@ export class ReviewListByMovieUseCase {
 			this.reviewsRepository.countByMovieId(movie.id),
 		]);
 
-		const reviewsDto = reviews.map(ReviewMapper.toListItemDTO);
+		const reviewsDto = reviews.map(ReviewMapper.toReviewWithAuthorDTO);
 		const totalPages = Math.ceil(totalResults / limit);
 
 		return {

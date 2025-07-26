@@ -7,6 +7,7 @@ import { reviewCreationController } from '../../modules/reviews/use-cases/review
 import { reviewDeletionController } from '../../modules/reviews/use-cases/review-deletion/review-deletion.factory';
 import { reviewDetailsController } from '../../modules/reviews/use-cases/review-details/review-details.factory';
 import { reviewListByMovieController } from '../../modules/reviews/use-cases/review-list-movie/review-list-movie.factory';
+import { reviewListByUserController } from '../../modules/reviews/use-cases/review-list-user/review-list-user.factory';
 import { userAuthenticationController } from '../../modules/users/use-cases/user-authentication/user-authentication.factory';
 import { userCreationController } from '../../modules/users/use-cases/user-creation/user-creation.factory';
 import { userDetailsController } from '../../modules/users/use-cases/user-details/user-details.factory';
@@ -42,6 +43,12 @@ import {
 	reviewListByMovieSchema,
 } from '../../modules/reviews/use-cases/review-list-movie/review-list-movie.schema';
 import {
+	ReviewListByAuthenticatedUserRoute,
+	reviewListByAuthenticatedUserSchema,
+	ReviewListByUserRoute,
+	reviewListByUserSchema,
+} from '../../modules/reviews/use-cases/review-list-user/review-list-user.schema';
+import {
 	UserAuthenticationRoute,
 	userAuthenticationRouteSchema,
 } from '../../modules/users/use-cases/user-authentication/user-authentication.schema';
@@ -75,19 +82,19 @@ export async function routes(app: FastifyInstance) {
 		},
 		(request, reply) => movieListController.handle(request, reply)
 	);
-	app.get<MovieDetailsRoute>(
-		'/movies/:id',
-		{
-			schema: movieDetailsRouteSchema,
-		},
-		(request, reply) => movieDetailsController.handle(request, reply)
-	);
 	app.get<MovieSearchRoute>(
 		'/movies/search',
 		{
 			schema: movieSearchRouteSchema,
 		},
 		(request, reply) => movieSearchController.handle(request, reply)
+	);
+	app.get<MovieDetailsRoute>(
+		'/movies/:id',
+		{
+			schema: movieDetailsRouteSchema,
+		},
+		(request, reply) => movieDetailsController.handle(request, reply)
 	);
 	app.get<ReviewListByMovieRoute>(
 		'/movies/:id/reviews',
@@ -103,13 +110,6 @@ export async function routes(app: FastifyInstance) {
 			schema: reviewCreationRouteSchema,
 		},
 		(request, reply) => reviewCreationController.handle(request, reply)
-	);
-	app.get<UserDetailsRoute>(
-		'/users/:id',
-		{
-			schema: userDetailsRouteSchema,
-		},
-		(request, reply) => userDetailsController.handle(request, reply)
 	);
 	app.post<UserCreationRoute>(
 		'/users',
@@ -141,6 +141,40 @@ export async function routes(app: FastifyInstance) {
 			schema: userPasswordChangeRouteSchema,
 		},
 		(request, reply) => userPasswordChangeController.handle(request, reply)
+	);
+	app.get<ReviewListByAuthenticatedUserRoute>(
+		'/users/me/reviews',
+		{
+			onRequest: [ensureAuthenticated],
+			schema: reviewListByAuthenticatedUserSchema,
+		},
+		(request, reply) => {
+			const data = {
+				id: request.user.sub,
+				page: request.query.page,
+				limit: request.query.limit,
+			};
+			return reviewListByUserController.handle(data, reply);
+		}
+	);
+	app.get<UserDetailsRoute>(
+		'/users/:id',
+		{
+			schema: userDetailsRouteSchema,
+		},
+		(request, reply) => userDetailsController.handle(request, reply)
+	);
+	app.get<ReviewListByUserRoute>(
+		'/users/:id/reviews',
+		{ schema: reviewListByUserSchema },
+		(request, reply) => {
+			const data = {
+				id: request.params.id,
+				page: request.query.page,
+				limit: request.query.limit,
+			};
+			return reviewListByUserController.handle(data, reply);
+		}
 	);
 	app.get<ReviewDetailsRoute>(
 		'/reviews/:id',

@@ -1,6 +1,9 @@
 import { prisma } from '../prisma.service';
 import { Review as PrismaReview } from '@prisma/client';
-import { ReviewsRepository } from '../../../../modules/reviews/repositories/reviews.repository.interface';
+import {
+	PaginationParams,
+	ReviewsRepository,
+} from '../../../../modules/reviews/repositories/reviews.repository.interface';
 import { ReviewCreateInputDTO } from '../../../../modules/reviews/repositories/reviews.repository.types';
 import {
 	isRating,
@@ -92,10 +95,7 @@ export class PrismaReviewsRepository implements ReviewsRepository {
 		return this.toEntity(review);
 	}
 
-	async findManyByMovieId(
-		movieId: string,
-		params: { page: number; limit: number }
-	) {
+	async findManyByMovieId(movieId: string, params: PaginationParams) {
 		const { page, limit } = params;
 
 		const reviews = await prisma.review.findMany({
@@ -123,8 +123,43 @@ export class PrismaReviewsRepository implements ReviewsRepository {
 		}));
 	}
 
+	async findManyByUserId(userId: string, params: PaginationParams) {
+		const { page, limit } = params;
+
+		const reviews = await prisma.review.findMany({
+			where: { userId },
+			take: limit,
+			skip: (page - 1) * limit,
+			include: {
+				movie: {
+					select: {
+						tmdbId: true,
+						title: true,
+						originalTitle: true,
+						overview: true,
+						posterPath: true,
+						backdropPath: true,
+					},
+				},
+			},
+		});
+
+		return reviews.map((review) => ({
+			id: review.id,
+			rating: review.rating as Rating,
+			comment: review.comment,
+			createdAt: review.createdAt,
+			updatedAt: review.updatedAt,
+			movie: review.movie,
+		}));
+	}
+
 	async countByMovieId(movieId: string) {
 		return await prisma.review.count({ where: { movieId } });
+	}
+
+	async countByUserId(userId: string) {
+		return await prisma.review.count({ where: { userId } });
 	}
 
 	private toEntity(review: PrismaReview) {

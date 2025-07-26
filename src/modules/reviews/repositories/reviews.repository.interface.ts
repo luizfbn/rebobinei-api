@@ -3,6 +3,7 @@ import {
 	ReviewCreateInputDTO,
 	ReviewWithUser,
 	ReviewWithDetails,
+	ReviewWithMovie,
 } from './reviews.repository.types';
 
 export interface PaginationParams {
@@ -20,5 +21,10 @@ export interface ReviewsRepository {
 		movieId: string,
 		params: PaginationParams
 	): Promise<ReviewWithUser[]>;
+	findManyByUserId(
+		userId: string,
+		params: PaginationParams
+	): Promise<ReviewWithMovie[]>;
 	countByMovieId(movieId: string): Promise<number>;
+	countByUserId(userId: string): Promise<number>;
 }
