@@ -1,8 +1,8 @@
 import { z } from 'zod';
 import { languageSchema } from '../../schemas/language.schema';
-import { paginationSchema } from '../../schemas/pagination.schema';
+import { tmdbPaginationSchema } from '../../../../core/schemas/tmdb-pagination.schema';
 
-const querySchema = paginationSchema.extend({
+const querySchema = tmdbPaginationSchema.extend({
 	category: z.enum(['popular', 'trending', 'upcoming']).default('popular'),
 	language: languageSchema,
 });

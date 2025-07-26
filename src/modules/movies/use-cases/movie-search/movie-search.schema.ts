@@ -1,8 +1,8 @@
 import { z } from 'zod';
-import { paginationSchema } from '../../schemas/pagination.schema';
 import { languageSchema } from '../../schemas/language.schema';
+import { tmdbPaginationSchema } from '../../../../core/schemas/tmdb-pagination.schema';
 
-const querySchema = paginationSchema.extend({
+const querySchema = tmdbPaginationSchema.extend({
 	query: z.string().min(1, { error: 'Invalid query parameter.' }),
 	language: languageSchema,
 });
