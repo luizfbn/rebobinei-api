@@ -2,7 +2,7 @@ import { Review } from '../entities/review.entity';
 
 export interface ReviewDetailsOutputDTO
 	extends Omit<Review, 'userId' | 'movieId'> {
-	user: {
+	author: {
 		id: string;
 		name: string;
 		username: string;

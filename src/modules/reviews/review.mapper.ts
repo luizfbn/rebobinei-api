@@ -11,7 +11,11 @@ export class ReviewMapper {
 			comment: review.comment,
 			createdAt: review.createdAt,
 			updatedAt: review.updatedAt,
-			user: review.user,
+			author: {
+				id: review.user.id,
+				name: review.user.name,
+				username: review.user.username,
+			},
 			movie: {
 				tmdbId: review.movie.tmdbId,
 				title: review.movie.title,
