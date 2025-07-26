@@ -92,6 +92,41 @@ export class PrismaReviewsRepository implements ReviewsRepository {
 		return this.toEntity(review);
 	}
 
+	async findManyByMovieId(
+		movieId: string,
+		params: { page: number; limit: number }
+	) {
+		const { page, limit } = params;
+
+		const reviews = await prisma.review.findMany({
+			where: { movieId },
+			take: limit,
+			skip: (page - 1) * limit,
+			include: {
+				user: {
+					select: {
+						id: true,
+						name: true,
+						username: true,
+					},
+				},
+			},
+		});
+
+		return reviews.map((review) => ({
+			id: review.id,
+			rating: review.rating as Rating,
+			comment: review.comment,
+			createdAt: review.createdAt,
+			updatedAt: review.updatedAt,
+			user: review.user,
+		}));
+	}
+
+	async countByMovieId(movieId: string) {
+		return await prisma.review.count({ where: { movieId } });
+	}
+
 	private toEntity(review: PrismaReview) {
 		const { rating } = review;
 

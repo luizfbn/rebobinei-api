@@ -1,5 +1,9 @@
-import { ReviewWithDetails } from './repositories/reviews.repository.types';
+import {
+	ReviewWithUser,
+	ReviewWithDetails,
+} from './repositories/reviews.repository.types';
 import { ReviewDetailsOutputDTO } from './dtos/review-details.output.dto';
+import { ReviewListItemOutputDTO } from './dtos/review-list-item.output.dto';
 
 export class ReviewMapper {
 	public static toDetailsDTO(
@@ -31,6 +35,20 @@ export class ReviewMapper {
 							review.movie.backdropPath
 					  }`
 					: null,
+			},
+		};
+	}
+
+	public static toListItemDTO(review: ReviewWithUser): ReviewListItemOutputDTO {
+		return {
+			id: review.id,
+			rating: review.rating,
+			comment: review.comment,
+			createdAt: review.createdAt,
+			author: {
+				id: review.user.id,
+				name: review.user.name,
+				username: review.user.username,
 			},
 		};
 	}

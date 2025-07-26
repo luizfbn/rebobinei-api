@@ -20,3 +20,11 @@ export type ReviewWithDetails = Omit<Review, 'userId' | 'movieId'> & {
 		backdropPath: string | null;
 	};
 };
+
+export type ReviewWithUser = Omit<Review, 'userId' | 'movieId'> & {
+	user: {
+		id: string;
+		name: string;
+		username: string;
+	};
+};

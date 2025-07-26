@@ -6,6 +6,7 @@ import { movieSearchController } from '../../modules/movies/use-cases/movie-sear
 import { reviewCreationController } from '../../modules/reviews/use-cases/review-creation/review-creation.factory';
 import { reviewDeletionController } from '../../modules/reviews/use-cases/review-deletion/review-deletion.factory';
 import { reviewDetailsController } from '../../modules/reviews/use-cases/review-details/review-details.factory';
+import { reviewListByMovieController } from '../../modules/reviews/use-cases/review-list-movie/review-list-movie.factory';
 import { userAuthenticationController } from '../../modules/users/use-cases/user-authentication/user-authentication.factory';
 import { userCreationController } from '../../modules/users/use-cases/user-creation/user-creation.factory';
 import { userDetailsController } from '../../modules/users/use-cases/user-details/user-details.factory';
@@ -36,6 +37,10 @@ import {
 	ReviewDetailsRoute,
 	reviewDetailsRouteSchema,
 } from '../../modules/reviews/use-cases/review-details/review-details.schema';
+import {
+	ReviewListByMovieRoute,
+	reviewListByMovieSchema,
+} from '../../modules/reviews/use-cases/review-list-movie/review-list-movie.schema';
 import {
 	UserAuthenticationRoute,
 	userAuthenticationRouteSchema,
@@ -83,6 +88,13 @@ export async function routes(app: FastifyInstance) {
 			schema: movieSearchRouteSchema,
 		},
 		(request, reply) => movieSearchController.handle(request, reply)
+	);
+	app.get<ReviewListByMovieRoute>(
+		'/movies/:id/reviews',
+		{
+			schema: reviewListByMovieSchema,
+		},
+		(request, reply) => reviewListByMovieController.handle(request, reply)
 	);
 	app.post<ReviewCreationRoute>(
 		'/movies/:id/reviews',
