@@ -1,6 +1,7 @@
 import { prisma } from '../prisma.service';
-import { Review as PrismaReview } from '@prisma/client';
+import { Prisma, Review as PrismaReview } from '@prisma/client';
 import {
+	FindManyParams,
 	PaginationParams,
 	ReviewsRepository,
 } from '../../../../modules/reviews/repositories/reviews.repository.interface';
@@ -8,7 +9,7 @@ import { ReviewCreateInputDTO } from '../../../../modules/reviews/repositories/r
 import {
 	isRating,
 	Rating,
-} from '../../../../modules/reviews/types/rating.type';
+} from '../../../../modules/reviews/schemas/rating.schema';
 import { Review } from '../../../../modules/reviews/entities/review.entity';
 
 export class PrismaReviewsRepository implements ReviewsRepository {
@@ -95,6 +96,52 @@ export class PrismaReviewsRepository implements ReviewsRepository {
 		return this.toEntity(review);
 	}
 
+	async findMany(params: FindManyParams) {
+		const { page, limit, orderBy, filter } = params;
+
+		const where: Prisma.ReviewWhereInput = {};
+
+		if (filter?.rating) {
+			where.rating = filter.rating;
+		}
+
+		const reviews = await prisma.review.findMany({
+			where,
+			orderBy,
+			take: limit,
+			skip: (page - 1) * limit,
+			include: {
+				movie: {
+					select: {
+						tmdbId: true,
+						title: true,
+						originalTitle: true,
+						overview: true,
+						posterPath: true,
+						backdropPath: true,
+					},
+				},
+				user: {
+					select: {
+						id: true,
+						name: true,
+						username: true,
+					},
+				},
+			},
+		});
+
+		return reviews.map((review) => ({
+			id: review.id,
+			rating: review.rating as Rating,
+			comment: review.comment,
+			createdAt: review.createdAt,
+			updatedAt: review.updatedAt,
+			user: review.user,
+			movie: review.movie,
+		}));
+	}
+
 	async findManyByMovieId(movieId: string, params: PaginationParams) {
 		const { page, limit } = params;
 
@@ -152,6 +199,10 @@ export class PrismaReviewsRepository implements ReviewsRepository {
 			updatedAt: review.updatedAt,
 			movie: review.movie,
 		}));
+	}
+
+	async countAll() {
+		return await prisma.review.count();
 	}
 
 	async countByMovieId(movieId: string) {

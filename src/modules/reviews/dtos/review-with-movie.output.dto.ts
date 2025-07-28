@@ -1,4 +1,4 @@
-import { Rating } from '../types/rating.type';
+import { Rating } from '../schemas/rating.schema';
 
 export interface ReviewWithMovieOutputDTO {
 	id: string;

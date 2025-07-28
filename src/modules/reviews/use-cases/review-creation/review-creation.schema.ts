@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { RatingSchema } from '../../schemas/rating.schema';
+import { ratingBodySchema } from '../../schemas/rating.schema';
 
 const paramsSchema = z.object({
 	id: z.coerce
@@ -9,7 +9,7 @@ const paramsSchema = z.object({
 });
 
 const bodySchema = z.object({
-	rating: RatingSchema,
+	rating: ratingBodySchema,
 	comment: z.string().nullable().optional(),
 });
 
