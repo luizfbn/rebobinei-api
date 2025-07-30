@@ -228,6 +228,36 @@ export class PrismaReviewsRepository implements ReviewsRepository {
 		return await prisma.review.count({ where });
 	}
 
+	async getRatingStatsByMovieId(movieId: string) {
+		const [stats, groupByRating] = await Promise.all([
+			prisma.review.aggregate({
+				where: { movieId },
+				_avg: {
+					rating: true,
+				},
+				_count: {
+					_all: true,
+				},
+			}),
+			prisma.review.groupBy({
+				by: ['rating'],
+				where: { movieId },
+				_count: {
+					rating: true,
+				},
+			}),
+		]);
+
+		return {
+			average: stats._avg.rating || 0,
+			totalCount: stats._count._all,
+			countsByRating: groupByRating.map((item) => ({
+				rating: item.rating as Rating,
+				count: item._count.rating,
+			})),
+		};
+	}
+
 	private toEntity(review: PrismaReview) {
 		const { rating } = review;
 

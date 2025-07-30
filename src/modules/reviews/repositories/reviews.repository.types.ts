@@ -1,4 +1,5 @@
 import { Review } from '../entities/review.entity';
+import { Rating } from '../schemas/rating.schema';
 
 export type ReviewCreateInputDTO = Omit<
 	Review,
@@ -17,6 +18,15 @@ export type ReviewWithUser = BaseReview & {
 export type ReviewWithMovie = BaseReview & {
 	movie: BaseMovie;
 };
+
+export interface ReviewRatingStats {
+	average: number;
+	totalCount: number;
+	countsByRating: {
+		rating: Rating;
+		count: number;
+	}[];
+}
 
 type BaseReview = Omit<Review, 'userId' | 'movieId'>;
 

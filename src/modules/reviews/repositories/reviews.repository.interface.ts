@@ -5,6 +5,7 @@ import {
 	ReviewWithUser,
 	ReviewWithDetails,
 	ReviewWithMovie,
+	ReviewRatingStats,
 } from './reviews.repository.types';
 
 interface PaginationParams {
@@ -41,4 +42,5 @@ export interface ReviewsRepository {
 		params: FindManyParams
 	): Promise<ReviewWithMovie[]>;
 	count(filter: FilterOptions): Promise<number>;
+	getRatingStatsByMovieId(movieId: string): Promise<ReviewRatingStats>;
 }

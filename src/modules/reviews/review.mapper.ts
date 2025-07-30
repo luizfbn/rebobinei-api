@@ -2,10 +2,12 @@ import {
 	ReviewWithUser,
 	ReviewWithDetails,
 	ReviewWithMovie,
+	ReviewRatingStats,
 } from './repositories/reviews.repository.types';
 import { ReviewDetailsOutputDTO } from './dtos/review-details.output.dto';
 import { ReviewWithAuthorOutputDTO } from './dtos/review-with-author.output.dto';
 import { ReviewWithMovieOutputDTO } from './dtos/review-with-movie.output.dto';
+import { ReviewStatsByMovieOutputDTO } from './dtos/review-stats-movie.output.dto';
 
 export class ReviewMapper {
 	public static toDetailsDTO(
@@ -81,6 +83,28 @@ export class ReviewMapper {
 					  }`
 					: null,
 			},
+		};
+	}
+
+	public static toRatingStatsDTO(
+		stats: ReviewRatingStats
+	): ReviewStatsByMovieOutputDTO {
+		const initialCounts: ReviewStatsByMovieOutputDTO['counts'] = {
+			'1': 0,
+			'2': 0,
+			'3': 0,
+			'4': 0,
+			'5': 0,
+		};
+		const counts = stats.countsByRating.reduce((acc, current) => {
+			acc[current.rating as keyof typeof acc] = current.count;
+			return acc;
+		}, initialCounts);
+
+		return {
+			average: stats.average,
+			totalCount: stats.totalCount,
+			counts,
 		};
 	}
 }
