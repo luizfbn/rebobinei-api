@@ -12,6 +12,7 @@ import { reviewListByMovieController } from '../../modules/reviews/use-cases/rev
 import { reviewListByUserController } from '../../modules/reviews/use-cases/review-list-user/review-list-user.factory';
 import { userAuthenticationController } from '../../modules/users/use-cases/user-authentication/user-authentication.factory';
 import { userCreationController } from '../../modules/users/use-cases/user-creation/user-creation.factory';
+import { userDeletionController } from '../../modules/users/use-cases/user-deletion/user-deletion.factory';
 import { userDetailsController } from '../../modules/users/use-cases/user-details/user-details.factory';
 import { userPasswordChangeController } from '../../modules/users/use-cases/user-password-change/user-password-change.factory';
 import { userEmailChangeController } from '../../modules/users/use-cases/user-email-change/user-email-change.factory';
@@ -66,6 +67,10 @@ import {
 	UserCreationRoute,
 	userCreationRouteSchema,
 } from '../../modules/users/use-cases/user-creation/user-creation.schema';
+import {
+	UserDeletionRoute,
+	userDeletionRouteSchema,
+} from '../../modules/users/use-cases/user-deletion/user-deletion.schema';
 import {
 	UserDetailsRoute,
 	userDetailsRouteSchema,
@@ -134,6 +139,14 @@ export async function routes(app: FastifyInstance) {
 			schema: userCreationRouteSchema,
 		},
 		(request, reply) => userCreationController.handle(request, reply)
+	);
+	app.delete<UserDeletionRoute>(
+		'/users/me',
+		{
+			onRequest: [ensureAuthenticated],
+			schema: userDeletionRouteSchema,
+		},
+		(request, reply) => userDeletionController.handle(request, reply)
 	);
 	app.patch<UserProfileUpdateRoute>(
 		'/users/me',

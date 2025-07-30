@@ -6,8 +6,8 @@ import { UserDetailsInputDTO } from './user-details.schema';
 export class UserDetailsUseCase {
 	constructor(private usersRepository: UsersRepository) {}
 
-	async execute({ id }: UserDetailsInputDTO) {
-		const user = await this.usersRepository.findById(id);
+	async execute({ id: userId }: UserDetailsInputDTO) {
+		const user = await this.usersRepository.findById(userId);
 
 		if (!user) {
 			throw new ResourceNotFoundError('User not found.');

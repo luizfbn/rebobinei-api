@@ -30,6 +30,10 @@ export class PrismaUsersRepository implements UsersRepository {
 		return this.toEntity(updatedUser);
 	}
 
+	async delete(id: string) {
+		await prisma.user.delete({ where: { id } });
+	}
+
 	async findById(id: string) {
 		const user = await prisma.user.findUnique({ where: { id } });
 		return this.mapToDomain(user);
