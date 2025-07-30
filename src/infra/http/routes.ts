@@ -158,6 +158,8 @@ export async function routes(app: FastifyInstance) {
 				id: request.user.sub,
 				page: request.query.page,
 				limit: request.query.limit,
+				sort: request.query.sort,
+				rating: request.query.rating,
 			};
 			return reviewListByUserController.handle(data, reply);
 		}
@@ -177,6 +179,8 @@ export async function routes(app: FastifyInstance) {
 				id: request.params.id,
 				page: request.query.page,
 				limit: request.query.limit,
+				sort: request.query.sort,
+				rating: request.query.rating,
 			};
 			return reviewListByUserController.handle(data, reply);
 		}

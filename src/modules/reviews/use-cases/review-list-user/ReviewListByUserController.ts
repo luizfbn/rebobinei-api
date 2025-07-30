@@ -1,4 +1,4 @@
-import { FastifyReply, FastifyRequest } from 'fastify';
+import { FastifyReply } from 'fastify';
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
 import { ReviewListByUserUseCase } from './ReviewListByUserUseCase';
 import { ReviewListByUserInputDTO } from './review-list-user.schema';
@@ -7,7 +7,7 @@ export class ReviewListByUserController {
 	constructor(private reviewListByUserUseCase: ReviewListByUserUseCase) {}
 
 	async handle(
-		{ id, page, limit }: ReviewListByUserInputDTO,
+		{ id, page, limit, sort, rating }: ReviewListByUserInputDTO,
 		reply: FastifyReply
 	) {
 		try {
@@ -15,6 +15,8 @@ export class ReviewListByUserController {
 				id,
 				page,
 				limit,
+				sort,
+				rating,
 			});
 
 			return reply.code(200).send(result);

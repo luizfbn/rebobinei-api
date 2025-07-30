@@ -12,12 +12,14 @@ export class ReviewListByMovieController {
 	) {
 		try {
 			const { id } = request.params;
-			const { page, limit } = request.query;
+			const { page, limit, sort, rating } = request.query;
 
 			const result = await this.reviewListByMovieUseCase.execute({
 				id,
 				page,
 				limit,
+				sort,
+				rating,
 			});
 
 			return reply.code(200).send(result);

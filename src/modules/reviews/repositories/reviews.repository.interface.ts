@@ -1,6 +1,5 @@
 import { Review } from '../entities/review.entity';
 import { Rating } from '../schemas/rating.schema';
-
 import {
 	ReviewCreateInputDTO,
 	ReviewWithUser,
@@ -8,18 +7,22 @@ import {
 	ReviewWithMovie,
 } from './reviews.repository.types';
 
-export interface PaginationParams {
+interface PaginationParams {
 	page: number;
 	limit: number;
+}
+
+export interface FilterOptions {
+	userId?: string;
+	movieId?: string;
+	rating?: Rating;
 }
 
 export interface FindManyParams extends PaginationParams {
 	orderBy: {
 		[key: string]: 'asc' | 'desc';
 	};
-	filter?: {
-		rating?: Rating;
-	};
+	filter: Omit<FilterOptions, 'userId' | 'movieId'>;
 }
 
 export interface ReviewsRepository {
@@ -31,13 +34,11 @@ export interface ReviewsRepository {
 	findMany(params: FindManyParams): Promise<ReviewWithDetails[]>;
 	findManyByMovieId(
 		movieId: string,
-		params: PaginationParams
+		params: FindManyParams
 	): Promise<ReviewWithUser[]>;
 	findManyByUserId(
 		userId: string,
-		params: PaginationParams
+		params: FindManyParams
 	): Promise<ReviewWithMovie[]>;
-	countAll(): Promise<number>;
-	countByMovieId(movieId: string): Promise<number>;
-	countByUserId(userId: string): Promise<number>;
+	count(filter: FilterOptions): Promise<number>;
 }

@@ -17,16 +17,18 @@ export class ReviewListUseCase {
 		const [field, direction] = sort.split('_');
 		const orderBy = { [field]: direction as 'asc' | 'desc' };
 
+		const filter = {
+			rating: rating && isRating(rating) ? rating : undefined,
+		};
+
 		const [reviews, totalResults] = await Promise.all([
 			this.reviewsRepository.findMany({
 				page,
 				limit,
 				orderBy,
-				filter: {
-					rating: rating && isRating(rating) ? rating : undefined,
-				},
+				filter,
 			}),
-			this.reviewsRepository.countAll(),
+			this.reviewsRepository.count(filter),
 		]);
 
 		const reviewsDto = reviews.map(ReviewMapper.toDetailsDTO);

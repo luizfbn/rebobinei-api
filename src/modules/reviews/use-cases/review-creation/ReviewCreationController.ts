@@ -12,12 +12,12 @@ export class ReviewCreationController {
 		reply: FastifyReply
 	) {
 		try {
-			const { id } = request.params;
+			const { id: tmdbId } = request.params;
 			const { rating, comment } = request.body;
 			const userId = request.user.sub;
 
 			await this.reviewCreationUseCase.execute({
-				tmdbId: id,
+				tmdbId,
 				rating,
 				comment,
 				userId,

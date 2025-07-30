@@ -1,8 +1,8 @@
 import { prisma } from '../prisma.service';
 import { Prisma, Review as PrismaReview } from '@prisma/client';
 import {
+	FilterOptions,
 	FindManyParams,
-	PaginationParams,
 	ReviewsRepository,
 } from '../../../../modules/reviews/repositories/reviews.repository.interface';
 import { ReviewCreateInputDTO } from '../../../../modules/reviews/repositories/reviews.repository.types';
@@ -142,11 +142,20 @@ export class PrismaReviewsRepository implements ReviewsRepository {
 		}));
 	}
 
-	async findManyByMovieId(movieId: string, params: PaginationParams) {
-		const { page, limit } = params;
+	async findManyByMovieId(movieId: string, params: FindManyParams) {
+		const { page, limit, orderBy, filter } = params;
+
+		const where: Prisma.ReviewWhereInput = {
+			movieId,
+		};
+
+		if (filter?.rating) {
+			where.rating = filter.rating;
+		}
 
 		const reviews = await prisma.review.findMany({
-			where: { movieId },
+			where,
+			orderBy,
 			take: limit,
 			skip: (page - 1) * limit,
 			include: {
@@ -170,11 +179,20 @@ export class PrismaReviewsRepository implements ReviewsRepository {
 		}));
 	}
 
-	async findManyByUserId(userId: string, params: PaginationParams) {
-		const { page, limit } = params;
+	async findManyByUserId(userId: string, params: FindManyParams) {
+		const { page, limit, orderBy, filter } = params;
+
+		const where: Prisma.ReviewWhereInput = {
+			userId,
+		};
+
+		if (filter?.rating) {
+			where.rating = filter.rating;
+		}
 
 		const reviews = await prisma.review.findMany({
-			where: { userId },
+			where,
+			orderBy,
 			take: limit,
 			skip: (page - 1) * limit,
 			include: {
@@ -201,16 +219,13 @@ export class PrismaReviewsRepository implements ReviewsRepository {
 		}));
 	}
 
-	async countAll() {
-		return await prisma.review.count();
-	}
+	async count(filter: FilterOptions) {
+		const where: Prisma.ReviewWhereInput = {};
+		if (filter.userId) where.userId = filter.userId;
+		if (filter.movieId) where.movieId = filter.movieId;
+		if (filter.rating) where.rating = filter.rating;
 
-	async countByMovieId(movieId: string) {
-		return await prisma.review.count({ where: { movieId } });
-	}
-
-	async countByUserId(userId: string) {
-		return await prisma.review.count({ where: { userId } });
+		return await prisma.review.count({ where });
 	}
 
 	private toEntity(review: PrismaReview) {

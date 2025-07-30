@@ -1,4 +1,3 @@
-import { InvalidCredentialsError } from '../../../../core/errors/invalid-credentials-error';
 import { PermissionDeniedError } from '../../../../core/errors/permission-denied-error';
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
 import { ReviewsRepository } from '../../repositories/reviews.repository.interface';

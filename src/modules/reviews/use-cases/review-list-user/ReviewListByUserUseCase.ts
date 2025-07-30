@@ -4,6 +4,7 @@ import { UsersRepository } from '../../../users/repositories/users.repository.in
 import { ReviewWithMovieOutputDTO } from '../../dtos/review-with-movie.output.dto';
 import { ReviewsRepository } from '../../repositories/reviews.repository.interface';
 import { ReviewMapper } from '../../review.mapper';
+import { isRating } from '../../schemas/rating.schema';
 import { ReviewListByUserInputDTO } from './review-list-user.schema';
 
 export class ReviewListByUserUseCase {
@@ -16,6 +17,8 @@ export class ReviewListByUserUseCase {
 		id: userId,
 		page,
 		limit,
+		sort,
+		rating,
 	}: ReviewListByUserInputDTO): Promise<
 		PaginatedOutputDTO<ReviewWithMovieOutputDTO>
 	> {
@@ -25,9 +28,24 @@ export class ReviewListByUserUseCase {
 			throw new ResourceNotFoundError('User not found.');
 		}
 
+		const [field, direction] = sort.split('_');
+		const orderBy = { [field]: direction as 'asc' | 'desc' };
+
+		const filter = {
+			rating: rating && isRating(rating) ? rating : undefined,
+		};
+
 		const [reviews, totalResults] = await Promise.all([
-			this.reviewsRepository.findManyByUserId(user.id, { page, limit }),
-			this.reviewsRepository.countByUserId(user.id),
+			this.reviewsRepository.findManyByUserId(user.id, {
+				page,
+				limit,
+				orderBy,
+				filter,
+			}),
+			this.reviewsRepository.count({
+				userId: user.id,
+				...filter,
+			}),
 		]);
 
 		const reviewsDto = reviews.map(ReviewMapper.toReviewWithMovieDTO);
