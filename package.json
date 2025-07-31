@@ -4,7 +4,9 @@
 	"main": "index.js",
 	"scripts": {
 		"dev": "tsx watch --env-file .env src/infra/http/server.ts",
-		"db:setup": "npx prisma migrate deploy && npx prisma db seed"
+		"db:dev": "npx prisma migrate dev && npx prisma db seed",
+		"db:prod": "npx prisma migrate deploy && npx prisma db seed",
+		"db:reset": "npx prisma migrate reset --force"
 	},
 	"prisma": {
 		"seed": "tsx prisma/seed.ts"
