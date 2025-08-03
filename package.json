@@ -3,10 +3,19 @@
 	"version": "1.0.0",
 	"main": "index.js",
 	"scripts": {
+		"build": "npm run build:src && npm run build:seed",
+		"build:src": "tsc -p tsconfig.json",
+		"build:seed": "tsc -p tsconfig.seed.json",
+		"start": "node dist/infra/http/server.js",
 		"dev": "tsx watch --env-file .env src/infra/http/server.ts",
 		"db:dev": "npx prisma migrate dev && npx prisma db seed",
-		"db:prod": "npx prisma migrate deploy && npx prisma db seed",
-		"db:reset": "npx prisma migrate reset --force"
+		"db:prod": "npx prisma migrate deploy && npm run seed:prod",
+		"db:reset": "npx prisma migrate reset --force",
+		"seed:prod": "node dist/prisma/seed.js",
+		"compose:dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build",
+		"compose:dev:down": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml down",
+		"compose:prod": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build",
+		"compose:prod:down": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml down"
 	},
 	"prisma": {
 		"seed": "tsx prisma/seed.ts"
