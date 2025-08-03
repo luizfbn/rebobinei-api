@@ -7,7 +7,13 @@ async function main() {
 	console.log('Starting the seed process...');
 
 	const adminEmail = 'admin@admin.com';
-	const plainPassword = process.env.ADMIN_INITIAL_PASSWORD || 'admin';
+	const adminPassword = process.env.ADMIN_INITIAL_PASSWORD;
+
+	if (!adminPassword) {
+		throw new Error(
+			'The variable ADMIN_INITIAL_PASSWORD must be set in the .env file.'
+		);
+	}
 
 	const existingAdmin = await prisma.user.findUnique({
 		where: { email: adminEmail },
@@ -16,7 +22,7 @@ async function main() {
 	if (existingAdmin) {
 		console.log('Admin user already exists. No action needed.');
 	} else {
-		const hashedPassword = await bcrypt.hash(plainPassword, 12);
+		const hashedPassword = await bcrypt.hash(adminPassword, 12);
 		const adminUser = await prisma.user.create({
 			data: {
 				email: adminEmail,
