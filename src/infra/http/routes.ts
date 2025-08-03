@@ -89,7 +89,7 @@ import {
 } from '../../modules/users/use-cases/user-profile-update/user-profile-update.schema';
 
 export async function routes(app: FastifyInstance) {
-	app.get('/', () => 'Hello world');
+	app.get('/', (_, reply) => reply.redirect('/movies'));
 	app.get<MovieListRoute>(
 		'/movies',
 		{
