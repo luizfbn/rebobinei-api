@@ -7,11 +7,10 @@ export class MovieListController {
 
 	async handle(request: FastifyRequest<MovieListRoute>, reply: FastifyReply) {
 		try {
-			const { category, language, page } = request.query;
+			const { category, page } = request.query;
 
 			const result = await this.movieListUseCase.execute({
 				category,
-				language,
 				page,
 			});
 

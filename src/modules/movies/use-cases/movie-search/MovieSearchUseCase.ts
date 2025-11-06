@@ -9,12 +9,11 @@ export class MovieSearchUseCase {
 
 	async execute({
 		query,
-		language,
 		page,
 	}: MovieSearchInputDTO): Promise<PaginatedOutputDTO<MovieListItemOutputDTO>> {
 		const paginatedMovies = await this.moviesProvider.searchByTitle({
 			query,
-			language,
+			language: process.env.LOCALE ?? 'en-US',
 			page,
 		});
 

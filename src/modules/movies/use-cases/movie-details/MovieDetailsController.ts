@@ -12,11 +12,9 @@ export class MovieDetailsController {
 	) {
 		try {
 			const { id } = request.params;
-			const { language } = request.query;
 
 			const result = await this.movieDetailsUseCase.execute({
 				id,
-				language,
 			});
 
 			return reply.code(200).send(result);

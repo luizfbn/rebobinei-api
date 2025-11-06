@@ -36,7 +36,7 @@ export class ReviewCreationUseCase {
 		if (!movie) {
 			const movieFromApi = await this.moviesProvider.getDetailsById({
 				id,
-				language: 'en-US',
+				language: process.env.LOCALE ?? 'en-US',
 			});
 
 			if (!movieFromApi) {

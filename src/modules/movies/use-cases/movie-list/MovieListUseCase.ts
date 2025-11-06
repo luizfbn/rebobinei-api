@@ -12,11 +12,10 @@ export class MovieListUseCase {
 
 	async execute({
 		category,
-		language,
 		page,
 	}: MovieListInputDTO): Promise<PaginatedOutputDTO<MovieListItemOutputDTO>> {
 		let paginatedMovies: PaginatedMovies;
-		const params = { page, language };
+		const params = { page, language: process.env.LOCALE ?? 'en-US' };
 
 		switch (category) {
 			case 'popular':

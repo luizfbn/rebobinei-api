@@ -7,11 +7,10 @@ export class MovieSearchController {
 
 	async handle(request: FastifyRequest<MovieSearchRoute>, reply: FastifyReply) {
 		try {
-			const { query, language, page } = request.query;
+			const { query, page } = request.query;
 
 			const result = await this.movieSearchUseCase.execute({
 				query,
-				language,
 				page,
 			});
 
