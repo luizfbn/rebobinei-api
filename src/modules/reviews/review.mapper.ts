@@ -1,3 +1,4 @@
+import { env } from '../../core/config/env';
 import {
 	ReviewWithUser,
 	ReviewWithDetails,
@@ -30,14 +31,10 @@ export class ReviewMapper {
 				originalTitle: review.movie.originalTitle,
 				overview: review.movie.overview,
 				posterUrl: review.movie.posterPath
-					? `${process.env.TMDB_IMAGE_BASE_URL ?? ''}/w500${
-							review.movie.posterPath
-					  }`
+					? `${env.TMDB_IMAGE_BASE_URL}/w500${review.movie.posterPath}`
 					: null,
 				backdropUrl: review.movie.backdropPath
-					? `${process.env.TMDB_IMAGE_BASE_URL ?? ''}/original${
-							review.movie.backdropPath
-					  }`
+					? `${env.TMDB_IMAGE_BASE_URL}/original${review.movie.backdropPath}`
 					: null,
 			},
 		};
@@ -73,14 +70,10 @@ export class ReviewMapper {
 				originalTitle: review.movie.originalTitle,
 				overview: review.movie.overview,
 				posterUrl: review.movie.posterPath
-					? `${process.env.TMDB_IMAGE_BASE_URL ?? ''}/w500${
-							review.movie.posterPath
-					  }`
+					? `${env.TMDB_IMAGE_BASE_URL}/w500${review.movie.posterPath}`
 					: null,
 				backdropUrl: review.movie.backdropPath
-					? `${process.env.TMDB_IMAGE_BASE_URL ?? ''}/original${
-							review.movie.backdropPath
-					  }`
+					? `${env.TMDB_IMAGE_BASE_URL}/original${review.movie.backdropPath}`
 					: null,
 			},
 		};

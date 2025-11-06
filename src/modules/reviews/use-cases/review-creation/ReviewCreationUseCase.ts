@@ -1,3 +1,4 @@
+import { env } from '../../../../core/config/env';
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
 import { UserAlreadyReviewedError } from '../../../../core/errors/user-already-reviewed-error';
 import { MoviesProvider } from '../../../movies/providers/movies.provider.interface';
@@ -36,7 +37,7 @@ export class ReviewCreationUseCase {
 		if (!movie) {
 			const movieFromApi = await this.moviesProvider.getDetailsById({
 				id,
-				language: process.env.LOCALE ?? 'en-US',
+				language: env.LOCALE,
 			});
 
 			if (!movieFromApi) {

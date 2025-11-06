@@ -1,3 +1,4 @@
+import { env } from '../../core/config/env';
 import { Movie } from './entities/movie.entity';
 import { MovieListItemOutputDTO } from './dtos/movie-list-item.output.dto';
 import { MovieDetailsOutputDTO } from './dtos/movie-details.output.dto';
@@ -17,12 +18,10 @@ export class MovieMapper {
 			overview: movie.overview,
 			releaseDate: movie.releaseDate,
 			posterUrl: movie.posterPath
-				? `${process.env.TMDB_IMAGE_BASE_URL ?? ''}/w500${movie.posterPath}`
+				? `${env.TMDB_IMAGE_BASE_URL}/w500${movie.posterPath}`
 				: null,
 			backdropUrl: movie.backdropPath
-				? `${process.env.TMDB_IMAGE_BASE_URL ?? ''}/original${
-						movie.backdropPath
-				  }`
+				? `${env.TMDB_IMAGE_BASE_URL}/original${movie.backdropPath}`
 				: null,
 		};
 	}
@@ -35,12 +34,10 @@ export class MovieMapper {
 			overview: movie.overview,
 			releaseDate: movie.releaseDate,
 			posterUrl: movie.posterPath
-				? `${process.env.TMDB_IMAGE_BASE_URL ?? ''}/w500${movie.posterPath}`
+				? `${env.TMDB_IMAGE_BASE_URL}/w500${movie.posterPath}`
 				: null,
 			backdropUrl: movie.backdropPath
-				? `${process.env.TMDB_IMAGE_BASE_URL ?? ''}/original${
-						movie.backdropPath
-				  }`
+				? `${env.TMDB_IMAGE_BASE_URL}/original${movie.backdropPath}`
 				: null,
 			runtime: movie.runtime ?? 0,
 			budget: movie.budget ?? 0,

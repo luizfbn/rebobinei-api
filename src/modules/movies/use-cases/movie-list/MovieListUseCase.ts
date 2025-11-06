@@ -1,3 +1,4 @@
+import { env } from '../../../../core/config/env';
 import {
 	MoviesProvider,
 	PaginatedMovies,
@@ -15,7 +16,7 @@ export class MovieListUseCase {
 		page,
 	}: MovieListInputDTO): Promise<PaginatedOutputDTO<MovieListItemOutputDTO>> {
 		let paginatedMovies: PaginatedMovies;
-		const params = { page, language: process.env.LOCALE ?? 'en-US' };
+		const params = { page, language: env.LOCALE };
 
 		switch (category) {
 			case 'popular':

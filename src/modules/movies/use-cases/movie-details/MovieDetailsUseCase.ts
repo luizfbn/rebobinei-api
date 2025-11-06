@@ -1,3 +1,4 @@
+import { env } from '../../../../core/config/env';
 import { MovieMapper } from '../../movie.mapper';
 import { MoviesProvider } from '../../providers/movies.provider.interface';
 import { MovieDetailsInputDTO } from './movie-details.schema';
@@ -9,7 +10,7 @@ export class MovieDetailsUseCase {
 	async execute({ id }: MovieDetailsInputDTO) {
 		const movie = await this.moviesProvider.getDetailsById({
 			id,
-			language: process.env.LOCALE ?? 'en-US',
+			language: env.LOCALE,
 		});
 
 		if (!movie) {

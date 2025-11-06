@@ -1,4 +1,5 @@
 import { isAxiosError } from 'axios';
+import { env } from '../../../core/config/env';
 import { MovieMapper } from '../../../modules/movies/movie.mapper';
 import { tmdbApiClient } from './tmdb-api-client';
 import {
@@ -127,9 +128,7 @@ export class TmdbMoviesProvider implements MoviesProvider {
 				department: director.department,
 				job: director.job,
 				profileUrl: director.profile_path
-					? `${process.env.TMDB_IMAGE_BASE_URL ?? ''}/w500${
-							director.profile_path
-					  }`
+					? `${env.TMDB_IMAGE_BASE_URL}/w500${director.profile_path}`
 					: null,
 			}));
 	}
@@ -140,7 +139,7 @@ export class TmdbMoviesProvider implements MoviesProvider {
 			name: member.name,
 			character: member.character,
 			profileUrl: member.profile_path
-				? `${process.env.TMDB_IMAGE_BASE_URL ?? ''}/w500${member.profile_path}`
+				? `${env.TMDB_IMAGE_BASE_URL}/w500${member.profile_path}`
 				: null,
 		}));
 	}
