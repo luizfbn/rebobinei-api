@@ -3,6 +3,7 @@ import { ResourceNotFoundError } from '../../../../core/errors/resource-not-foun
 import { UserAlreadyExistsError } from '../../../../core/errors/user-already-exists-error';
 import { UserProfileUpdateUseCase } from './UserProfileUpdateUseCase';
 import { UserProfileUpdateRoute } from './user-profile-update.schema';
+import { t } from '../../../../core/i18n';
 
 export class UserProfileUpdateController {
 	constructor(private userProfileUpdateUseCase: UserProfileUpdateUseCase) {}
@@ -32,7 +33,7 @@ export class UserProfileUpdateController {
 			}
 
 			console.error(error);
-			return reply.code(500).send({ error: 'An internal error occurred.' });
+			return reply.code(500).send({ error: t('internalError') });
 		}
 	}
 }

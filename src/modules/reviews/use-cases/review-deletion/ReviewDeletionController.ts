@@ -3,6 +3,7 @@ import { ReviewDeletionRoute } from './review-deletion.schema';
 import { ReviewDeletionUseCase } from './ReviewDeletionUseCase';
 import { PermissionDeniedError } from '../../../../core/errors/permission-denied-error';
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
+import { t } from '../../../../core/i18n';
 
 export class ReviewDeletionController {
 	constructor(private reviewDeletionUseCase: ReviewDeletionUseCase) {}
@@ -31,7 +32,7 @@ export class ReviewDeletionController {
 			}
 
 			console.error(error);
-			return reply.code(500).send({ error: 'An internal error occurred.' });
+			return reply.code(500).send({ error: t('internalError') });
 		}
 	}
 }

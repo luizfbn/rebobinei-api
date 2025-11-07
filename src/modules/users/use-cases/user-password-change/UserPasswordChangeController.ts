@@ -3,6 +3,7 @@ import { UserPasswordChangeUseCase } from './UserPasswordChangeUseCase';
 import { InvalidCredentialsError } from '../../../../core/errors/invalid-credentials-error';
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
 import { UserPasswordChangeRoute } from './user-password-change.schema';
+import { t } from '../../../../core/i18n';
 
 export class UserPasswordChangeController {
 	constructor(private userPasswordChangeUseCase: UserPasswordChangeUseCase) {}
@@ -39,7 +40,7 @@ export class UserPasswordChangeController {
 			}
 
 			console.error(error);
-			return reply.code(500).send({ error: 'An internal error occurred.' });
+			return reply.code(500).send({ error: t('internalError') });
 		}
 	}
 }

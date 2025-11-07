@@ -2,6 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { UserDetailsUseCase } from './UserDetailsUseCase';
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
 import { UserDetailsRoute } from './user-details.schema';
+import { t } from '../../../../core/i18n';
 
 export class UserDetailsController {
 	constructor(private userDetailsUseCase: UserDetailsUseCase) {}
@@ -19,7 +20,7 @@ export class UserDetailsController {
 			}
 
 			console.error(error);
-			return reply.code(500).send({ error: 'An internal error occurred.' });
+			return reply.code(500).send({ error: t('internalError') });
 		}
 	}
 }

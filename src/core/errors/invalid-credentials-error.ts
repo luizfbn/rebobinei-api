@@ -1,5 +1,7 @@
+import { t } from '../i18n';
+
 export class InvalidCredentialsError extends Error {
-	constructor(message: string = 'Invalid credentials.') {
+	constructor(message: string = t('invalidCredentials')) {
 		super(message);
 	}
 }

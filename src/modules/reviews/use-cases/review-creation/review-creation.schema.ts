@@ -1,11 +1,12 @@
 import { z } from 'zod';
+import { t } from '../../../../core/i18n';
 import { ratingBodySchema } from '../../schemas/rating.schema';
 
 const paramsSchema = z.object({
 	id: z.coerce
 		.number()
 		.int()
-		.positive({ error: 'Movie ID must be a positive number.' }),
+		.positive({ error: t('movieIdPositive') }),
 });
 
 const bodySchema = z.object({

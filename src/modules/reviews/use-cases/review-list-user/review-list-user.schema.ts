@@ -1,10 +1,11 @@
 import { z } from 'zod';
+import { t } from '../../../../core/i18n';
 import { paginationSchema } from '../../../../core/schemas/pagination.schema';
 import { sortSchema } from '../../schemas/sort.schema';
 import { ratingQuerySchema } from '../../schemas/rating.schema';
 
 const paramsSchema = z.object({
-	id: z.string().min(1, { error: 'Invalid id parameter.' }),
+	id: z.string().min(1, { error: t('invalidIdParam') }),
 });
 
 const querySchema = paginationSchema.extend({

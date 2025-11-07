@@ -3,6 +3,7 @@ import { ReviewCreationUseCase } from './ReviewCreationUseCase';
 import { ReviewCreationRoute } from './review-creation.schema';
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
 import { UserAlreadyReviewedError } from '../../../../core/errors/user-already-reviewed-error';
+import { t } from '../../../../core/i18n';
 
 export class ReviewCreationController {
 	constructor(private reviewCreationUseCase: ReviewCreationUseCase) {}
@@ -33,7 +34,7 @@ export class ReviewCreationController {
 			}
 
 			console.error(error);
-			return reply.code(500).send({ error: 'An internal error occurred.' });
+			return reply.code(500).send({ error: t('internalError') });
 		}
 	}
 }

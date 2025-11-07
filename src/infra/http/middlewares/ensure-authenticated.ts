@@ -1,4 +1,5 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
+import { t } from '../../../core/i18n';
 
 export async function ensureAuthenticated(
 	request: FastifyRequest,
@@ -7,6 +8,6 @@ export async function ensureAuthenticated(
 	try {
 		await request.jwtVerify();
 	} catch (err) {
-		reply.code(401).send({ error: 'Invalid or missing authentication token.' });
+		reply.code(401).send({ error: t('invalidAuthToken') });
 	}
 }

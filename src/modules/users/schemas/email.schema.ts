@@ -1,3 +1,4 @@
 import { z } from 'zod';
+import { t } from '../../../core/i18n';
 
-export const emailSchema = z.email({ error: 'Invalid email format.' });
+export const emailSchema = z.email({ error: t('invalidEmailFormat') });

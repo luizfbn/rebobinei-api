@@ -1,5 +1,5 @@
 import { z } from 'zod';
+import { t } from '../../../core/i18n';
 
-export const passwordSchema = (
-	error: string = 'The password must be at least 6 characters long.'
-) => z.string().min(6, { error });
+export const passwordSchema = (error: string = t('passwordMinLength')) =>
+	z.string().min(6, { error });

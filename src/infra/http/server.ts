@@ -7,6 +7,7 @@ import {
 	validatorCompiler,
 	ZodTypeProvider,
 } from 'fastify-type-provider-zod';
+import { setupZodI18n } from '../../core/i18n/zod-i18n';
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -21,6 +22,7 @@ app.register(routes);
 
 const start = async () => {
 	try {
+		setupZodI18n();
 		const address = await app.listen({
 			host: '0.0.0.0',
 			port: env.APP_PORT,

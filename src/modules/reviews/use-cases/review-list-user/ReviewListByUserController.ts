@@ -2,6 +2,7 @@ import { FastifyReply } from 'fastify';
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
 import { ReviewListByUserUseCase } from './ReviewListByUserUseCase';
 import { ReviewListByUserInputDTO } from './review-list-user.schema';
+import { t } from '../../../../core/i18n';
 
 export class ReviewListByUserController {
 	constructor(private reviewListByUserUseCase: ReviewListByUserUseCase) {}
@@ -26,7 +27,7 @@ export class ReviewListByUserController {
 			}
 
 			console.error(error);
-			return reply.code(500).send({ error: 'An internal error occurred.' });
+			return reply.code(500).send({ error: t('internalError') });
 		}
 	}
 }

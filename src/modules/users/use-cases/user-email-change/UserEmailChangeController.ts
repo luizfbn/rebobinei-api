@@ -4,6 +4,7 @@ import { InvalidCredentialsError } from '../../../../core/errors/invalid-credent
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
 import { UserAlreadyExistsError } from '../../../../core/errors/user-already-exists-error';
 import { UserEmailChangeRoute } from './user-email-change.schema';
+import { t } from '../../../../core/i18n';
 
 export class UserEmailChangeController {
 	constructor(private userEmailChangeUseCase: UserEmailChangeUseCase) {}
@@ -32,7 +33,7 @@ export class UserEmailChangeController {
 			}
 
 			console.error(error);
-			return reply.code(500).send({ error: 'An internal error occurred.' });
+			return reply.code(500).send({ error: t('internalError') });
 		}
 	}
 }

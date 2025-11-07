@@ -1,6 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { MovieListUseCase } from './MovieListUseCase';
 import { MovieListRoute } from './movie-list.schema';
+import { t } from '../../../../core/i18n';
 
 export class MovieListController {
 	constructor(private movieListUseCase: MovieListUseCase) {}
@@ -17,7 +18,7 @@ export class MovieListController {
 			return reply.code(200).send(result);
 		} catch (error) {
 			console.error(error);
-			return reply.code(500).send({ error: 'An internal error occurred.' });
+			return reply.code(500).send({ error: t('internalError') });
 		}
 	}
 }

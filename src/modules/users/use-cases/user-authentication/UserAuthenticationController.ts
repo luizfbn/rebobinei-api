@@ -2,6 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { UserAuthenticationUseCase } from './UserAuthenticationUseCase';
 import { UserAuthenticationRoute } from './user-authentication.schema';
 import { InvalidCredentialsError } from '../../../../core/errors/invalid-credentials-error';
+import { t } from '../../../../core/i18n';
 
 export class UserAuthenticationController {
 	constructor(private userAuthenticationUseCase: UserAuthenticationUseCase) {}
@@ -39,7 +40,7 @@ export class UserAuthenticationController {
 			}
 
 			console.error(error);
-			return reply.code(500).send({ error: 'An internal error occurred.' });
+			return reply.code(500).send({ error: t('internalError') });
 		}
 	}
 }

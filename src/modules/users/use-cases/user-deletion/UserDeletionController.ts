@@ -3,6 +3,7 @@ import { ResourceNotFoundError } from '../../../../core/errors/resource-not-foun
 import { UserDeletionUseCase } from './UserDeletionUseCase';
 import { UserDeletionRoute } from './user-deletion.schema';
 import { InvalidCredentialsError } from '../../../../core/errors/invalid-credentials-error';
+import { t } from '../../../../core/i18n';
 
 export class UserDeletionController {
 	constructor(private userDeletionUseCase: UserDeletionUseCase) {}
@@ -30,7 +31,7 @@ export class UserDeletionController {
 			}
 
 			console.error(error);
-			return reply.code(500).send({ error: 'An internal error occurred.' });
+			return reply.code(500).send({ error: t('internalError') });
 		}
 	}
 }

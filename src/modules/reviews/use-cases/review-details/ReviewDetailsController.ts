@@ -2,6 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
 import { ReviewDetailsUseCase } from './ReviewDetailsUseCase';
 import { ReviewDetailsRoute } from './review-details.schema';
+import { t } from '../../../../core/i18n';
 
 export class ReviewDetailsController {
 	constructor(private reviewDetailsUseCase: ReviewDetailsUseCase) {}
@@ -24,7 +25,7 @@ export class ReviewDetailsController {
 			}
 
 			console.error(error);
-			return reply.code(500).send({ error: 'An internal error occurred.' });
+			return reply.code(500).send({ error: t('internalError') });
 		}
 	}
 }

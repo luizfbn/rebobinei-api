@@ -1,15 +1,16 @@
 import { z } from 'zod';
+import { t } from '../i18n';
 
 export const paginationSchema = z.object({
 	page: z.coerce
-		.number({ error: 'A number is required for page.' })
-		.int({ error: 'Page number must be an integer.' })
-		.min(1, { error: 'The minimum page number is 1.' })
+		.number({ error: t('pageRequiredNumber') })
+		.int({ error: t('pageMustBeInteger') })
+		.min(1, { error: t('pageMin') })
 		.default(1),
 	limit: z.coerce
-		.number({ error: 'A number is required for limit.' })
-		.int({ error: 'Items per page must be an integer.' })
-		.min(1, { error: 'The minimum number of items per page is 1.' })
-		.max(100, { error: 'The maximum number of items per page is 100.' })
+		.number({ error: t('pageLimitRequiredNumber') })
+		.int({ error: t('pageLimitMustBeInteger') })
+		.min(1, { error: t('pageLimitMin') })
+		.max(100, { error: t('pageLimitMax') })
 		.default(20),
 });

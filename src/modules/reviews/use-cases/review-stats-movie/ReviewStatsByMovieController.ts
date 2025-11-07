@@ -2,6 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { ReviewStatsByMovieUseCase } from './ReviewStatsByMovieUseCase';
 import { ReviewStatsByMovieRoute } from './review-stats-movie.schema';
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
+import { t } from '../../../../core/i18n';
 
 export class ReviewStatsByMovieController {
 	constructor(private reviewStatsByMovieUseCase: ReviewStatsByMovieUseCase) {}
@@ -24,7 +25,7 @@ export class ReviewStatsByMovieController {
 			}
 
 			console.error(error);
-			return reply.code(500).send({ error: 'An internal error occurred.' });
+			return reply.code(500).send({ error: t('internalError') });
 		}
 	}
 }

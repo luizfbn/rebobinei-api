@@ -1,12 +1,12 @@
 import { z } from 'zod';
+import { t } from '../../../core/i18n';
 
 const usernameRegex = /^[a-zA-Z0-9_]+$/;
 
 export const usernameSchema = z
 	.string()
-	.min(3, { error: 'Username must be at least 3 characters long.' })
-	.max(15, { error: 'Username cannot be longer than 15 characters.' })
+	.min(3, { error: t('usernameMinLength') })
+	.max(15, { error: t('usernameMaxLength') })
 	.regex(usernameRegex, {
-		error:
-			'Username can only contain letters, numbers, and underscores (no spaces).',
+		error: t('usernameRegex'),
 	});

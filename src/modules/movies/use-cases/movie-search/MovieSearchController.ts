@@ -1,6 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { MovieSearchUseCase } from './MovieSearchUseCase';
 import { MovieSearchRoute } from './movie-search.schema';
+import { t } from '../../../../core/i18n';
 
 export class MovieSearchController {
 	constructor(private movieSearchUseCase: MovieSearchUseCase) {}
@@ -17,7 +18,7 @@ export class MovieSearchController {
 			return reply.code(200).send(result);
 		} catch (error) {
 			console.error(error);
-			return reply.code(500).send({ error: 'An internal error occurred.' });
+			return reply.code(500).send({ error: t('internalError') });
 		}
 	}
 }
