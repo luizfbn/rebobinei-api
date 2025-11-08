@@ -31,7 +31,10 @@ export interface ReviewsRepository {
 	delete(id: string): Promise<void>;
 	findById(id: string): Promise<Review | null>;
 	findDetailsById(id: string): Promise<ReviewWithDetails | null>;
-	findByUserAndMovieId(userId: string, movieId: string): Promise<Review | null>;
+	findByUserAndMovieId(
+		userId: string,
+		movieId: string
+	): Promise<ReviewWithDetails | null>;
 	findMany(params: FindManyParams): Promise<ReviewWithDetails[]>;
 	findManyByMovieId(
 		movieId: string,

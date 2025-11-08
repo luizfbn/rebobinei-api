@@ -87,13 +87,40 @@ export class PrismaReviewsRepository implements ReviewsRepository {
 					movieId,
 				},
 			},
+			include: {
+				movie: {
+					select: {
+						tmdbId: true,
+						title: true,
+						originalTitle: true,
+						overview: true,
+						posterPath: true,
+						backdropPath: true,
+					},
+				},
+				user: {
+					select: {
+						id: true,
+						name: true,
+						username: true,
+					},
+				},
+			},
 		});
 
 		if (!review) {
 			return null;
 		}
 
-		return this.toEntity(review);
+		return {
+			id: review.id,
+			rating: review.rating as Rating,
+			comment: review.comment,
+			createdAt: review.createdAt,
+			updatedAt: review.updatedAt,
+			user: review.user,
+			movie: review.movie,
+		};
 	}
 
 	async findMany(params: FindManyParams) {
