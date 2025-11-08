@@ -8,7 +8,7 @@ const querySchema = paginationSchema.extend({
 	rating: ratingQuerySchema.optional(),
 });
 
-export const reviewListUserSchema = {
+export const reviewListRouteSchema = {
 	querystring: querySchema,
 };
 
