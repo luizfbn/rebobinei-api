@@ -1,10 +1,14 @@
 import { z } from 'zod';
+import { t } from '../../../../core/i18n';
 import { paginationSchema } from '../../../../core/schemas/pagination.schema';
 import { sortSchema } from '../../schemas/sort.schema';
 import { ratingQuerySchema } from '../../schemas/rating.schema';
 
 const paramsSchema = z.object({
-	id: z.coerce.number().int().positive(),
+	id: z.coerce
+		.number()
+		.int()
+		.positive({ error: t('movieIdPositive') }),
 });
 
 const querySchema = paginationSchema.extend({

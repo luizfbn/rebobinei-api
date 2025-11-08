@@ -5,7 +5,7 @@ import { sortSchema } from '../../schemas/sort.schema';
 import { ratingQuerySchema } from '../../schemas/rating.schema';
 
 const paramsSchema = z.object({
-	id: z.string().min(1, { error: t('invalidIdParam') }),
+	id: z.string().nonempty({ error: t('invalidUserId') }),
 });
 
 const querySchema = paginationSchema.extend({

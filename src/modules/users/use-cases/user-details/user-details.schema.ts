@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { t } from '../../../../core/i18n';
 
 const paramsSchema = z.object({
-	id: z.string().min(1, { error: t('invalidIdParam') }),
+	id: z.string().nonempty({ error: t('invalidUserId') }),
 });
 
 export const userDetailsRouteSchema = {

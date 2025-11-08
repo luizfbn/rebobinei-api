@@ -26,11 +26,11 @@ export const messages = {
 		// movie id
 		movieIdPositive: 'Movie ID must be a positive number.',
 
-		// id param
-		invalidIdParam: 'Invalid ID parameter.',
+		// user id
+		invalidUserId: 'Invalid user ID.',
 
-		// query param
-		invalidQueryParam: 'Invalid query parameter.',
+		// review id
+		invalidReviewId: 'Invalid review ID.',
 
 		// rating body
 		ratingMustBeInteger1To5: 'Rating must be an integer from 1 to 5.',
@@ -84,11 +84,11 @@ export const messages = {
 		// movie id
 		movieIdPositive: 'O ID do filme deve ser um número positivo.',
 
-		// id param
-		invalidIdParam: 'Parâmetro de ID inválido.',
+		// user id
+		invalidUserId: 'ID do usuário inválido.',
 
-		// query param
-		invalidQueryParam: 'Parâmetro de busca inválido.',
+		// review id
+		invalidReviewId: 'ID da avaliação inválido.',
 
 		// rating body
 		ratingMustBeInteger1To5: 'A avaliação deve ser um inteiro de 1 a 5.',
