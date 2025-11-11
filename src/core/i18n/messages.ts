@@ -1,5 +1,8 @@
 export const messages = {
 	'en-US': {
+		loginSuccess: 'Login successful.',
+		logoutSuccess: 'Logout successful.',
+
 		/* ERRORS */
 
 		invalidAuthToken: 'Invalid or missing authentication token.',
@@ -58,6 +61,9 @@ export const messages = {
 			'Username can only contain letters, numbers, and underscores (no spaces).',
 	},
 	'pt-BR': {
+		loginSuccess: 'Login realizado com sucesso.',
+		logoutSuccess: 'Logout realizado com sucesso.',
+
 		/* ERRORS */
 
 		invalidAuthToken: 'Token de autenticação inválido ou ausente.',

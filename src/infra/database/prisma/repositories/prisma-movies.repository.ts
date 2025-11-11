@@ -101,8 +101,8 @@ export class PrismaMoviesRepository implements MoviesRepository {
 				return data as T[];
 			}
 			return [];
-		} catch (e) {
-			console.error('Failed to parse JSON field:', e);
+		} catch (error) {
+			console.error('Failed to parse JSON field:', error);
 			return [];
 		}
 	}

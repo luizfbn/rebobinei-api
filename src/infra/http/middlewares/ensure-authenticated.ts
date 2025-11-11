@@ -7,7 +7,7 @@ export async function ensureAuthenticated(
 ) {
 	try {
 		await request.jwtVerify();
-	} catch (err) {
+	} catch (error) {
 		reply.code(401).send({ error: t('invalidAuthToken') });
 	}
 }

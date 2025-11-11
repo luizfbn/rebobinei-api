@@ -1,13 +1,13 @@
 import bcrypt from 'bcryptjs';
-import { UsersRepository } from '../../repositories/users.repository.interface';
-import { UserAuthenticationInputDTO } from './user-authentication.schema';
+import { UsersRepository } from '../../../users/repositories/users.repository.interface';
+import { AuthLoginInputDTO } from './auth-login.schema';
 import { InvalidCredentialsError } from '../../../../core/errors/invalid-credentials-error';
-import { UserMapper } from '../../user.mapper';
+import { UserMapper } from '../../../users/user.mapper';
 
-export class UserAuthenticationUseCase {
+export class AuthLoginUseCase {
 	constructor(private usersRepository: UsersRepository) {}
 
-	async execute({ email, password }: UserAuthenticationInputDTO) {
+	async execute({ email, password }: AuthLoginInputDTO) {
 		const user = await this.usersRepository.findByEmail(email);
 
 		if (!user) {

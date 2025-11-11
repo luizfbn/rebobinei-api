@@ -1,7 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import { ensureAuthenticated } from '../middlewares/ensure-authenticated';
 import { reviewListByUserController } from '../../../modules/reviews/use-cases/review-list-user/review-list-user.factory';
-import { userAuthenticationController } from '../../../modules/users/use-cases/user-authentication/user-authentication.factory';
 import { userCreationController } from '../../../modules/users/use-cases/user-creation/user-creation.factory';
 import { userDeletionController } from '../../../modules/users/use-cases/user-deletion/user-deletion.factory';
 import { userDetailsController } from '../../../modules/users/use-cases/user-details/user-details.factory';
@@ -14,10 +13,6 @@ import {
 	ReviewListByUserRoute,
 	reviewListByUserSchema,
 } from '../../../modules/reviews/use-cases/review-list-user/review-list-user.schema';
-import {
-	UserAuthenticationRoute,
-	userAuthenticationRouteSchema,
-} from '../../../modules/users/use-cases/user-authentication/user-authentication.schema';
 import {
 	UserCreationRoute,
 	userCreationRouteSchema,
@@ -120,12 +115,5 @@ export async function userRoutes(app: FastifyInstance) {
 			};
 			return reviewListByUserController.handle(data, reply);
 		}
-	);
-	app.post<UserAuthenticationRoute>(
-		'/login',
-		{
-			schema: userAuthenticationRouteSchema,
-		},
-		(request, reply) => userAuthenticationController.handle(request, reply)
 	);
 }

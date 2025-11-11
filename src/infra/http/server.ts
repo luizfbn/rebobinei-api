@@ -1,4 +1,5 @@
 import fastify from 'fastify';
+import fastifyCookie from '@fastify/cookie';
 import fastifyJwt from '@fastify/jwt';
 import { routes } from './routes';
 import { env } from '../../core/config/env';
@@ -14,8 +15,16 @@ const app = fastify().withTypeProvider<ZodTypeProvider>();
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
 
+app.register(fastifyCookie, {
+	secret: env.COOKIE_SECRET,
+});
+
 app.register(fastifyJwt, {
 	secret: env.JWT_SECRET,
+	cookie: {
+		cookieName: 'access_token',
+		signed: false,
+	},
 });
 
 app.register(routes);
@@ -28,8 +37,8 @@ const start = async () => {
 			port: env.APP_PORT,
 		});
 		console.log(`Server listening on ${address}`);
-	} catch (err) {
-		app.log.error(err);
+	} catch (error) {
+		app.log.error(error);
 		process.exit(1);
 	}
 };

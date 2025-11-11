@@ -1,30 +1,23 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { UserAuthenticationUseCase } from './UserAuthenticationUseCase';
-import { UserAuthenticationRoute } from './user-authentication.schema';
+import { AuthLoginUseCase } from './AuthLoginUseCase';
+import { AuthLoginRoute } from './auth-login.schema';
 import { InvalidCredentialsError } from '../../../../core/errors/invalid-credentials-error';
 import { t } from '../../../../core/i18n';
 
-export class UserAuthenticationController {
-	constructor(private userAuthenticationUseCase: UserAuthenticationUseCase) {}
+export class AuthLoginController {
+	constructor(private authLoginUseCase: AuthLoginUseCase) {}
 
-	async handle(
-		request: FastifyRequest<UserAuthenticationRoute>,
-		reply: FastifyReply
-	) {
+	async handle(request: FastifyRequest<AuthLoginRoute>, reply: FastifyReply) {
 		try {
 			const { email, password } = request.body;
 
-			const user = await this.userAuthenticationUseCase.execute({
+			const user = await this.authLoginUseCase.execute({
 				email,
 				password,
 			});
 
 			const token = await reply.jwtSign(
-				{
-					role: user.role,
-					name: user.name,
-					username: user.username,
-				},
+				{},
 				{
 					sign: {
 						sub: user.id,
@@ -33,7 +26,16 @@ export class UserAuthenticationController {
 				}
 			);
 
-			return reply.code(200).send({ token });
+			return reply
+				.setCookie('access_token', token, {
+					path: '/',
+					httpOnly: true,
+					secure: true,
+					sameSite: 'strict',
+					maxAge: 60 * 60 * 24 * 7, // 7 days
+				})
+				.code(200)
+				.send({ message: t('loginSuccess') });
 		} catch (error) {
 			if (error instanceof InvalidCredentialsError) {
 				return reply.code(401).send({ error: error.message });
