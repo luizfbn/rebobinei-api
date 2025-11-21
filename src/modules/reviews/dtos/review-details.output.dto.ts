@@ -1,7 +1,11 @@
-import { Review } from '../entities/review.entity';
+import { Rating } from '../schemas/rating.schema';
 
-export interface ReviewDetailsOutputDTO
-	extends Omit<Review, 'userId' | 'movieId'> {
+export interface ReviewDetailsOutputDTO {
+	id: string;
+	rating: Rating;
+	comment: string | null;
+	createdAt: Date;
+	updatedAt: Date;
 	author: {
 		id: string;
 		name: string;
