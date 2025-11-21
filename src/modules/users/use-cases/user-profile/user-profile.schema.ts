@@ -5,12 +5,12 @@ const paramsSchema = z.object({
 	id: z.string().nonempty({ error: t('invalidUserId') }),
 });
 
-export const userDetailsRouteSchema = {
+export const userProfileRouteSchema = {
 	params: paramsSchema,
 };
 
-export interface UserDetailsRoute {
+export interface UserProfileRoute {
 	Params: z.infer<typeof paramsSchema>;
 }
 
-export type UserDetailsInputDTO = z.infer<typeof paramsSchema>;
+export type UserProfileInputDTO = z.infer<typeof paramsSchema>;

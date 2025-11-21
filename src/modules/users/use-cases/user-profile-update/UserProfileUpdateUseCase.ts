@@ -30,6 +30,6 @@ export class UserProfileUpdateUseCase {
 			username,
 		});
 
-		return UserMapper.toDetailsDTO(updatedUser);
+		return UserMapper.toProfileDTO(updatedUser);
 	}
 }

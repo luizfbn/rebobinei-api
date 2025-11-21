@@ -1,17 +1,16 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { UserDetailsUseCase } from './UserDetailsUseCase';
+import { AuthCurrentUserUseCase } from './AuthCurrentUserUseCase';
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
-import { UserDetailsRoute } from './user-details.schema';
 import { t } from '../../../../core/i18n';
 
-export class UserDetailsController {
-	constructor(private userDetailsUseCase: UserDetailsUseCase) {}
+export class AuthCurrentUserController {
+	constructor(private authCurrentUserUseCase: AuthCurrentUserUseCase) {}
 
-	async handle(request: FastifyRequest<UserDetailsRoute>, reply: FastifyReply) {
+	async handle(request: FastifyRequest, reply: FastifyReply) {
 		try {
-			const { id } = request.params;
+			const id = request.user.sub;
 
-			const result = await this.userDetailsUseCase.execute({ id });
+			const result = await this.authCurrentUserUseCase.execute({ id });
 
 			return reply.code(200).send(result);
 		} catch (error) {
