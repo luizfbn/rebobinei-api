@@ -1,6 +1,7 @@
 import fastify from 'fastify';
 import fastifyCookie from '@fastify/cookie';
 import fastifyJwt from '@fastify/jwt';
+import cors from '@fastify/cors';
 import { routes } from './routes';
 import { env } from '../../core/config/env';
 import {
@@ -14,6 +15,11 @@ const app = fastify().withTypeProvider<ZodTypeProvider>();
 
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
+
+app.register(cors, {
+	origin: true,
+	credentials: true,
+});
 
 app.register(fastifyCookie, {
 	secret: env.COOKIE_SECRET,
