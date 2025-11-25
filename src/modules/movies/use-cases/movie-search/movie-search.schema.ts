@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { tmdbPaginationSchema } from '../../../../core/schemas/tmdb-pagination.schema';
 
 const querySchema = tmdbPaginationSchema.extend({
-	query: z.string().nonempty(),
+	q: z.string().nonempty(),
 });
 
 export const movieSearchRouteSchema = {

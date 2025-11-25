@@ -9,7 +9,7 @@ export class MovieSearchUseCase {
 	constructor(private moviesProvider: MoviesProvider) {}
 
 	async execute({
-		query,
+		q: query,
 		page,
 	}: MovieSearchInputDTO): Promise<PaginatedOutputDTO<MovieListItemOutputDTO>> {
 		const paginatedMovies = await this.moviesProvider.searchByTitle({
