@@ -18,6 +18,7 @@ app.setSerializerCompiler(serializerCompiler);
 
 app.register(cors, {
 	origin: true,
+	methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
 	credentials: true,
 });
 
