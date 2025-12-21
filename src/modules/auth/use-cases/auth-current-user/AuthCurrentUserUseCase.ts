@@ -2,6 +2,7 @@ import { ResourceNotFoundError } from '../../../../core/errors/resource-not-foun
 import { UsersRepository } from '../../../users/repositories/users.repository.interface';
 import { UserMapper } from '../../../users/user.mapper';
 import { AuthCurrentUserInputDTO } from './auth-current-user.schema';
+import { t } from '../../../../core/i18n';
 
 export class AuthCurrentUserUseCase {
 	constructor(private usersRepository: UsersRepository) {}
@@ -10,7 +11,7 @@ export class AuthCurrentUserUseCase {
 		const user = await this.usersRepository.findById(userId);
 
 		if (!user) {
-			throw new ResourceNotFoundError('User not found.');
+			throw new ResourceNotFoundError(t('userNotFound'));
 		}
 
 		return UserMapper.toDetailsDTO(user);

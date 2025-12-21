@@ -4,6 +4,7 @@ import { InvalidCredentialsError } from '../../../../core/errors/invalid-credent
 import { UsersRepository } from '../../repositories/users.repository.interface';
 import { UserEmailChangeInputDTO } from './user-email-change.schema';
 import { UserAlreadyExistsError } from '../../../../core/errors/user-already-exists-error';
+import { t } from '../../../../core/i18n';
 
 export class UserEmailChangeUseCase {
 	constructor(private usersRepository: UsersRepository) {}
@@ -12,19 +13,17 @@ export class UserEmailChangeUseCase {
 		const user = await this.usersRepository.findById(userId);
 
 		if (!user) {
-			throw new ResourceNotFoundError('User not found.');
+			throw new ResourceNotFoundError(t('userNotFound'));
 		}
 
 		const userWithSameEmail = await this.usersRepository.findByEmail(newEmail);
 		if (userWithSameEmail) {
-			throw new UserAlreadyExistsError(
-				'An user with this email already exists.'
-			);
+			throw new UserAlreadyExistsError(t('userWithEmailAlreadyExists'));
 		}
 
 		const doesPasswordMatch = await bcrypt.compare(password, user.password);
 		if (!doesPasswordMatch) {
-			throw new InvalidCredentialsError('The password is incorrect.');
+			throw new InvalidCredentialsError(t('wrongPassword'));
 		}
 
 		await this.usersRepository.update(userId, { email: newEmail });

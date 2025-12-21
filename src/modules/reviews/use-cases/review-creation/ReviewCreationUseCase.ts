@@ -5,6 +5,7 @@ import { MoviesProvider } from '../../../movies/providers/movies.provider.interf
 import { MoviesRepository } from '../../../movies/repositories/movies.repository.interface';
 import { ReviewsRepository } from '../../repositories/reviews.repository.interface';
 import { ReviewCreationInputDTO } from './review-creation.schema';
+import { t } from '../../../../core/i18n';
 
 export class ReviewCreationUseCase {
 	constructor(
@@ -41,7 +42,7 @@ export class ReviewCreationUseCase {
 			});
 
 			if (!movieFromApi) {
-				throw new ResourceNotFoundError('Movie not found.');
+				throw new ResourceNotFoundError(t('movieNotFound'));
 			}
 
 			movie = await this.moviesRepository.create(movieFromApi);

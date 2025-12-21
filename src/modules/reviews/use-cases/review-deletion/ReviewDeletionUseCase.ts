@@ -2,6 +2,7 @@ import { PermissionDeniedError } from '../../../../core/errors/permission-denied
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
 import { ReviewsRepository } from '../../repositories/reviews.repository.interface';
 import { ReviewDeletionInputDTO } from './review-deletion.schema';
+import { t } from '../../../../core/i18n';
 
 export class ReviewDeletionUseCase {
 	constructor(private reviewsRepository: ReviewsRepository) {}
@@ -10,7 +11,7 @@ export class ReviewDeletionUseCase {
 		const review = await this.reviewsRepository.findById(id);
 
 		if (!review) {
-			throw new ResourceNotFoundError('Review not found.');
+			throw new ResourceNotFoundError(t('reviewNotFound'));
 		}
 
 		const isOwner = userId === review.userId;

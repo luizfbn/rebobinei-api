@@ -1,9 +1,9 @@
 import { z } from 'zod';
-import { passwordSchema } from '../../schemas/password.schema';
+import { t } from '../../../../core/i18n';
 import { emailSchema } from '../../schemas/email.schema';
 
 const bodySchema = z.object({
-	password: passwordSchema(),
+	password: z.string().nonempty({ error: t('invalidPassword') }),
 	newEmail: emailSchema,
 });
 

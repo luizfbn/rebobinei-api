@@ -1,13 +1,16 @@
 import { z } from 'zod';
+import { t } from '../../../../core/i18n';
 import { passwordSchema } from '../../schemas/password.schema';
 
 const bodySchema = z.object({
-	currentPassword: passwordSchema(),
+	currentPassword: z.string().nonempty({ error: t('invalidPassword') }),
 	newPassword: passwordSchema(
-		'The new password must be at least 6 characters long.'
+		t('newPasswordMinLength'),
+		t('newPasswordMaxLength')
 	),
 	passwordConfirmation: passwordSchema(
-		'The password confirmation must be at least 6 characters long.'
+		t('passwordConfirmationMinLength'),
+		t('passwordConfirmationMaxLength')
 	),
 });
 

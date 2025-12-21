@@ -3,6 +3,7 @@ import { InvalidCredentialsError } from '../../../../core/errors/invalid-credent
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
 import { UsersRepository } from '../../repositories/users.repository.interface';
 import { UserPasswordChangeInputDTO } from './user-password-change.schema';
+import { t } from '../../../../core/i18n';
 
 export class UserPasswordChangeUseCase {
 	constructor(private usersRepository: UsersRepository) {}
@@ -15,7 +16,7 @@ export class UserPasswordChangeUseCase {
 		const user = await this.usersRepository.findById(userId);
 
 		if (!user) {
-			throw new ResourceNotFoundError('User not found.');
+			throw new ResourceNotFoundError(t('userNotFound'));
 		}
 
 		const doesCurrentPasswordMatch = await bcrypt.compare(
@@ -23,7 +24,7 @@ export class UserPasswordChangeUseCase {
 			user.password
 		);
 		if (!doesCurrentPasswordMatch) {
-			throw new InvalidCredentialsError('The current password is incorrect.');
+			throw new InvalidCredentialsError(t('wrongPassword'));
 		}
 
 		const newHashedPassword = await bcrypt.hash(newPassword, 12);

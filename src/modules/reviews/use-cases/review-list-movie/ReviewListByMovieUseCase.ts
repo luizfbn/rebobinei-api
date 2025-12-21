@@ -1,5 +1,4 @@
 import { PaginatedOutputDTO } from '../../../../core/dtos/paginated.output.dto';
-import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
 import { MoviesRepository } from '../../../movies/repositories/movies.repository.interface';
 import { ReviewWithAuthorOutputDTO } from '../../dtos/review-with-author.output.dto';
 import { ReviewsRepository } from '../../repositories/reviews.repository.interface';
@@ -25,7 +24,12 @@ export class ReviewListByMovieUseCase {
 		const movie = await this.moviesRepository.findByTmdbId(tmdbId);
 
 		if (!movie) {
-			throw new ResourceNotFoundError('Movie not found.');
+			return {
+				page: 1,
+				totalPages: 1,
+				totalResults: 0,
+				data: [],
+			};
 		}
 
 		const [field, direction] = sort.split('_');

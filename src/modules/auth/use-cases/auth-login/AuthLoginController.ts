@@ -38,11 +38,11 @@ export class AuthLoginController {
 				.send({ message: t('loginSuccess') });
 		} catch (error) {
 			if (error instanceof InvalidCredentialsError) {
-				return reply.code(401).send({ error: error.message });
+				return reply.code(401).send({ message: error.message });
 			}
 
 			console.error(error);
-			return reply.code(500).send({ error: t('internalError') });
+			return reply.code(500).send({ message: t('internalError') });
 		}
 	}
 }

@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs';
 import { UsersRepository } from '../../repositories/users.repository.interface';
 import { UserCreationInputDTO } from './user-creation.schema';
 import { UserAlreadyExistsError } from '../../../../core/errors/user-already-exists-error';
+import { t } from '../../../../core/i18n';
 
 export class UserCreationUseCase {
 	constructor(private usersRepository: UsersRepository) {}
@@ -9,18 +10,14 @@ export class UserCreationUseCase {
 	async execute({ name, username, email, password }: UserCreationInputDTO) {
 		const userWithSameEmail = await this.usersRepository.findByEmail(email);
 		if (userWithSameEmail) {
-			throw new UserAlreadyExistsError(
-				'An user with this email already exists.'
-			);
+			throw new UserAlreadyExistsError(t('userWithEmailAlreadyExists'));
 		}
 
 		const userWithSameUsername = await this.usersRepository.findByUsername(
 			username.toLocaleLowerCase()
 		);
 		if (userWithSameUsername) {
-			throw new UserAlreadyExistsError(
-				'An user with this username already exists.'
-			);
+			throw new UserAlreadyExistsError(t('userWithUsernameAlreadyExists'));
 		}
 
 		const hashedPassword = await bcrypt.hash(password, 12);

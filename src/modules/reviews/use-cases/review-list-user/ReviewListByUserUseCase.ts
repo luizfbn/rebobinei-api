@@ -6,6 +6,7 @@ import { ReviewsRepository } from '../../repositories/reviews.repository.interfa
 import { ReviewMapper } from '../../review.mapper';
 import { isRating } from '../../schemas/rating.schema';
 import { ReviewListByUserInputDTO } from './review-list-user.schema';
+import { t } from '../../../../core/i18n';
 
 export class ReviewListByUserUseCase {
 	constructor(
@@ -25,7 +26,7 @@ export class ReviewListByUserUseCase {
 		const user = await this.usersRepository.findById(userId);
 
 		if (!user) {
-			throw new ResourceNotFoundError('User not found.');
+			throw new ResourceNotFoundError(t('userNotFound'));
 		}
 
 		const [field, direction] = sort.split('_');

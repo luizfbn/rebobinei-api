@@ -23,11 +23,11 @@ export class UserCreationController {
 			return reply.code(201).send();
 		} catch (error) {
 			if (error instanceof UserAlreadyExistsError) {
-				return reply.code(409).send({ error: error.message });
+				return reply.code(409).send({ message: error.message });
 			}
 
 			console.error(error);
-			return reply.code(500).send({ error: t('internalError') });
+			return reply.code(500).send({ message: t('internalError') });
 		}
 	}
 }

@@ -10,8 +10,14 @@ export const messages = {
 		internalError: 'An internal error occurred.',
 		permissionDenied: 'Permission denied.',
 		resourceNotFound: 'Resource not found.',
+		userNotFound: 'User not found.',
+		movieNotFound: 'Movie not found.',
+		reviewNotFound: 'Review not found.',
 		userAlreadyExists: 'User already exists.',
 		userAlreadyReviewed: 'User already reviewed this movie.',
+		userWithEmailAlreadyExists: 'An user with this email already exists.',
+		userWithUsernameAlreadyExists: 'An user with this username already exists.',
+		wrongPassword: 'Incorrect password.',
 
 		/* SCHEMAS (validation) */
 
@@ -34,6 +40,7 @@ export const messages = {
 
 		// review id
 		invalidReviewId: 'Invalid review ID.',
+		reviewMaxLength: 'Review cannot be longer than 2000 characters.',
 
 		// rating body
 		ratingMustBeInteger1To5: 'Rating must be an integer from 1 to 5.',
@@ -52,11 +59,21 @@ export const messages = {
 		nameMaxLength: 'Name cannot be longer than 50 characters.',
 
 		// password
+		invalidPassword: 'Invalid password.',
 		passwordMinLength: 'The password must be at least 6 characters long.',
+		passwordMaxLength: 'The password cannot be longer than 64 characters.',
+		newPasswordMinLength:
+			'The new password must be at least 6 characters long.',
+		newPasswordMaxLength:
+			'The new password cannot be longer than 64 characters.',
+		passwordConfirmationMinLength:
+			'The password confirmation must be at least 6 characters long.',
+		passwordConfirmationMaxLength:
+			'The password confirmation cannot be longer than 64 characters.',
 
 		// username
 		usernameMinLength: 'Username must be at least 3 characters long.',
-		usernameMaxLength: 'Username cannot be longer than 15 characters.',
+		usernameMaxLength: 'Username cannot be longer than 30 characters.',
 		usernameRegex:
 			'Username can only contain letters, numbers, and underscores (no spaces).',
 	},
@@ -71,8 +88,15 @@ export const messages = {
 		internalError: 'Ocorreu um erro interno.',
 		permissionDenied: 'Permissão negada.',
 		resourceNotFound: 'Recurso não encontrado.',
+		userNotFound: 'Usuário não encontrado.',
+		movieNotFound: 'Filme não encontrado.',
+		reviewNotFound: 'Avaliação não encontrada.',
 		userAlreadyExists: 'Usuário já existe.',
 		userAlreadyReviewed: 'O usuário já avaliou este filme.',
+		userWithEmailAlreadyExists: 'Um usuário com esse email já existe.',
+		userWithUsernameAlreadyExists:
+			'Um usuário com esse nome de usuário já existe.',
+		wrongPassword: 'Senha incorreta.',
 
 		/* SCHEMAS (validation) */
 
@@ -95,6 +119,7 @@ export const messages = {
 
 		// review id
 		invalidReviewId: 'ID da avaliação inválido.',
+		reviewMaxLength: 'A avaliação não pode ter mais de 2000 caracteres.',
 
 		// rating body
 		ratingMustBeInteger1To5: 'A avaliação deve ser um inteiro de 1 a 5.',
@@ -113,11 +138,19 @@ export const messages = {
 		nameMaxLength: 'O nome não pode ter mais de 50 caracteres.',
 
 		// password
+		invalidPassword: 'Senha inválida.',
 		passwordMinLength: 'A senha deve ter pelo menos 6 caracteres.',
+		passwordMaxLength: 'A senha não pode ter mais de 64 caracteres.',
+		newPasswordMinLength: 'A nova senha deve ter pelo menos 6 caracteres.',
+		newPasswordMaxLength: 'A nova senha não pode ter mais de 64 caracteres.',
+		passwordConfirmationMinLength:
+			'A confirmação de senha deve ter pelo menos 6 caracteres.',
+		passwordConfirmationMaxLength:
+			'A confirmação de senha não pode ter mais de 64 caracteres.',
 
 		// username
 		usernameMinLength: 'O nome de usuário deve ter pelo menos 3 caracteres.',
-		usernameMaxLength: 'O nome de usuário não pode ter mais de 15 caracteres.',
+		usernameMaxLength: 'O nome de usuário não pode ter mais de 30 caracteres.',
 		usernameRegex:
 			'O nome de usuário só pode conter letras, números e underscores (sem espaços).',
 	},

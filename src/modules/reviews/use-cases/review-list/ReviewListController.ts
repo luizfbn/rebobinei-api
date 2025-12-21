@@ -20,7 +20,7 @@ export class ReviewListController {
 			return reply.code(200).send(result);
 		} catch (error) {
 			console.error(error);
-			return reply.code(500).send({ error: t('internalError') });
+			return reply.code(500).send({ message: t('internalError') });
 		}
 	}
 }

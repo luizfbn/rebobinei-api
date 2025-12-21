@@ -11,7 +11,11 @@ const paramsSchema = z.object({
 
 const bodySchema = z.object({
 	rating: ratingBodySchema,
-	comment: z.string().nullable().optional(),
+	comment: z
+		.string()
+		.max(2000, { error: t('reviewMaxLength') })
+		.nullable()
+		.optional(),
 });
 
 export const reviewCreationRouteSchema = {

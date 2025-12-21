@@ -2,6 +2,7 @@ import { ResourceNotFoundError } from '../../../../core/errors/resource-not-foun
 import { ReviewsRepository } from '../../repositories/reviews.repository.interface';
 import { ReviewMapper } from '../../review.mapper';
 import { ReviewDetailsInputDTO } from './review-details.schema';
+import { t } from '../../../../core/i18n';
 
 export class ReviewDetailsUseCase {
 	constructor(private reviewsRepository: ReviewsRepository) {}
@@ -10,7 +11,7 @@ export class ReviewDetailsUseCase {
 		const review = await this.reviewsRepository.findDetailsById(id);
 
 		if (!review) {
-			throw new ResourceNotFoundError('Review not found.');
+			throw new ResourceNotFoundError(t('reviewNotFound'));
 		}
 
 		return ReviewMapper.toDetailsDTO(review);

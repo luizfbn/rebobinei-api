@@ -10,7 +10,7 @@ export class AuthLogoutController {
 				.send({ message: t('logoutSuccess') });
 		} catch (error) {
 			console.error(error);
-			return reply.code(500).send({ error: t('internalError') });
+			return reply.code(500).send({ message: t('internalError') });
 		}
 	}
 }

@@ -1,4 +1,3 @@
-import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error';
 import { MoviesRepository } from '../../../movies/repositories/movies.repository.interface';
 import { ReviewsRepository } from '../../repositories/reviews.repository.interface';
 import { ReviewMapper } from '../../review.mapper';
@@ -17,7 +16,7 @@ export class ReviewDetailsByUserAndMovieUseCase {
 		const movie = await this.moviesRepository.findByTmdbId(tmdbId);
 
 		if (!movie) {
-			throw new ResourceNotFoundError('Movie not found.');
+			return null;
 		}
 
 		const review = await this.reviewsRepository.findByUserAndMovieId(
@@ -25,10 +24,6 @@ export class ReviewDetailsByUserAndMovieUseCase {
 			movie.id
 		);
 
-		if (!review) {
-			throw new ResourceNotFoundError('Review not found.');
-		}
-
-		return ReviewMapper.toDetailsDTO(review);
+		return review ? ReviewMapper.toDetailsDTO(review) : null;
 	}
 }

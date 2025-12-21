@@ -3,6 +3,7 @@ import { UserAlreadyExistsError } from '../../../../core/errors/user-already-exi
 import { UsersRepository } from '../../repositories/users.repository.interface';
 import { UserMapper } from '../../user.mapper';
 import { UserProfileUpdateInputDTO } from './user-profile-update.schema';
+import { t } from '../../../../core/i18n';
 
 export class UserProfileUpdateUseCase {
 	constructor(private usersRepository: UsersRepository) {}
@@ -11,7 +12,7 @@ export class UserProfileUpdateUseCase {
 		const user = await this.usersRepository.findById(userId);
 
 		if (!user) {
-			throw new ResourceNotFoundError('User not found.');
+			throw new ResourceNotFoundError(t('userNotFound'));
 		}
 
 		if (username) {
@@ -19,9 +20,7 @@ export class UserProfileUpdateUseCase {
 				username.toLocaleLowerCase()
 			);
 			if (userWithSameUsername) {
-				throw new UserAlreadyExistsError(
-					'An user with this username already exists.'
-				);
+				throw new UserAlreadyExistsError(t('userWithUsernameAlreadyExists'));
 			}
 		}
 

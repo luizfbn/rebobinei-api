@@ -8,6 +8,6 @@ export async function ensureAuthenticated(
 	try {
 		await request.jwtVerify();
 	} catch (error) {
-		reply.code(401).send({ error: t('invalidAuthToken') });
+		reply.code(401).send({ message: t('invalidAuthToken') });
 	}
 }

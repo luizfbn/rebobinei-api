@@ -15,11 +15,11 @@ export class AuthCurrentUserController {
 			return reply.code(200).send(result);
 		} catch (error) {
 			if (error instanceof ResourceNotFoundError) {
-				return reply.code(404).send({ error: error.message });
+				return reply.code(404).send({ message: error.message });
 			}
 
 			console.error(error);
-			return reply.code(500).send({ error: t('internalError') });
+			return reply.code(500).send({ message: t('internalError') });
 		}
 	}
 }
