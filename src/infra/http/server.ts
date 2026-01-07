@@ -2,12 +2,15 @@ import fastify from 'fastify';
 import fastifyCookie from '@fastify/cookie';
 import fastifyJwt from '@fastify/jwt';
 import cors from '@fastify/cors';
+import swagger from '@fastify/swagger';
+import swaggerUI from '@fastify/swagger-ui';
 import { routes } from './routes';
 import { env } from '../../core/config/env';
 import {
 	serializerCompiler,
 	validatorCompiler,
 	ZodTypeProvider,
+	jsonSchemaTransform,
 } from 'fastify-type-provider-zod';
 import { setupZodI18n } from '../../core/i18n/zod-i18n';
 
@@ -32,6 +35,20 @@ app.register(fastifyJwt, {
 		cookieName: 'access_token',
 		signed: false,
 	},
+});
+
+app.register(swagger, {
+	openapi: {
+		info: {
+			title: 'Rebobinei API',
+			version: '1.0.0',
+		},
+	},
+	transform: jsonSchemaTransform,
+});
+
+app.register(swaggerUI, {
+	routePrefix: '/docs',
 });
 
 app.register(routes);
