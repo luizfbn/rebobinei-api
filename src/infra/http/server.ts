@@ -19,8 +19,16 @@ const app = fastify().withTypeProvider<ZodTypeProvider>();
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
 
+const allowedOrigins = env.FRONTEND_URLS.split(',');
+
 app.register(cors, {
-	origin: true,
+	origin: (origin, callback) => {
+		if (!origin || allowedOrigins.includes(origin)) {
+			callback(null, true);
+		} else {
+			callback(new Error('Not allowed'), false);
+		}
+	},
 	methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
 	credentials: true,
 });

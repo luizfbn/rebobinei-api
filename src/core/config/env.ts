@@ -5,6 +5,7 @@ const envSchema = z.object({
 	COOKIE_SECRET: z.string(),
 	JWT_SECRET: z.string(),
 	LOCALE: z.enum(['pt-BR', 'en-US']).default('en-US'),
+	FRONTEND_URLS: z.string(),
 	TMDB_IMAGE_BASE_URL: z.url(),
 	TMDB_API_BASE_URL: z.url(),
 	TMDB_API_KEY: z.string(),
