@@ -3,7 +3,7 @@ services:
     build: .
     container_name: rebobinei-api
     env_file:
-      - .env.docker
+      - .env
     ports:
       - '${APP_PORT}:${APP_PORT}'
     command: "sh -c 'npm run db:prod && npm start'"
