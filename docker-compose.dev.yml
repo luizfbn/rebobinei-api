@@ -2,7 +2,7 @@ services:
   app:
     build:
       context: .
-      target: builder
+      target: deps
     command: npm run dev
     volumes:
       - .:/usr/src/app
