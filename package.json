@@ -6,6 +6,7 @@
 		"build": "npm run build:src && npm run build:seed",
 		"build:src": "tsc -p tsconfig.json",
 		"build:seed": "tsc -p tsconfig.seed.json",
+		"vercel-build": "npx prisma generate && npx prisma migrate deploy && npx prisma db seed",
 		"start": "node dist/infra/http/server.js",
 		"dev": "tsx watch --env-file .env src/infra/http/server.ts",
 		"db:dev": "npx prisma migrate dev && npx prisma db seed",
